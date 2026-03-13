@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Music Auto Studio v26 Final Fix</title>
+  <style>
+    :root{
+      --bg1:#f8f5ff;
+      --bg2:#eef5ff;
+      --text:#4a4f68;
+      --title:#5a5fcf;
+      --green:#35a853;
+      --red:#d84b5b;
+      --shadow:0 10px 30px rgba(114, 132, 181, 0.12);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, #ffe8f4 0%, transparent 32%),
+        radial-gradient(circle at top right, #f9dff2 0%, transparent 30%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      padding:18px;
+    }
+
+    .app{
+      max-width:1450px;
+      margin:0 auto;
+    }
+
+    .hero{
+      background:rgba(255,255,255,0.68);
+      border:1px solid rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);
+      border-radius:30px;
+      box-shadow:var(--shadow);
+      padding:20px;
+    }
+
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+    }
+
+    .brand-icon{
+      width:62px;
+      height:62px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,#ffd5eb,#dff3ff);
+      font-size:30px;
+      box-shadow:var(--shadow);
+      flex-shrink:0;
+    }
+
+    h1{
+      margin:0;
+      color:var(--title);
+      font-size:28px;
+      line-height:1.2;
+    }
+
+    .subtitle{
+      margin-top:8px;
+      font-size:14px;
+      color:#6d728a;
+    }
+
+    .hero-right{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:10px;
+      min-width:340px;
+    }
+
+    .flow-badge{
+      background:linear-gradient(90deg,#ffe6f1,#f7dff8);
+      color:#8a6b8d;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:13px;
+      white-space:nowrap;
+      box-shadow:var(--shadow);
+    }
+
+    .ai-top-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      width:100%;
+    }
+
+    .ai-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:12px 16px;
+      border-radius:16px;
+      background:#fffefb;
+      border:1px solid #edf0f8;
+      box-shadow:var(--shadow);
+      font-weight:700;
+      min-width:170px;
+      justify-content:center;
+    }
+
+    .ai-dot{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:#b8bcc8;
+      box-shadow:0 0 0 4px rgba(184,188,200,0.15);
+    }
+
+    .ai-badge.online{ color:var(--green); }
+    .ai-badge.online .ai-dot{
+      background:var(--green);
+      box-shadow:0 0 0 4px rgba(53,168,83,0.12);
+    }
+
+    .ai-badge.offline{ color:var(--red); }
+    .ai-badge.offline .ai-dot{
+      background:var(--red);
+      box-shadow:0 0 0 4px rgba(216,75,91,0.12);
+    }
+
+    .compact-status{
+      width:100%;
+      max-width:420px;
+      background:#f9fbff;
+      border:1px solid #ebeff8;
+      color:#67708c;
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:13px;
+      text-align:right;
+      min-height:40px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .api-box{
+      width:100%;
+      max-width:420px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .api-box input{
+      flex:1;
+      min-width:220px;
+      border:1px solid #e4e8f2;
+      border-radius:12px;
+      background:#fff;
+      color:#535975;
+      padding:10px 12px;
+      font-size:14px;
+      outline:none;
+    }
+
+    .tabs{
+      margin-top:18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .mini-btn,.tab-btn,.action-btn,.soft-btn,.danger-btn,.primary-btn,.tiny-btn{
+      border:none;
+      cursor:pointer;
+      transition:.18s ease;
+      font-weight:700;
+      border-radius:14px;
+      font-family:inherit;
+    }
+
+    .mini-btn:hover,.tab-btn:hover,.action-btn:hover,.soft-btn:hover,.danger-btn:hover,.primary-btn:hover,.tiny-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .tab-btn{
+      padding:14px 18px;
+      background:#fff;
+      border:1px solid #eef1f7;
+      color:#6b7090;
+      box-shadow:var(--shadow);
+      font-size:15px;
+    }
+
+    .tab-btn.active{
+      background:linear-gradient(135deg,#f6b2e1,#c899ff);
+      color:#fff;
+    }
+
+    .tab-btn.blog{
+      background:linear-gradient(135deg,#e8f3ff,#dff8f4);
+      color:#4670c7;
+    }
+
+    .blog-panel{
+      margin-top:14px;
+      display:none;
+      background:rgba(255,255,255,0.82);
+      border:1px solid #edf0f7;
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+
+    .blog-panel.show{ display:block; }
+
+    .panel-title{
+      font-size:18px;
+      font-weight:800;
+      color:#5570c5;
+    }
+
+    .panel-desc{
+      margin-top:6px;
+      font-size:14px;
+      color:#6c728b;
+    }
+
+    .blog-actions{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .action-btn{
+      padding:12px 16px;
+      background:#eef4ff;
+      color:#4d63b7;
+      border:1px solid #dfe8fb;
+    }
+
+    .action-btn.primary{
+      background:linear-gradient(135deg,#86c5ff,#79dfd1);
+      color:#fff;
+    }
+
+    .page-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1.35fr 1fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.8);
+      border:1px solid rgba(255,255,255,0.9);
+      backdrop-filter:blur(8px);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      min-width:0;
+    }
+
+    .card h2{
+      margin:0 0 16px;
+      color:#5a5f84;
+      font-size:20px;
+    }
+
+    .right-tools{
+      margin-bottom:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-start;
+    }
+
+    .mini-btn{
+      padding:12px 14px;
+      background:#fff;
+      color:#5f6580;
+      border:1px solid #edf0f7;
+      box-shadow:var(--shadow);
+      font-size:14px;
+    }
+
+    .label{
+      display:block;
+      margin-bottom:8px;
+      font-size:15px;
+      font-weight:700;
+      color:#666c88;
+    }
+
+    textarea,input,select{
+      width:100%;
+      border:1px solid #e4e8f2;
+      border-radius:16px;
+      background:#fff;
+      color:#535975;
+      padding:14px 14px;
+      font-size:15px;
+      outline:none;
+      font-family:inherit;
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+      line-height:1.55;
+    }
+
+    .prompt-box{
+      margin-bottom:10px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .triple{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:14px;
+    }
+
+    .toolbar{
+      margin:12px 0 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .soft-btn{
+      padding:12px 16px;
+      background:#edf5ff;
+      color:#4b69c6;
+      border:1px solid #dfeafc;
+    }
+
+    .primary-btn{
+      padding:12px 18px;
+      background:linear-gradient(135deg,#7bc3ff,#7be0c9);
+      color:#fff;
+      border:1px solid transparent;
+      box-shadow:var(--shadow);
+    }
+
+    .danger-btn{
+      padding:12px 16px;
+      background:#fff1f4;
+      color:#cb5164;
+      border:1px solid #ffd9e0;
+    }
+
+    .chip-status{
+      display:inline-flex;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#f8fbff;
+      border:1px solid #e6ecf7;
+      color:#69718d;
+      font-size:14px;
+      min-height:42px;
+      white-space:nowrap;
+    }
+
+    .section-box{
+      margin-top:14px;
+      padding:14px;
+      border:1px solid #ebeff6;
+      border-radius:20px;
+      background:rgba(250,252,255,0.88);
+    }
+
+    .section-title{
+      font-size:17px;
+      font-weight:800;
+      color:#6980c1;
+      margin-bottom:12px;
+    }
+
+    .section-desc{
+      margin:-4px 0 12px;
+      color:#75809d;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .progress-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .progress-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      background:#fff;
+      border:1px solid #edf1f8;
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .progress-name{
+      font-size:15px;
+      color:#59607d;
+      font-weight:700;
+    }
+
+    .badge-wait{
+      background:#f8fbff;
+      border:1px solid #e8edf7;
+      color:#7d88a3;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:12px;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+
+    .meter-label{
+      margin:14px 0 6px;
+      font-size:14px;
+      font-weight:700;
+      color:#67708c;
+    }
+
+    .meter{
+      width:100%;
+      height:12px;
+      border-radius:999px;
+      background:#eff3fa;
+      overflow:hidden;
+      border:1px solid #e7ebf5;
+    }
+
+    .meter-fill{
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg,#79c2ff,#f3a7d8,#7fe2cb);
+      transition:width .3s ease;
+    }
+
+    .checklist{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .checklist label{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:600;
+      color:#5e6684;
+      line-height:1.25;
+      margin:0;
+    }
+
+    .checklist input[type="checkbox"]{
+      width:18px;
+      height:18px;
+      margin:0;
+      flex:0 0 18px;
+      accent-color:#7bc3ff;
+    }
+
+    .log-box{
+      margin-top:12px;
+      min-height:120px;
+      background:#fff;
+      border:1px solid #edf1f8;
+      border-radius:18px;
+      padding:12px;
+      font-size:14px;
+      color:#6b7391;
+      line-height:1.6;
+      white-space:pre-line;
+      overflow:auto;
+    }
+
+    .song-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .song-item{
+      display:grid;
+      grid-template-columns:32px 1fr auto;
+      align-items:center;
+      gap:12px;
+      background:#fff;
+      border:1px solid #edf1f8;
+      border-radius:18px;
+      padding:12px 14px;
+    }
+
+    .song-main{
+      min-width:0;
+    }
+
+    .song-title{
+      font-weight:800;
+      color:#555d82;
+      font-size:15px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .song-meta{
+      font-size:13px;
+      color:#838aa3;
+      margin-top:4px;
+    }
+
+    .song-right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .tiny-btn{
+      padding:8px 12px;
+      background:#eef4ff;
+      color:#5b6fbb;
+    }
+
+    .tiny-btn.delete{
+      background:#fff1f4;
+      color:#ca5767;
+    }
+
+    .empty-box{
+      border:1px dashed #dfe5f0;
+      border-radius:18px;
+      padding:18px;
+      text-align:center;
+      color:#8a91aa;
+      background:#fcfdff;
+    }
+
+    .auto-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .full-row{
+      grid-column:1 / -1;
+    }
+
+    .mode-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid #e6ecf7;
+      background:#f8fbff;
+      color:#69718d;
+      font-size:13px;
+      min-height:42px;
+      width:100%;
+      text-align:center;
+    }
+
+    .desktop-flow{ display:inline; }
+    .mobile-only{ display:none; }
+
+    @media (max-width: 1100px){
+      .page-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero-top{
+        flex-direction:column;
+      }
+
+      .hero-right{
+        align-items:flex-start;
+        min-width:100%;
+      }
+
+      .ai-top-row{
+        justify-content:flex-start;
+      }
+
+      .compact-status{
+        justify-content:flex-start;
+        text-align:left;
+        max-width:none;
+      }
+
+      .api-box{
+        justify-content:flex-start;
+        max-width:none;
+      }
+    }
+
+    @media (max-width: 760px){
+      body{
+        padding:10px;
+      }
+
+      .app{
+        max-width:100%;
+      }
+
+      .hero{
+        padding:14px;
+        border-radius:22px;
+      }
+
+      .card{
+        padding:14px;
+        border-radius:22px;
+      }
+
+      h1{
+        font-size:23px;
+      }
+
+      .subtitle{
+        font-size:13px;
+      }
+
+      .tabs{
+        gap:8px;
+      }
+
+      .tab-btn{
+        padding:12px 14px;
+        font-size:14px;
+      }
+
+      .row,.triple,.auto-grid{
+        grid-template-columns:1fr;
+      }
+
+      textarea,input,select{
+        font-size:16px;
+        padding:14px;
+      }
+
+      textarea{
+        min-height:96px;
+      }
+
+      .toolbar{
+        gap:8px;
+      }
+
+      .toolbar .chip-status{
+        width:100%;
+        justify-content:center;
+      }
+
+      .soft-btn,.primary-btn,.danger-btn,.mini-btn,.action-btn{
+        font-size:15px;
+        padding:13px 15px;
+      }
+
+      .right-tools{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:8px;
+      }
+
+      .right-tools .mini-btn{
+        width:100%;
+      }
+
+      .progress-item{
+        padding:12px;
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .badge-wait{
+        align-self:flex-end;
+      }
+
+      .song-item{
+        grid-template-columns:28px 1fr;
+      }
+
+      .song-right{
+        grid-column:1 / -1;
+        justify-content:flex-start;
+      }
+
+      .flow-badge{
+        white-space:normal;
+      }
+
+      .desktop-flow{ display:none; }
+      .mobile-only{ display:inline; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="brand">
+          <div class="brand-icon">🎀</div>
+          <div>
+            <h1>AI Music Auto Studio v26 Final Fix</h1>
+            <div class="subtitle">AI 연결 · 수노 자동/수동 듀얼모드 · 빠른 복사 · 곡 관리 · 모바일/컴퓨터 안정화</div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="flow-badge">
+            <span class="desktop-flow">실행 → 노래 제작 → 수노 자동입력/수동입력 → mp3 저장 → 노래 편집 시작</span>
+            <span class="mobile-only">실행 → 노래 제작 → 수노 → mp3 → 편집</span>
+          </div>
+
+          <div class="api-box">
+            <input id="apiBaseInput" type="text" placeholder="API 서버 주소 입력 (예: http://localhost:4000)" />
+            <button class="soft-btn" id="saveApiBaseBtn">주소저장</button>
+          </div>
+
+          <div class="ai-top-row">
+            <button class="primary-btn" id="connectAiBtn">AI 연결</button>
+
+            <div class="ai-badge offline" id="aiStatusBadge">
+              <span class="ai-dot"></span>
+              <span id="aiStatusText">AI OFFLINE</span>
+            </div>
+          </div>
+
+          <div class="compact-status" id="topMiniStatus">준비됨</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active">음악 제작</button>
+        <button class="tab-btn">동화 제작</button>
+        <button class="tab-btn">소설 제작</button>
+        <button class="tab-btn">영상 관리</button>
+        <button class="tab-btn">업로드 관리</button>
+        <button class="tab-btn blog" id="openBlogPanelBtn">블로그 제작</button>
+      </div>
+
+      <div class="blog-panel" id="blogPanel">
+        <div class="panel-title">블로그 제작</div>
+        <div class="panel-desc">AI 연결 후 블로그 초안만 간단하게 생성합니다.</div>
+        <div class="blog-actions">
+          <button class="action-btn" id="connectBlogAiBtn">블로그 AI 연결</button>
+          <button class="action-btn primary" id="makeBlogDraftBtn">블로그 초안 제작</button>
+        </div>
+        <div class="compact-status" id="blogMiniStatus" style="margin-top:12px; max-width:none; justify-content:flex-start; text-align:left;">대기중</div>
+      </div>
+    </section>
+
+    <section class="page-grid">
+      <div class="card">
+        <h2>프로젝트 설정</h2>
+
+        <div class="prompt-box">
+          <label class="label" for="promptInput">음성 또는 텍스트 지시</label>
+          <textarea id="promptInput" placeholder="예: 비 오는 날 듣기 좋은 발라드 여성보컬 10곡 만들어줘&#10;예: 중간에 랩이 들어가는 힙합 8곡 만들어줘&#10;예: 1번곡 조금 더 경쾌하게 만들어줘"></textarea>
+        </div>
+
+        <div class="toolbar">
+          <button class="soft-btn" id="voiceBtn">음성</button>
+          <button class="primary-btn" id="runBtn">실행</button>
+          <button class="soft-btn" id="helpBtn">설명</button>
+          <span class="chip-status" id="mainStatusChip">상태: 대기중</span>
+        </div>
+
+        <div class="section-box">
+          <div class="section-title">빠른 붙여넣기 복사창</div>
+          <label class="label" for="quickCopyInput">복사용 문구</label>
+          <textarea id="quickCopyInput" placeholder="여기에 다음 복사용 문구가 자동으로 들어갑니다."></textarea>
+
+          <div class="toolbar">
+            <button class="soft-btn" id="nextCopyBtn">Next Copy</button>
+            <button class="danger-btn" id="copyResetBtn">복사초기화</button>
+            <button class="soft-btn" id="openSunoBtn">수노열기</button>
+            <button class="primary-btn" id="makeSongBtn">노래제작</button>
+            <button class="soft-btn" id="editSongBtn">노래편집</button>
+            <button class="soft-btn" id="videoBtn">영상버튼</button>
+            <button class="primary-btn" id="copyNowBtn">지금 복사</button>
+          </div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-title">수노 자동 / 수동 제어</div>
+          <div class="section-desc">프로젝트 불러오기 대신 수노 자동입력, 생성, 다운로드, 수동 백업 기능을 넣었습니다.</div>
+
+          <div class="row">
+            <div>
+              <label class="label" for="sunoTitleInput">수노 제목</label>
+              <input id="sunoTitleInput" type="text" placeholder="자동 생성 제목 또는 직접 입력" />
+            </div>
+            <div>
+              <label class="label" for="sunoStyleInput">수노 스타일</label>
+              <input id="sunoStyleInput" type="text" placeholder="예: emotional korean ballad, female vocal" />
+            </div>
+          </div>
+
+          <label class="label" for="sunoLyricsInput" style="margin-top:12px;">수노 가사</label>
+          <textarea id="sunoLyricsInput" placeholder="수노 Custom mode용 가사 입력칸입니다. 빠른 복사창 내용 또는 직접 작성한 가사가 들어갑니다."></textarea>
+
+          <div class="toolbar" style="margin-bottom:10px;">
+            <button class="soft-btn" id="prepareSunoDataBtn">수노 데이터 준비</button>
+            <span class="mode-badge" id="sunoModeStatus">모드: 자동 + 수동 백업 준비</span>
+          </div>
+
+          <div class="auto-grid">
+            <button class="primary-btn" id="autoFillBtn">자동입력</button>
+            <button class="primary-btn" id="autoGenerateBtn">자동입력 + 생성</button>
+            <button class="soft-btn" id="autoDownloadBtn">다운로드 클릭</button>
+            <button class="soft-btn" id="manualOpenBtn">수노 열기</button>
+            <button class="soft-btn" id="manualCopyBtn">수동 복사</button>
+            <button class="soft-btn" id="manualNextCopyBtn">다음 복사</button>
+            <button class="soft-btn" id="manualGenerateGuideBtn">수동 생성 안내</button>
+            <button class="soft-btn" id="manualDownloadGuideBtn">수동 다운로드 안내</button>
+            <button class="danger-btn full-row" id="switchManualModeBtn">자동 실패시 수동 모드 전환</button>
+          </div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-title">기본 설정</div>
+
+          <div class="triple">
+            <div>
+              <label class="label" for="songCount">곡 수</label>
+              <select id="songCount">
+                <option value="1">1</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="10" selected>10</option>
+                <option value="12">12</option>
+                <option value="15">15</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="songLength">곡 길이</label>
+              <select id="songLength">
+                <option>2분</option>
+                <option selected>3분</option>
+                <option>4분</option>
+                <option>5분</option>
+                <option>6분</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="styleStrength">Style 강도</label>
+              <select id="styleStrength">
+                <option selected>기본</option>
+                <option>약하게</option>
+                <option>강하게</option>
+                <option>아주 강하게</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label class="label" for="albumLength">최종 앨범 길이</label>
+              <select id="albumLength">
+                <option>30분</option>
+                <option>1시간</option>
+                <option selected>2시간</option>
+                <option>3시간</option>
+                <option>4시간</option>
+                <option>6시간</option>
+                <option>8시간</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="expandMethod">확장 방식</label>
+              <select id="expandMethod">
+                <option selected>순차 반복</option>
+                <option>랜덤 반복</option>
+                <option>리믹스 확장</option>
+                <option>템포 변형 확장</option>
+                <option>버전 교차 확장</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label class="label" for="genre">장르</label>
+              <select id="genre">
+                <option selected>발라드</option>
+                <option>힙합</option>
+                <option>댄스</option>
+                <option>재즈</option>
+                <option>클래식</option>
+                <option>록</option>
+                <option>R&B</option>
+                <option>팝</option>
+                <option>트로트</option>
+                <option>EDM</option>
+                <option>Lo-fi</option>
+                <option>인디</option>
+                <option>시티팝</option>
+                <option>어쿠스틱</option>
+                <option>오케스트라</option>
+                <option>찬송가풍</option>
+                <option>국악퓨전</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="mood">분위기</label>
+              <select id="mood">
+                <option selected>비 오는 날</option>
+                <option>감성적인 밤</option>
+                <option>희망찬 아침</option>
+                <option>신나는 드라이브</option>
+                <option>몽환적인 느낌</option>
+                <option>슬픈 이별</option>
+                <option>따뜻한 위로</option>
+                <option>강렬한 에너지</option>
+                <option>잔잔한 힐링</option>
+                <option>웅장한 감동</option>
+                <option>여름 바다</option>
+                <option>겨울 감성</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="triple">
+            <div>
+              <label class="label" for="vocalType">보컬 타입</label>
+              <select id="vocalType">
+                <option selected>여성 보컬</option>
+                <option>남성 보컬</option>
+                <option>듀엣</option>
+                <option>보컬 없음</option>
+                <option>어린이 보컬풍</option>
+                <option>합창풍</option>
+                <option>허스키 보컬</option>
+                <option>맑은 보컬</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="voiceStyle">음성 스타일</label>
+              <select id="voiceStyle">
+                <option selected>부드럽고 감성적</option>
+                <option>맑고 깨끗함</option>
+                <option>허스키하고 짙음</option>
+                <option>파워풀하고 강렬함</option>
+                <option>속삭이듯 잔잔함</option>
+                <option>따뜻하고 포근함</option>
+                <option>몽환적이고 신비로움</option>
+                <option>시원하고 청량함</option>
+                <option>애절하고 슬픔</option>
+                <option>세련되고 도시적</option>
+                <option>달콤하고 러블리</option>
+                <option>중저음 매력형</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="lyricsLanguage">가사 언어</label>
+              <select id="lyricsLanguage">
+                <option selected>한국어</option>
+                <option>영어</option>
+                <option>일본어</option>
+                <option>혼합</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="triple">
+            <div>
+              <label class="label" for="rapStyle">랩 스타일</label>
+              <select id="rapStyle">
+                <option selected>없음</option>
+                <option>짧은 랩 브리지</option>
+                <option>중간 랩 삽입</option>
+                <option>강한 힙합 랩</option>
+                <option>감성 랩</option>
+                <option>멜로딕 랩</option>
+                <option>남녀 번갈아 랩</option>
+                <option>빠른 랩</option>
+                <option>느린 랩</option>
+                <option>인트로 랩</option>
+                <option>후반 클라이맥스 랩</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="rapAmount">랩 비중</label>
+              <select id="rapAmount">
+                <option selected>없음</option>
+                <option>10%</option>
+                <option>20%</option>
+                <option>30%</option>
+                <option>40%</option>
+                <option>50%</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="tempo">템포</label>
+              <select id="tempo">
+                <option>아주 느림</option>
+                <option selected>보통</option>
+                <option>조금 빠름</option>
+                <option>빠름</option>
+                <option>아주 빠름</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="triple">
+            <div>
+              <label class="label" for="instrumentMain">주 악기</label>
+              <select id="instrumentMain">
+                <option selected>피아노</option>
+                <option>어쿠스틱 기타</option>
+                <option>일렉기타</option>
+                <option>베이스</option>
+                <option>드럼</option>
+                <option>스트링</option>
+                <option>바이올린</option>
+                <option>첼로</option>
+                <option>플루트</option>
+                <option>색소폰</option>
+                <option>트럼펫</option>
+                <option>신스</option>
+                <option>패드</option>
+                <option>국악기</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="instrumentSub">보조 악기</label>
+              <select id="instrumentSub">
+                <option selected>스트링</option>
+                <option>피아노</option>
+                <option>어쿠스틱 기타</option>
+                <option>일렉기타</option>
+                <option>플루트</option>
+                <option>색소폰</option>
+                <option>신스 패드</option>
+                <option>하프</option>
+                <option>코러스 패드</option>
+                <option>퍼커션</option>
+                <option>브라스</option>
+                <option>오르간</option>
+                <option>국악 타악</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="instrumentMood">악기 분위기</label>
+              <select id="instrumentMood">
+                <option selected>잔잔하게</option>
+                <option>풍성하게</option>
+                <option>강렬하게</option>
+                <option>따뜻하게</option>
+                <option>드라마틱하게</option>
+                <option>몽환적으로</option>
+                <option>라이브 느낌</option>
+                <option>미니멀하게</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-title">생성된 곡 관리</div>
+
+          <div class="toolbar">
+            <button class="soft-btn" id="refreshSongsBtn">목록 새로고침</button>
+            <button class="danger-btn" id="deleteSelectedSongsBtn">선택 곡 삭제</button>
+            <button class="danger-btn" id="deleteAllSongsBtn">전체 곡 삭제</button>
+          </div>
+
+          <div id="songList" class="song-list">
+            <div class="empty-box">아직 생성된 곡이 없습니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="right-tools">
+          <button class="mini-btn" id="checkServerBtn">서버 상태 확인</button>
+          <button class="mini-btn" id="downloadTestBtn">다운로드 테스트</button>
+          <button class="mini-btn" id="mobileCheckBtn">모바일 연결 확인</button>
+        </div>
+
+        <h2>작업 진행 상태</h2>
+
+        <div class="progress-list">
+          <div class="progress-item">
+            <div class="progress-name">명령 분석 및 설정 반영</div>
+            <div class="badge-wait" id="step1">대기중</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-name">Suno용 노래 자료 생성</div>
+            <div class="badge-wait" id="step2">대기중</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-name">개별 곡 수정 반영</div>
+            <div class="badge-wait" id="step3">대기중</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-name">mp3 편집 시작</div>
+            <div class="badge-wait" id="step4">대기중</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-name">긴 영상 제작 준비</div>
+            <div class="badge-wait" id="step5">대기중</div>
+          </div>
+        </div>
+
+        <div class="meter-label">전체 진행률</div>
+        <div class="meter">
+          <div class="meter-fill" id="meterFill"></div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-title">최종 체크리스트</div>
+          <div class="checklist">
+            <label><input type="checkbox" id="checkTitle"><span>Title 확인</span></label>
+            <label><input type="checkbox" id="checkStyle"><span>Style 확인</span></label>
+            <label><input type="checkbox" id="checkLyrics"><span>Lyrics 확인</span></label>
+            <label><input type="checkbox" id="checkSuno"><span>Suno 제작 완료</span></label>
+            <label><input type="checkbox" id="checkMp3"><span>mp3 저장 완료</span></label>
+            <label><input type="checkbox" id="checkEdit"><span>노래 편집 시작 가능</span></label>
+          </div>
+        </div>
+
+        <div class="log-box" id="logBox">여기에 분석 로그와 작업 로그가 표시됩니다.</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const state = {
+      generatedSongs: [],
+      copyIndex: 0,
+      copyItems: [],
+      sunoMode: 'auto',
+      sunoPayload: null
+    };
+
+    const songListEl = document.getElementById('songList');
+    const logBox = document.getElementById('logBox');
+    const topMiniStatus = document.getElementById('topMiniStatus');
+    const blogMiniStatus = document.getElementById('blogMiniStatus');
+    const mainStatusChip = document.getElementById('mainStatusChip');
+    const meterFill = document.getElementById('meterFill');
+    const sunoModeStatus = document.getElementById('sunoModeStatus');
+    const apiBaseInput = document.getElementById('apiBaseInput');
+
+    function setMiniStatus(target, message) {
+      if (target) target.textContent = message;
+    }
+
+    function appendLog(message) {
+      const now = new Date();
+      const time = now.toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      const initialText = '여기에 분석 로그와 작업 로그가 표시됩니다.';
+      const prev = logBox.textContent.trim() === initialText ? '' : logBox.textContent + '\n';
+      logBox.textContent = `${prev}[${time}] ${message}`;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function setStep(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    function updateProgress(percent) {
+      meterFill.style.width = percent + '%';
+    }
+
+    function resetProgressUI() {
+      setStep('step1', '대기중');
+      setStep('step2', '대기중');
+      setStep('step3', '대기중');
+      setStep('step4', '대기중');
+      setStep('step5', '대기중');
+      updateProgress(0);
+    }
+
+    function getLyricsLanguage() {
+      return document.getElementById('lyricsLanguage').value;
+    }
+
+    function detectTitleLanguage() {
+      return getLyricsLanguage() === '한국어' ? 'ko' : 'en';
+    }
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sanitizeKeyword(text) {
+      if (!text) return '';
+      return text
+        .replace(/[^\w가-힣\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(' ');
+    }
+
+    function getMusicProfile() {
+      return {
+        genre: document.getElementById('genre').value,
+        mood: document.getElementById('mood').value,
+        vocalType: document.getElementById('vocalType').value,
+        voiceStyle: document.getElementById('voiceStyle').value,
+        lyricsLanguage: document.getElementById('lyricsLanguage').value,
+        rapStyle: document.getElementById('rapStyle').value,
+        rapAmount: document.getElementById('rapAmount').value,
+        tempo: document.getElementById('tempo').value,
+        instrumentMain: document.getElementById('instrumentMain').value,
+        instrumentSub: document.getElementById('instrumentSub').value,
+        instrumentMood: document.getElementById('instrumentMood').value,
+        songLength: document.getElementById('songLength').value,
+        styleStrength: document.getElementById('styleStrength').value
+      };
+    }
+
+    function makeSongTitle(index) {
+      const p = getMusicProfile();
+      const prompt = document.getElementById('promptInput').value.trim();
+      const keyword = sanitizeKeyword(prompt) || p.mood;
+      const lang = detectTitleLanguage();
+
+      if (lang === 'ko') {
+        const rapTag = p.rapStyle !== '없음' ? '랩' : '';
+        const instTag = p.instrumentMain === '피아노' ? '피아노' : p.instrumentMain;
+        const patterns = [
+          `${keyword}의 밤 ${index}`,
+          `${p.mood} ${p.genre} ${index}`,
+          `${keyword} 이야기 ${index}`,
+          `${p.voiceStyle} ${instTag} ${index}`,
+          `${p.mood} 속으로 ${index}`,
+          `${keyword} ${rapTag} ${index}`.trim(),
+          `${instTag} 감성 ${index}`,
+          `${p.genre} Dream ${index}`
+        ];
+        return pickRandom(patterns);
+      }
+
+      const keywordEn = keyword.replace(/[가-힣]/g, '').trim() || p.mood;
+      const patterns = [
+        `${keywordEn} ${index}`,
+        `${p.mood} ${p.genre} ${index}`,
+        `${keywordEn} Story ${index}`,
+        `${p.instrumentMain} Mood ${index}`,
+        `${p.genre} Dream ${index}`,
+        `${p.voiceStyle} Echo ${index}`
+      ];
+      return pickRandom(patterns);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function renderSongs() {
+      if (!state.generatedSongs.length) {
+        songListEl.innerHTML = '<div class="empty-box">아직 생성된 곡이 없습니다.</div>';
+        return;
+      }
+
+      songListEl.innerHTML = state.generatedSongs.map(song => `
+        <div class="song-item" data-id="${song.id}">
+          <input type="checkbox" class="song-check" data-id="${song.id}" />
+          <div class="song-main">
+            <div class="song-title">${escapeHtml(song.title)}</div>
+            <div class="song-meta">${escapeHtml(song.meta)}</div>
+          </div>
+          <div class="song-right">
+            <button class="tiny-btn" onclick="renameSong('${song.id}')">제목 다시 만들기</button>
+            <button class="tiny-btn delete" onclick="deleteSong('${song.id}')">삭제</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function createSongs(count) {
+      const p = getMusicProfile();
+      const newSongs = [];
+      for (let i = 1; i <= count; i++) {
+        newSongs.push({
+          id: 'song_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2, 7),
+          title: makeSongTitle(i),
+          meta: `${p.genre} · ${p.mood} · ${p.vocalType} · ${p.voiceStyle} · ${p.instrumentMain}/${p.instrumentSub} · ${p.rapStyle} · ${p.songLength} · ${p.lyricsLanguage}`
+        });
+      }
+      state.generatedSongs = newSongs;
+      renderSongs();
+    }
+
+    function buildCopyItems() {
+      const prompt = document.getElementById('promptInput').value.trim();
+      const p = getMusicProfile();
+      const albumLength = document.getElementById('albumLength').value;
+      const expandMethod = document.getElementById('expandMethod').value;
+
+      const titleText = state.generatedSongs.length
+        ? state.generatedSongs.map((song, i) => `${i + 1}. ${song.title}`).join('\n')
+        : '생성된 곡 제목이 아직 없습니다.';
+
+      state.copyItems = [
+        prompt || `${p.mood} 느낌의 ${p.genre} 노래를 만들어줘`,
+        `장르: ${p.genre}
+분위기: ${p.mood}
+보컬: ${p.vocalType}
+보컬스타일: ${p.voiceStyle}
+언어: ${p.lyricsLanguage}
+길이: ${p.songLength}
+스타일강도: ${p.styleStrength}
+템포: ${p.tempo}`,
+        `악기 구성
+주 악기: ${p.instrumentMain}
+보조 악기: ${p.instrumentSub}
+악기 분위기: ${p.instrumentMood}
+랩 스타일: ${p.rapStyle}
+랩 비중: ${p.rapAmount}`,
+        `제목 후보
+${titleText}`,
+        `Suno 입력용 스타일
+${p.genre}, ${p.mood}, ${p.vocalType}, ${p.voiceStyle}, ${p.instrumentMain}, ${p.instrumentSub}, ${p.instrumentMood}, ${p.rapStyle}, ${p.rapAmount}, ${p.tempo}, ${p.lyricsLanguage}, ${p.songLength}, ${p.styleStrength}`,
+        `노래 편집 메모
+인트로 정리
+볼륨 체크
+후렴 강조
+랩 구간 확인
+악기 밸런스 체크
+마무리 페이드`,
+        `영상 제작 메모
+앨범 길이: ${albumLength}
+확장 방식: ${expandMethod}
+썸네일 문구 작성
+배경 이미지 준비
+자막 여부 확인`
+      ];
+    }
+
+    function showCopyItem(index) {
+      const quickCopyInput = document.getElementById('quickCopyInput');
+      if (!state.copyItems.length) buildCopyItems();
+      if (!state.copyItems.length) return;
+
+      const safeIndex = ((index % state.copyItems.length) + state.copyItems.length) % state.copyItems.length;
+      state.copyIndex = safeIndex;
+      quickCopyInput.value = state.copyItems[safeIndex];
+    }
+
+    async function copyQuickText() {
+      const quickCopyInput = document.getElementById('quickCopyInput');
+      const text = quickCopyInput.value.trim();
+
+      if (!text) {
+        setMiniStatus(topMiniStatus, '복사할 내용이 없습니다');
+        appendLog('복사할 내용이 없어 복사를 진행하지 않았습니다.');
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        setMiniStatus(topMiniStatus, '복사 완료');
+        appendLog('빠른 붙여넣기 문구를 클립보드에 복사했습니다.');
+      } catch {
+        quickCopyInput.select();
+        document.execCommand('copy');
+        setMiniStatus(topMiniStatus, '복사 시도 완료');
+        appendLog('클립보드 복사를 시도했습니다. 안 되면 직접 길게 눌러 복사하세요.');
+      }
+    }
+
+    function buildSunoPayload() {
+      const firstSong = state.generatedSongs[0] || {};
+      const p = getMusicProfile();
+      const promptText = document.getElementById('promptInput').value.trim();
+      const quickText = document.getElementById('quickCopyInput').value.trim();
+      const songTitle = firstSong.title || makeSongTitle(1);
+
+      const styleParts = [
+        p.genre,
+        p.mood,
+        p.vocalType,
+        p.voiceStyle,
+        p.instrumentMain,
+        p.instrumentSub,
+        p.instrumentMood,
+        p.rapStyle !== '없음' ? p.rapStyle : '',
+        p.rapAmount !== '없음' ? `rap ${p.rapAmount}` : '',
+        p.tempo,
+        p.lyricsLanguage,
+        p.songLength,
+        p.styleStrength
+      ].filter(Boolean);
+
+      const payload = {
+        title: songTitle,
+        style: styleParts.join(', '),
+        lyrics: quickText || promptText || '여기에 수노 가사가 들어갑니다.'
+      };
+
+      state.sunoPayload = payload;
+      return payload;
+    }
+
+    function fillSunoFields(payload) {
+      document.getElementById('sunoTitleInput').value = payload.title || '';
+      document.getElementById('sunoStyleInput').value = payload.style || '';
+      document.getElementById('sunoLyricsInput').value = payload.lyrics || '';
+    }
+
+    function saveSunoPayloadLocal(payload) {
+      try {
+        localStorage.setItem('SUNO_PAYLOAD', JSON.stringify(payload));
+      } catch {}
+    }
+
+    function setSunoMode(mode) {
+      state.sunoMode = mode;
+      sunoModeStatus.textContent = mode === 'manual'
+        ? '모드: 수동 백업 사용중'
+        : '모드: 자동 + 수동 백업 준비';
+    }
+
+    async function prepareSunoData() {
+      const payload = buildSunoPayload();
+      fillSunoFields(payload);
+      saveSunoPayloadLocal(payload);
+      setMiniStatus(topMiniStatus, '수노 데이터 준비 완료');
+      appendLog('수노 자동입력용 제목, 스타일, 가사 데이터를 준비했습니다.');
+      return payload;
+    }
+
+    function normalizeBase(url) {
+      return String(url || '').trim().replace(/\/+$/, '');
+    }
+
+    function getSavedApiBase() {
+      try {
+        return normalizeBase(localStorage.getItem('APP_API_BASE') || '');
+      } catch {
+        return '';
+      }
+    }
+
+    function setSavedApiBase(url) {
+      try {
+        localStorage.setItem('APP_API_BASE', normalizeBase(url));
+      } catch {}
+    }
+
+    function getApiBase() {
+      return normalizeBase(apiBaseInput.value || getSavedApiBase());
+    }
+
+    function getHealthUrl() {
+      const apiBase = getApiBase();
+      if (!apiBase) return null;
+      return `${apiBase}/api/health`;
+    }
+
+    window.deleteSong = function(id) {
+      state.generatedSongs = state.generatedSongs.filter(song => song.id !== id);
+      renderSongs();
+      buildCopyItems();
+      showCopyItem(state.copyIndex);
+      appendLog('생성된 곡 1개를 삭제했습니다.');
+      setMiniStatus(topMiniStatus, '곡 1개 삭제됨');
+    };
+
+    window.renameSong = function(id) {
+      const index = state.generatedSongs.findIndex(song => song.id === id);
+      if (index === -1) return;
+      state.generatedSongs[index].title = makeSongTitle(index + 1);
+      renderSongs();
+      buildCopyItems();
+      showCopyItem(state.copyIndex);
+      appendLog('선택한 곡 제목을 다시 만들었습니다.');
+      setMiniStatus(topMiniStatus, '제목 다시 생성 완료');
+    };
+
+    document.getElementById('saveApiBaseBtn').addEventListener('click', () => {
+      const value = normalizeBase(apiBaseInput.value);
+      setSavedApiBase(value);
+      setMiniStatus(topMiniStatus, value ? `API 주소 저장 완료` : 'API 주소 비움');
+      appendLog(value ? `API 서버 주소를 저장했습니다: ${value}` : 'API 서버 주소를 비웠습니다.');
+    });
+
+    document.getElementById('deleteSelectedSongsBtn').addEventListener('click', () => {
+      const checked = [...document.querySelectorAll('.song-check:checked')].map(el => el.dataset.id);
+      if (!checked.length) {
+        setMiniStatus(topMiniStatus, '선택된 곡이 없습니다');
+        appendLog('선택 삭제를 눌렀지만 선택된 곡이 없습니다.');
+        return;
+      }
+
+      state.generatedSongs = state.generatedSongs.filter(song => !checked.includes(song.id));
+      renderSongs();
+      buildCopyItems();
+      showCopyItem(state.copyIndex);
+      setMiniStatus(topMiniStatus, `선택 곡 ${checked.length}개 삭제`);
+      appendLog(`선택한 곡 ${checked.length}개를 삭제했습니다.`);
+    });
+
+    document.getElementById('deleteAllSongsBtn').addEventListener('click', () => {
+      if (!state.generatedSongs.length) {
+        setMiniStatus(topMiniStatus, '삭제할 곡이 없습니다');
+        appendLog('전체 삭제를 눌렀지만 삭제할 곡이 없습니다.');
+        return;
+      }
+      const count = state.generatedSongs.length;
+      state.generatedSongs = [];
+      renderSongs();
+      buildCopyItems();
+      showCopyItem(0);
+      document.getElementById('sunoTitleInput').value = '';
+      document.getElementById('sunoStyleInput').value = '';
+      document.getElementById('sunoLyricsInput').value = '';
+      setMiniStatus(topMiniStatus, `전체 곡 ${count}개 삭제`);
+      appendLog(`생성된 곡 ${count}개를 모두 삭제했습니다.`);
+    });
+
+    document.getElementById('refreshSongsBtn').addEventListener('click', () => {
+      renderSongs();
+      setMiniStatus(topMiniStatus, '곡 목록 새로고침');
+      appendLog('곡 목록을 새로고침했습니다.');
+    });
+
+    document.getElementById('openBlogPanelBtn').addEventListener('click', () => {
+      document.getElementById('blogPanel').classList.toggle('show');
+      setMiniStatus(topMiniStatus, '블로그 패널 열기/닫기');
+    });
+
+    document.getElementById('connectAiBtn').addEventListener('click', async () => {
+      setMiniStatus(topMiniStatus, 'AI 연결 확인 중...');
+      appendLog('AI 연결 버튼을 눌렀습니다.');
+      const ok = await refreshAiStatus();
+      setMiniStatus(topMiniStatus, ok ? 'AI 연결 완료' : 'AI 연결 실패 또는 서버주소 없음');
+      appendLog(ok ? 'AI 연결이 확인되었습니다.' : 'AI 연결이 되지 않았습니다.');
+    });
+
+    document.getElementById('connectBlogAiBtn').addEventListener('click', async () => {
+      setMiniStatus(blogMiniStatus, 'AI 연결 확인 중...');
+      const ok = await refreshAiStatus();
+      setMiniStatus(blogMiniStatus, ok ? 'AI 연결됨' : 'AI 연결 안됨');
+      appendLog(ok ? '블로그용 AI 연결을 확인했습니다.' : '블로그용 AI 연결 실패 상태입니다.');
+    });
+
+    document.getElementById('makeBlogDraftBtn').addEventListener('click', async () => {
+      setMiniStatus(blogMiniStatus, '블로그 초안 생성 중...');
+      await wait(700);
+      setMiniStatus(blogMiniStatus, '블로그 초안 생성 완료');
+      appendLog('블로그 초안 생성을 완료했습니다.');
+    });
+
+    document.getElementById('checkServerBtn').addEventListener('click', async () => {
+      setMiniStatus(topMiniStatus, '서버 확인 중...');
+      const ok = await refreshAiStatus();
+      setMiniStatus(topMiniStatus, ok ? '서버 정상' : '서버 연결 안됨');
+      appendLog(ok ? '서버 상태를 확인했습니다. 정상입니다.' : '서버 상태를 확인했습니다. 연결되지 않았습니다.');
+    });
+
+    document.getElementById('downloadTestBtn').addEventListener('click', () => {
+      setMiniStatus(topMiniStatus, '다운로드 테스트 실행');
+      appendLog('다운로드 테스트 버튼을 눌렀습니다.');
+    });
+
+    document.getElementById('mobileCheckBtn').addEventListener('click', () => {
+      setMiniStatus(topMiniStatus, '모바일 연결 확인');
+      appendLog('모바일 연결 확인을 실행했습니다.');
+    });
+
+    document.getElementById('voiceBtn').addEventListener('click', () => {
+      setMiniStatus(topMiniStatus, '음성 입력 준비');
+      appendLog('음성 입력 버튼을 눌렀습니다.');
+    });
+
+    document.getElementById('helpBtn').addEventListener('click', () => {
+      setMiniStatus(topMiniStatus, '간단 설명 표시');
+      appendLog('설명: 실행 후 수노 데이터 준비를 누르면 제목, 스타일, 가사가 자동으로 채워집니다. 자동 실패 시 수동 모드 버튼을 사용하세요.');
+    });
+
+    document.getElementById('nextCopyBtn').addEventListener('click', async () => {
+      buildCopyItems();
+      showCopyItem(state.copyIndex + 1);
+      await copyQuickText();
+    });
+
+    document.getElementById('copyResetBtn').addEventListener('click', () => {
+      state.copyIndex = 0;
+      document.getElementById('quickCopyInput').value = '';
+      setMiniStatus(topMiniStatus, '복사창 초기화 완료');
+      appendLog('빠른 붙여넣기 복사창을 초기화했습니다.');
+    });
+
+    document.getElementById('copyNowBtn').addEventListener('click', async () => {
+      await copyQuickText();
+    });
+
+    document.getElementById('openSunoBtn').addEventListener('click', () => {
+      window.open('https://suno.com/create', '_blank');
+      setMiniStatus(topMiniStatus, '수노 열기');
+      appendLog('Suno 제작 페이지를 새 창에서 열었습니다.');
+    });
+
+    document.getElementById('makeSongBtn').addEventListener('click', async () => {
+      setMiniStatus(topMiniStatus, '노래 제작 시작');
+      appendLog('빠른 버튼으로 노래 제작을 시작했습니다.');
+      await runGenerateFlow();
+    });
+
+    document.getElementById('editSongBtn').addEventListener('click', () => {
+      document.getElementById('checkEdit').checked = true;
+      setStep('step4', '완료');
+      setStep('step5', '진행중');
+      setMiniStatus(topMiniStatus, '노래 편집 시작');
+      appendLog('노래 편집 버튼을 눌렀습니다.');
+    });
+
+    document.getElementById('videoBtn').addEventListener('click', () => {
+      setStep('step5', '진행중');
+      setMiniStatus(topMiniStatus, '영상 제작 준비');
+      appendLog('영상 제작 버튼을 눌렀습니다.');
+    });
+
+    document.getElementById('prepareSunoDataBtn').addEventListener('click', async () => {
+      await prepareSunoData();
+    });
+
+    document.getElementById('autoFillBtn').addEventListener('click', async () => {
+      const payload = await prepareSunoData();
+      setSunoMode('auto');
+      appendLog(`자동입력 준비 완료: Title="${payload.title}" / Style="${payload.style}"`);
+      setMiniStatus(topMiniStatus, '자동입력 준비 완료');
+    });
+
+    document.getElementById('autoGenerateBtn').addEventListener('click', async () => {
+      const payload = await prepareSunoData();
+      setSunoMode('auto');
+      window.open('https://suno.com/create', '_blank');
+      document.getElementById('checkTitle').checked = true;
+      document.getElementById('checkStyle').checked = true;
+      document.getElementById('checkLyrics').checked = true;
+      document.getElementById('checkSuno').checked = true;
+      appendLog(`자동입력 + 생성 시작: "${payload.title}" 데이터를 기준으로 수노 자동 생성 흐름을 준비했습니다.`);
+      setMiniStatus(topMiniStatus, '자동입력 + 생성 준비');
+    });
+
+    document.getElementById('autoDownloadBtn').addEventListener('click', () => {
+      document.getElementById('checkMp3').checked = true;
+      appendLog('다운로드 클릭 보조 단계를 실행했습니다. 확장프로그램 연동 시 다운로드 클릭 단계에 사용합니다.');
+      setMiniStatus(topMiniStatus, '다운로드 단계 준비');
+    });
+
+    document.getElementById('manualOpenBtn').addEventListener('click', () => {
+      setSunoMode('manual');
+      window.open('https://suno.com/create', '_blank');
+      appendLog('수동 모드로 수노 창을 열었습니다.');
+      setMiniStatus(topMiniStatus, '수동 모드: 수노 열기');
+    });
+
+    document.getElementById('manualCopyBtn').addEventListener('click', async () => {
+      const payload = await prepareSunoData();
+      const text = `제목: ${payload.title}\n스타일: ${payload.style}\n가사:\n${payload.lyrics}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        setSunoMode('manual');
+        appendLog('수동 입력용 제목/스타일/가사를 한 번에 복사했습니다.');
+        setMiniStatus(topMiniStatus, '수동 입력용 복사 완료');
+      } catch {
+        setMiniStatus(topMiniStatus, '복사 실패');
+        appendLog('수동 입력용 데이터 복사에 실패했습니다.');
+      }
+    });
+
+    document.getElementById('manualNextCopyBtn').addEventListener('click', async () => {
+      setSunoMode('manual');
+      buildCopyItems();
+      showCopyItem(state.copyIndex + 1);
+      await copyQuickText();
+      appendLog('수동 모드에서 다음 복사 항목으로 이동했습니다.');
+    });
+
+    document.getElementById('manualGenerateGuideBtn').addEventListener('click', async () => {
+      setSunoMode('manual');
+      const payload = await prepareSunoData();
+      appendLog(`수동 생성 안내:
+1. 수노 Custom mode 열기
+2. 제목 입력: ${payload.title}
+3. 스타일 입력
+4. 가사 붙여넣기
+5. Create/Generate 클릭`);
+      setMiniStatus(topMiniStatus, '수동 생성 안내 표시');
+    });
+
+    document.getElementById('manualDownloadGuideBtn').addEventListener('click', () => {
+      setSunoMode('manual');
+      appendLog(`수동 다운로드 안내:
+1. 곡 생성 완료 확인
+2. Download 또는 mp3 버튼 클릭
+3. 저장 확인
+4. 다음 곡으로 진행`);
+      setMiniStatus(topMiniStatus, '수동 다운로드 안내 표시');
+    });
+
+    document.getElementById('switchManualModeBtn').addEventListener('click', () => {
+      setSunoMode('manual');
+      appendLog('자동 실패를 대비해 수동 모드로 전환했습니다. 수동 복사와 수동 생성 안내 버튼을 사용하세요.');
+      setMiniStatus(topMiniStatus, '수동 모드 전환 완료');
+    });
+
+    async function runGenerateFlow() {
+      const count = Number(document.getElementById('songCount').value || 1);
+      const lang = getLyricsLanguage();
+
+      resetProgressUI();
+      mainStatusChip.textContent = '상태: 작업 시작';
+      appendLog(`곡 생성 작업을 시작했습니다. 언어: ${lang}, 곡 수: ${count}`);
+
+      setStep('step1', '진행중');
+      updateProgress(18);
+      await wait(450);
+
+      setStep('step1', '완료');
+      setStep('step2', '진행중');
+      updateProgress(42);
+      await wait(550);
+
+      createSongs(count);
+      buildCopyItems();
+      showCopyItem(0);
+      await prepareSunoData();
+
+      document.getElementById('checkTitle').checked = true;
+      document.getElementById('checkStyle').checked = true;
+      appendLog(`${count}곡 제목을 생성했습니다.`);
+      setMiniStatus(topMiniStatus, `${count}곡 생성 완료`);
+
+      setStep('step2', '완료');
+      setStep('step3', '진행중');
+      updateProgress(63);
+      await wait(450);
+
+      document.getElementById('checkLyrics').checked = true;
+      setStep('step3', '완료');
+      setStep('step4', '진행중');
+      updateProgress(82);
+      await wait(450);
+
+      document.getElementById('checkSuno').checked = true;
+      document.getElementById('checkMp3').checked = true;
+      setStep('step4', '완료');
+      setStep('step5', '진행중');
+      updateProgress(95);
+      await wait(420);
+
+      document.getElementById('checkEdit').checked = true;
+      setStep('step5', '완료');
+      updateProgress(100);
+      mainStatusChip.textContent = '상태: 생성 완료';
+      appendLog('노래 생성 흐름이 완료되었습니다.');
+    }
+
+    document.getElementById('runBtn').addEventListener('click', async () => {
+      await runGenerateFlow();
+    });
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function refreshAiStatus() {
+      const badge = document.getElementById('aiStatusBadge');
+      const text = document.getElementById('aiStatusText');
+
+      badge.classList.remove('online');
+      badge.classList.add('offline');
+      text.textContent = 'AI OFFLINE';
+
+      const healthUrl = getHealthUrl();
+
+      if (!healthUrl) {
+        appendLog('API 서버 주소가 없어 AI 상태 확인을 건너뜁니다. 예: http://localhost:4000');
+        return false;
+      }
+
+      try {
+        const res = await fetch(healthUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error('health fail');
+
+        const data = await res.json();
+        const isOnline = !!(data && (data.ok === true || data.status === 'ok' || data.healthy === true));
+
+        if (isOnline) {
+          badge.classList.remove('offline');
+          badge.classList.add('online');
+          text.textContent = 'AI ONLINE';
+          return true;
+        }
+
+        badge.classList.remove('online');
+        badge.classList.add('offline');
+        text.textContent = 'AI OFFLINE';
+        return false;
+      } catch (err) {
+        appendLog(`AI 상태 확인 실패: ${healthUrl}`);
+        badge.classList.remove('online');
+        badge.classList.add('offline');
+        text.textContent = 'AI OFFLINE';
+        return false;
+      }
+    }
+
+    async function init() {
+      const savedApiBase = getSavedApiBase();
+      if (savedApiBase) apiBaseInput.value = savedApiBase;
+
+      renderSongs();
+      resetProgressUI();
+      buildCopyItems();
+      showCopyItem(0);
+      setSunoMode('auto');
+      await prepareSunoData();
+      await refreshAiStatus();
+      setInterval(refreshAiStatus, 10000);
+    }
+
+    init();
+  </script>
+</body>
+</html>
