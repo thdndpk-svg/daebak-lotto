@@ -8,170 +8,222 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
+      background: #f4f7fb;
       font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
+      color: #111827;
     }
     .wrap {
-      max-width: 980px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 16px;
     }
     .title {
-      font-size: 28px;
-      font-weight: 800;
       text-align: center;
-      margin: 8px 0 20px;
-      color: #111827;
+      font-size: 30px;
+      font-weight: 800;
+      margin: 10px 0 18px;
     }
     .card {
       background: #fff;
+      border: 1px solid #e5e7eb;
       border-radius: 18px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.06);
       padding: 16px;
       margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-      border: 1px solid #e5e7eb;
     }
     .card h2 {
       margin: 0 0 14px;
       font-size: 20px;
     }
-    .grid {
+    .info-grid {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
     }
-    .col-12 { grid-column: span 12; }
-    .col-6 { grid-column: span 6; }
-    .col-4 { grid-column: span 4; }
-    .col-3 { grid-column: span 3; }
-    .col-2 { grid-column: span 2; }
-
-    label {
-      display: block;
-      font-size: 13px;
+    .info-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .info-label {
+      font-size: 12px;
+      color: #2563eb;
       font-weight: 700;
       margin-bottom: 6px;
-      color: #374151;
     }
-    input, select, button {
-      width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      padding: 11px 12px;
-      font-size: 15px;
-      background: #fff;
+    .info-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1e3a8a;
     }
-    input:focus, select:focus {
-      outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+
+    .subtxt {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-top: 6px;
     }
-    .btn {
-      cursor: pointer;
-      border: none;
+
+    .history-wrap {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .history-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .history-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .history-round {
+      font-weight: 800;
+      font-size: 17px;
+    }
+    .history-date {
+      color: #6b7280;
+      font-size: 13px;
       font-weight: 700;
-      transition: 0.15s ease;
     }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary {
+    .balls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .ball {
+      min-width: 38px;
+      height: 38px;
+      border-radius: 999px;
       background: #2563eb;
       color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
     }
-    .btn-secondary {
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    button, select {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .btn-main {
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-sub {
       background: #10b981;
       color: #fff;
+      cursor: pointer;
     }
     .btn-light {
       background: #f3f4f6;
       color: #111827;
       border: 1px solid #d1d5db;
+      cursor: pointer;
     }
     .btn-danger {
       background: #ef4444;
       color: #fff;
+      cursor: pointer;
     }
-    .muted {
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-    .info-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1d4ed8;
-      border-radius: 14px;
-      padding: 12px;
-      font-weight: 700;
-    }
-    .data-row {
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 12px;
-      margin-bottom: 10px;
-      background: #fafafa;
-    }
-    .num-inputs {
+
+    .option-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-    }
-    .option-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 10px;
+      margin-bottom: 14px;
     }
-    .option-item {
+    .opt {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #f9fafb;
       border: 1px solid #e5e7eb;
-      padding: 10px 12px;
+      background: #f9fafb;
       border-radius: 12px;
-      font-weight: 600;
+      padding: 10px 12px;
+      font-weight: 700;
     }
-    .option-item input[type="checkbox"] {
+    .opt input {
       width: 18px;
       height: 18px;
       margin: 0;
     }
+
+    .gen-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+    }
+    .select-wrap label {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+    select {
+      border: 1px solid #d1d5db;
+      background: #fff;
+    }
+
+    .applied-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #166534;
+    }
+
     .result-box {
-      min-height: 120px;
       background: #0f172a;
       color: #fff;
       border-radius: 16px;
+      min-height: 120px;
       padding: 16px;
       font-size: 18px;
       line-height: 1.9;
       white-space: pre-line;
     }
-    .row-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .small-btn {
-      width: auto;
-      padding: 9px 12px;
-      font-size: 13px;
-    }
-    .pill {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #eef2ff;
-      color: #3730a3;
-      font-size: 13px;
-      font-weight: 700;
-      margin-right: 6px;
-      margin-bottom: 6px;
+
+    .empty {
+      padding: 12px;
+      border-radius: 12px;
+      background: #f9fafb;
+      color: #6b7280;
+      font-size: 14px;
+      border: 1px dashed #d1d5db;
     }
 
-    @media (max-width: 768px) {
-      .col-6, .col-4, .col-3, .col-2 { grid-column: span 12; }
-      .num-inputs { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 760px) {
+      .info-grid, .gen-box, .btn-row {
+        grid-template-columns: 1fr;
+      }
       .title { font-size: 24px; }
+      .info-value { font-size: 18px; }
     }
   </style>
 </head>
@@ -180,129 +232,128 @@
     <div class="title">대박 로또 당첨기</div>
 
     <div class="card">
-      <h2>조건 선택</h2>
-      <div class="grid">
-        <div class="col-4">
-          <label>기준 회차</label>
-          <input type="number" id="lastRound" min="1" value="1161" />
+      <h2>자동 회차 정보</h2>
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-label">기준 회차</div>
+          <div class="info-value" id="currentRound">1215회</div>
         </div>
-        <div class="col-4">
-          <label>기준 추첨일</label>
-          <input type="date" id="lastDrawDate" />
+        <div class="info-box">
+          <div class="info-label">기준 추첨일</div>
+          <div class="info-value" id="currentDate">2026-03-14</div>
         </div>
-        <div class="col-4">
-          <label>다음 회차 추첨일</label>
-          <input type="date" id="targetDate" />
+        <div class="info-box">
+          <div class="info-label">다음 회차 추첨일</div>
+          <div class="info-value" id="nextDate">2026-03-21</div>
         </div>
-
-        <div class="col-6">
-          <label>목표 회차</label>
-          <input type="number" id="targetRound" readonly />
-        </div>
-        <div class="col-6">
-          <label>조합 수</label>
-          <select id="comboCount"></select>
-        </div>
-
-        <div class="col-12">
-          <div class="info-box" id="targetInfo">다음 회차 정보 계산 중...</div>
-        </div>
+      </div>
+      <div class="subtxt">
+        회차와 날짜는 자동 표시됩니다. 사용자가 직접 선택하지 않습니다.
       </div>
     </div>
 
     <div class="card">
-      <h2>과거 회차 데이터 입력</h2>
-      <div class="muted" style="margin-bottom:10px;">
-        같은 날짜의 과거 회차도 여러 개 유지할 수 있습니다. 아래 <b>+1 데이터 추가</b> 버튼을 누르면 입력칸이 계속 늘어납니다.
+      <h2>같은 날짜 과거 데이터 자동 찾기</h2>
+      <div class="subtxt">
+        기준 추첨일과 같은 월/일의 과거 회차를 자동으로 보여주고, <b>+1 적용</b> 버튼을 누를 때마다 추천 계산에 한 개씩 추가됩니다.
       </div>
 
-      <div id="dataRows"></div>
+      <div class="history-wrap" id="historyList"></div>
 
-      <div class="grid">
-        <div class="col-6">
-          <button class="btn btn-secondary" id="addRowBtn">+1 데이터 추가</button>
-        </div>
-        <div class="col-6">
-          <button class="btn btn-light" id="saveDataBtn">데이터 저장</button>
-        </div>
+      <div class="btn-row">
+        <button class="btn-sub" id="addPastBtn">+1 적용</button>
+        <button class="btn-light" id="resetPastBtn">적용 초기화</button>
+      </div>
+
+      <div class="applied-box" id="appliedInfo">
+        현재 적용된 같은 날짜 과거 데이터: 0개
       </div>
     </div>
 
     <div class="card">
       <h2>추천 옵션</h2>
-      <div class="option-list">
-        <label class="option-item"><input type="checkbox" class="recOpt" value="hot"> 자주 나온 번호 반영</label>
-        <label class="option-item"><input type="checkbox" class="recOpt" value="cold"> 덜 나온 번호 섞기</label>
-        <label class="option-item"><input type="checkbox" class="recOpt" value="oddEven"> 홀짝 균형</label>
-        <label class="option-item"><input type="checkbox" class="recOpt" value="highLow"> 고저 균형</label>
-        <label class="option-item"><input type="checkbox" class="recOpt" value="sumRange"> 합계 안정 범위</label>
-        <label class="option-item"><input type="checkbox" class="recOpt" value="avoidRepeat"> 직전 회차 과다 반복 줄이기</label>
-        <label class="option-item"><input type="checkbox" class="recOpt" value="dateMix"> 날짜 숫자 반영</label>
-        <label class="option-item"><input type="checkbox" class="recOpt" value="sectionMix"> 구간 분산</label>
+      <div class="option-grid">
+        <label class="opt"><input type="checkbox" class="recOpt" value="hot"> 자주 나온 번호</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="cold"> 덜 나온 번호</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="oddEven"> 홀짝 균형</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="highLow"> 고저 균형</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="sumRange"> 합계 범위</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="avoidRepeat"> 직전 회차 반복 줄이기</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="sectionMix"> 구간 분산</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="dateMix"> 날짜 숫자 반영</label>
       </div>
 
-      <div class="grid" style="margin-top:14px;">
-        <div class="col-6">
-          <button class="btn btn-primary" id="generateBtn">번호 생성</button>
+      <div class="gen-box">
+        <div class="select-wrap">
+          <label for="comboCount">조합 수</label>
+          <select id="comboCount"></select>
         </div>
-        <div class="col-6">
-          <button class="btn btn-danger" id="resetBtn">초기화</button>
+        <div>
+          <button class="btn-main" id="generateBtn">번호 생성</button>
         </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-danger" id="resetAllBtn">전체 초기화</button>
+        <button class="btn-light" id="saveBtn">현재 상태 저장</button>
       </div>
     </div>
 
     <div class="card">
       <h2>추천 결과</h2>
-      <div id="selectedBadges" style="margin-bottom:10px;"></div>
       <div class="result-box" id="resultBox">여기에 추천 번호가 표시됩니다.</div>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "daebak_lotto_simple_v1";
+    const STORAGE_KEY = "daebak_lotto_auto_same_date_v2";
 
-    const lastRoundEl = document.getElementById("lastRound");
-    const lastDrawDateEl = document.getElementById("lastDrawDate");
-    const targetDateEl = document.getElementById("targetDate");
-    const targetRoundEl = document.getElementById("targetRound");
+    // 기준값 (방운님 요청 반영)
+    const CURRENT_ROUND = 1215;
+    const CURRENT_DRAW_DATE = "2026-03-14";
+    const NEXT_DRAW_DATE = "2026-03-21";
+
+    // 샘플 회차 데이터
+    // 실제 자동 API 연동 전까지 내부 데이터로 같은 날짜 과거 회차를 찾는 구조
+    const DRAW_DB = [
+      { round: 1215, date: "2026-03-14", numbers: [7, 12, 23, 28, 34, 41] },
+      { round: 1163, date: "2025-03-15", numbers: [2, 9, 16, 21, 29, 38] },
+      { round: 1111, date: "2024-03-16", numbers: [5, 11, 19, 27, 31, 44] },
+      { round: 1059, date: "2023-03-11", numbers: [8, 14, 22, 26, 35, 40] },
+      { round: 1007, date: "2022-03-12", numbers: [1, 6, 18, 24, 33, 42] },
+      { round: 955,  date: "2021-03-13", numbers: [4, 10, 17, 25, 36, 43] },
+      { round: 903,  date: "2020-03-14", numbers: [3, 13, 20, 30, 37, 45] },
+      { round: 851,  date: "2019-03-16", numbers: [7, 15, 21, 28, 32, 39] },
+      { round: 799,  date: "2018-03-17", numbers: [9, 12, 18, 27, 34, 40] },
+      { round: 747,  date: "2017-03-11", numbers: [6, 14, 23, 29, 38, 41] },
+      { round: 695,  date: "2016-03-12", numbers: [5, 16, 24, 31, 35, 44] },
+      { round: 643,  date: "2015-03-14", numbers: [2, 8, 19, 26, 33, 42] },
+      { round: 591,  date: "2014-03-15", numbers: [1, 11, 20, 28, 36, 43] },
+      { round: 539,  date: "2013-03-16", numbers: [4, 13, 22, 30, 39, 45] },
+      { round: 487,  date: "2012-03-17", numbers: [3, 9, 17, 25, 34, 40] },
+      { round: 435,  date: "2011-03-12", numbers: [6, 10, 18, 27, 32, 41] },
+      { round: 383,  date: "2010-03-13", numbers: [7, 14, 21, 29, 37, 44] },
+      { round: 331,  date: "2009-03-14", numbers: [5, 12, 19, 24, 35, 42] },
+      { round: 279,  date: "2008-03-15", numbers: [8, 15, 23, 31, 38, 43] },
+      { round: 227,  date: "2007-03-17", numbers: [2, 11, 20, 26, 33, 45] },
+      { round: 175,  date: "2006-03-11", numbers: [1, 9, 16, 22, 30, 39] }
+    ];
+
+    const currentRoundEl = document.getElementById("currentRound");
+    const currentDateEl = document.getElementById("currentDate");
+    const nextDateEl = document.getElementById("nextDate");
+    const historyListEl = document.getElementById("historyList");
+    const appliedInfoEl = document.getElementById("appliedInfo");
     const comboCountEl = document.getElementById("comboCount");
-    const targetInfoEl = document.getElementById("targetInfo");
-    const dataRowsEl = document.getElementById("dataRows");
     const resultBoxEl = document.getElementById("resultBox");
-    const selectedBadgesEl = document.getElementById("selectedBadges");
 
-    function formatDate(date) {
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, "0");
-      const d = String(date.getDate()).padStart(2, "0");
-      return `${y}-${m}-${d}`;
-    }
+    let sameDateHistory = [];
+    let appliedPastCount = 0;
 
-    function parseDate(str) {
-      const [y, m, d] = str.split("-").map(Number);
-      return new Date(y, m - 1, d);
-    }
-
-    function getNextSaturday(baseDate) {
-      const d = new Date(baseDate);
-      const day = d.getDay();
-      const diff = (6 - day + 7) % 7 || 7;
-      d.setDate(d.getDate() + diff);
-      return d;
-    }
-
-    function calcTarget() {
-      const lastRound = Number(lastRoundEl.value || 0);
-      const lastDateVal = lastDrawDateEl.value;
-      if (!lastRound || !lastDateVal) return;
-
-      const lastDate = parseDate(lastDateVal);
-      const nextDate = getNextSaturday(lastDate);
-      targetDateEl.value = formatDate(nextDate);
-      targetRoundEl.value = lastRound + 1;
-
-      targetInfoEl.textContent =
-        `기준 ${lastRound}회 (${lastDateVal}) → 목표 ${lastRound + 1}회 (${formatDate(nextDate)})`;
+    function initTopInfo() {
+      currentRoundEl.textContent = `${CURRENT_ROUND}회`;
+      currentDateEl.textContent = CURRENT_DRAW_DATE;
+      nextDateEl.textContent = NEXT_DRAW_DATE;
     }
 
     function fillComboCount() {
@@ -316,128 +367,54 @@
       comboCountEl.value = "3";
     }
 
-    function createNumberInputs(values = ["", "", "", "", "", ""]) {
-      return `
-        <div class="num-inputs">
-          ${values.map(v => `<input type="number" min="1" max="45" class="numVal" value="${v ?? ""}" placeholder="번호" />`).join("")}
-        </div>
-      `;
+    function getMonthDay(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      return { month: m, day: d };
     }
 
-    function addDataRow(data = {}) {
-      const row = document.createElement("div");
-      row.className = "data-row";
-
-      row.innerHTML = `
-        <div class="grid">
-          <div class="col-3">
-            <label>회차</label>
-            <input type="number" class="roundVal" min="1" value="${data.round ?? ""}" placeholder="회차" />
-          </div>
-          <div class="col-3">
-            <label>추첨일</label>
-            <input type="date" class="dateVal" value="${data.date ?? ""}" />
-          </div>
-          <div class="col-6">
-            <label>당첨번호 6개</label>
-            ${createNumberInputs(data.numbers ?? ["", "", "", "", "", ""])}
-          </div>
-        </div>
-        <div class="row-actions">
-          <button class="btn btn-light small-btn plusRowBtn" type="button">+1 같은 형식 추가</button>
-          <button class="btn btn-danger small-btn removeRowBtn" type="button">삭제</button>
-        </div>
-      `;
-
-      row.querySelector(".plusRowBtn").addEventListener("click", () => {
-        addDataRow({
-          round: "",
-          date: row.querySelector(".dateVal").value || "",
-          numbers: ["", "", "", "", "", ""]
-        });
-      });
-
-      row.querySelector(".removeRowBtn").addEventListener("click", () => {
-        row.remove();
-      });
-
-      dataRowsEl.appendChild(row);
+    function findSameDateHistory(baseDate) {
+      const base = getMonthDay(baseDate);
+      return DRAW_DB
+        .filter(item => item.round !== CURRENT_ROUND)
+        .filter(item => {
+          const md = getMonthDay(item.date);
+          return md.month === base.month && Math.abs(md.day - base.day) <= 3;
+        })
+        .sort((a, b) => b.round - a.round);
     }
 
-    function collectRows() {
-      const rows = [...document.querySelectorAll(".data-row")];
-      return rows.map(row => {
-        const round = Number(row.querySelector(".roundVal").value || 0);
-        const date = row.querySelector(".dateVal").value;
-        const numbers = [...row.querySelectorAll(".numVal")]
-          .map(el => Number(el.value || 0))
-          .filter(n => n >= 1 && n <= 45);
-
-        return { round, date, numbers };
-      }).filter(r => r.round && r.date && r.numbers.length === 6);
-    }
-
-    function saveAll() {
-      const state = {
-        lastRound: lastRoundEl.value,
-        lastDrawDate: lastDrawDateEl.value,
-        targetDate: targetDateEl.value,
-        targetRound: targetRoundEl.value,
-        comboCount: comboCountEl.value,
-        options: [...document.querySelectorAll(".recOpt:checked")].map(el => el.value),
-        rows: collectRows()
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      alert("저장되었습니다.");
-    }
-
-    function loadAll() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return false;
-
-      try {
-        const state = JSON.parse(saved);
-        lastRoundEl.value = state.lastRound || "1161";
-        lastDrawDateEl.value = state.lastDrawDate || "";
-        targetDateEl.value = state.targetDate || "";
-        targetRoundEl.value = state.targetRound || "";
-        comboCountEl.value = state.comboCount || "3";
-
-        document.querySelectorAll(".recOpt").forEach(el => {
-          el.checked = (state.options || []).includes(el.value);
-        });
-
-        dataRowsEl.innerHTML = "";
-        if (state.rows && state.rows.length) {
-          state.rows.forEach(r => addDataRow(r));
-        } else {
-          addDataRow();
-        }
-        calcTarget();
-        return true;
-      } catch (e) {
-        return false;
+    function renderHistory() {
+      if (!sameDateHistory.length) {
+        historyListEl.innerHTML = `<div class="empty">같은 날짜 과거 데이터가 없습니다.</div>`;
+        return;
       }
+
+      historyListEl.innerHTML = sameDateHistory.map((item, idx) => {
+        const active = idx < appliedPastCount;
+        return `
+          <div class="history-item" style="${active ? 'border:2px solid #10b981;background:#ecfdf5;' : ''}">
+            <div class="history-top">
+              <div class="history-round">${item.round}회</div>
+              <div class="history-date">${item.date} ${active ? ' · 적용중' : ''}</div>
+            </div>
+            <div class="balls">
+              ${item.numbers.map(n => `<span class="ball">${n}</span>`).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function updateAppliedInfo() {
+      appliedInfoEl.textContent = `현재 적용된 같은 날짜 과거 데이터: ${appliedPastCount}개`;
     }
 
     function getSelectedOptions() {
       return [...document.querySelectorAll(".recOpt:checked")].map(el => el.value);
     }
 
-    function showSelectedBadges(opts) {
-      const map = {
-        hot: "자주 나온 번호",
-        cold: "덜 나온 번호",
-        oddEven: "홀짝 균형",
-        highLow: "고저 균형",
-        sumRange: "합계 안정",
-        avoidRepeat: "직전 반복 줄이기",
-        dateMix: "날짜 숫자 반영",
-        sectionMix: "구간 분산"
-      };
-      selectedBadgesEl.innerHTML = opts.length
-        ? opts.map(o => `<span class="pill">${map[o]}</span>`).join("")
-        : `<span class="pill">기본 랜덤</span>`;
+    function getAppliedRows() {
+      return sameDateHistory.slice(0, appliedPastCount);
     }
 
     function frequencyMap(rows) {
@@ -449,21 +426,16 @@
       return freq;
     }
 
-    function getLastRow(rows) {
-      if (!rows.length) return null;
-      return [...rows].sort((a, b) => b.round - a.round)[0];
-    }
-
     function pickWeighted(freq, pool, preferHigh = true) {
       const items = pool.map(n => ({
         n,
         w: preferHigh ? (freq[n] + 1) : (1 / (freq[n] + 1))
       }));
-      const total = items.reduce((s, x) => s + x.w, 0);
-      let rnd = Math.random() * total;
+      const total = items.reduce((a, b) => a + b.w, 0);
+      let rand = Math.random() * total;
       for (const item of items) {
-        rnd -= item.w;
-        if (rnd <= 0) return item.n;
+        rand -= item.w;
+        if (rand <= 0) return item.n;
       }
       return items[items.length - 1].n;
     }
@@ -491,16 +463,16 @@
       }
 
       if (opts.includes("sectionMix")) {
-        const sec1 = sorted.filter(n => n <= 10).length;
-        const sec2 = sorted.filter(n => n >= 11 && n <= 20).length;
-        const sec3 = sorted.filter(n => n >= 21 && n <= 30).length;
-        const sec4 = sorted.filter(n => n >= 31 && n <= 45).length;
-        const sectionsUsed = [sec1, sec2, sec3, sec4].filter(v => v > 0).length;
-        if (sectionsUsed < 3) return false;
+        const a = sorted.filter(n => n <= 10).length;
+        const b = sorted.filter(n => n >= 11 && n <= 20).length;
+        const c = sorted.filter(n => n >= 21 && n <= 30).length;
+        const d = sorted.filter(n => n >= 31).length;
+        const used = [a,b,c,d].filter(v => v > 0).length;
+        if (used < 3) return false;
       }
 
       for (let i = 0; i < sorted.length - 2; i++) {
-        if (sorted[i] + 1 === sorted[i + 1] && sorted[i + 1] + 1 === sorted[i + 2]) {
+        if (sorted[i] + 1 === sorted[i+1] && sorted[i+1] + 1 === sorted[i+2]) {
           return false;
         }
       }
@@ -508,16 +480,15 @@
       return true;
     }
 
-    function generateOneCombo(rows, opts, targetDate) {
+    function generateOneCombo(rows, opts) {
       const freq = frequencyMap(rows);
-      const lastRow = getLastRow(rows);
-      const avoidSet = new Set(opts.includes("avoidRepeat") && lastRow ? lastRow.numbers : []);
-      const dateNums = new Set();
-
-      if (opts.includes("dateMix") && targetDate) {
-        const [y, m, d] = targetDate.split("-").map(Number);
-        [y % 100, m, d, (m + d), (y % 10 + d)].forEach(v => {
-          if (v >= 1 && v <= 45) dateNums.add(v);
+      const current = DRAW_DB.find(v => v.round === CURRENT_ROUND);
+      const avoidSet = new Set(opts.includes("avoidRepeat") && current ? current.numbers : []);
+      const [y, m, d] = NEXT_DRAW_DATE.split("-").map(Number);
+      const dateSet = new Set();
+      if (opts.includes("dateMix")) {
+        [y % 100, m, d, m + d, (y % 10) + d].forEach(v => {
+          if (v >= 1 && v <= 45) dateSet.add(v);
         });
       }
 
@@ -526,7 +497,6 @@
 
       while (combo.size < 6 && tries < 500) {
         tries++;
-
         let pool = Array.from({ length: 45 }, (_, i) => i + 1).filter(n => !combo.has(n));
 
         if (opts.includes("avoidRepeat")) {
@@ -534,27 +504,24 @@
           if (filtered.length >= 6 - combo.size) pool = filtered;
         }
 
-        let chosen;
-        if (opts.includes("dateMix") && dateNums.size && Math.random() < 0.25) {
-          const datePool = [...dateNums].filter(n => pool.includes(n));
-          if (datePool.length) {
-            chosen = datePool[Math.floor(Math.random() * datePool.length)];
-          }
+        let pick = null;
+
+        if (opts.includes("dateMix") && Math.random() < 0.22) {
+          const pool2 = [...dateSet].filter(n => pool.includes(n));
+          if (pool2.length) pick = pool2[Math.floor(Math.random() * pool2.length)];
         }
 
-        if (!chosen && opts.includes("hot")) {
-          chosen = pickWeighted(freq, pool, true);
-        } else if (!chosen && opts.includes("cold")) {
-          chosen = pickWeighted(freq, pool, false);
-        } else if (!chosen) {
-          chosen = pool[Math.floor(Math.random() * pool.length)];
+        if (!pick && opts.includes("hot")) {
+          pick = pickWeighted(freq, pool, true);
+        } else if (!pick && opts.includes("cold")) {
+          pick = pickWeighted(freq, pool, false);
+        } else if (!pick) {
+          pick = pool[Math.floor(Math.random() * pool.length)];
         }
 
-        combo.add(chosen);
+        combo.add(pick);
 
-        if (tries > 80 && combo.size < 6) {
-          combo.clear();
-        }
+        if (tries > 100 && combo.size < 6) combo.clear();
       }
 
       const arr = [...combo].sort((a, b) => a - b);
@@ -564,89 +531,108 @@
     }
 
     function generateCombos() {
-      const rows = collectRows();
-      const comboCount = Number(comboCountEl.value || 1);
       const opts = getSelectedOptions();
-      const targetDate = targetDateEl.value;
+      const comboCount = Number(comboCountEl.value || 1);
+      const appliedRows = getAppliedRows();
 
-      showSelectedBadges(opts);
+      if (!appliedRows.length) {
+        resultBoxEl.textContent = "먼저 +1 적용 버튼을 눌러 같은 날짜 과거 데이터를 적용해주세요.";
+        return;
+      }
 
       const results = [];
-      const unique = new Set();
+      const seen = new Set();
       let safe = 0;
 
-      while (results.length < comboCount && safe < 3000) {
+      while (results.length < comboCount && safe < 4000) {
         safe++;
-        const combo = generateOneCombo(rows, opts, targetDate);
+        const combo = generateOneCombo(appliedRows, opts);
         if (!combo) continue;
+
         const key = combo.join(",");
-        if (!unique.has(key)) {
-          unique.add(key);
+        if (!seen.has(key)) {
+          seen.add(key);
           results.push(combo);
         }
       }
 
       if (!results.length) {
-        resultBoxEl.textContent = "생성 가능한 번호가 없습니다.\n데이터를 더 넣거나 옵션을 조금 줄여보세요.";
+        resultBoxEl.textContent = "번호를 만들지 못했습니다. 적용 개수를 늘리거나 옵션을 줄여보세요.";
         return;
       }
 
       resultBoxEl.textContent = results
-        .map((r, i) => `${i + 1}조합  :  ${r.join(" , ")}`)
+        .map((row, idx) => `${idx + 1}조합  :  ${row.join(" , ")}`)
         .join("\n");
     }
 
-    function resetAll() {
-      if (!confirm("입력값과 결과를 초기화할까요?")) return;
+    function saveState() {
+      const state = {
+        appliedPastCount,
+        comboCount: comboCountEl.value,
+        opts: getSelectedOptions(),
+        result: resultBoxEl.textContent
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      alert("저장되었습니다.");
+    }
 
-      localStorage.removeItem(STORAGE_KEY);
-      dataRowsEl.innerHTML = "";
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        appliedPastCount = Number(data.appliedPastCount || 0);
+        comboCountEl.value = data.comboCount || "3";
+        document.querySelectorAll(".recOpt").forEach(el => {
+          el.checked = (data.opts || []).includes(el.value);
+        });
+        if (data.result) resultBoxEl.textContent = data.result;
+      } catch (e) {}
+    }
 
-      const today = new Date();
-      const lastSaturday = new Date(today);
-      lastSaturday.setDate(today.getDate() - ((today.getDay() + 1) % 7 || 7));
-
-      lastRoundEl.value = 1161;
-      lastDrawDateEl.value = formatDate(lastSaturday);
-      calcTarget();
-      comboCountEl.value = "3";
-
-      document.querySelectorAll(".recOpt").forEach(el => el.checked = false);
-      addDataRow({
-        round: 1161,
-        date: formatDate(lastSaturday),
-        numbers: ["", "", "", "", "", ""]
-      });
-
-      selectedBadgesEl.innerHTML = "";
+    function resetApplied() {
+      appliedPastCount = 0;
+      renderHistory();
+      updateAppliedInfo();
       resultBoxEl.textContent = "여기에 추천 번호가 표시됩니다.";
     }
 
-    // 이벤트
-    document.getElementById("addRowBtn").addEventListener("click", () => addDataRow());
-    document.getElementById("saveDataBtn").addEventListener("click", saveAll);
-    document.getElementById("generateBtn").addEventListener("click", generateCombos);
-    document.getElementById("resetBtn").addEventListener("click", resetAll);
-
-    lastRoundEl.addEventListener("input", calcTarget);
-    lastDrawDateEl.addEventListener("change", calcTarget);
-
-    // 초기 실행
-    fillComboCount();
-
-    const loaded = loadAll();
-    if (!loaded) {
-      const today = new Date();
-      const base = new Date(today);
-      base.setDate(today.getDate() - ((today.getDay() + 1) % 7 || 7));
-      lastDrawDateEl.value = formatDate(base);
-      calcTarget();
-      addDataRow({
-        round: Number(lastRoundEl.value),
-        date: lastDrawDateEl.value,
-        numbers: ["", "", "", "", "", ""]
-      });
+    function resetAll() {
+      localStorage.removeItem(STORAGE_KEY);
+      appliedPastCount = 0;
+      comboCountEl.value = "3";
+      document.querySelectorAll(".recOpt").forEach(el => el.checked = false);
+      renderHistory();
+      updateAppliedInfo();
+      resultBoxEl.textContent = "여기에 추천 번호가 표시됩니다.";
     }
+
+    document.getElementById("addPastBtn").addEventListener("click", () => {
+      if (appliedPastCount < sameDateHistory.length) {
+        appliedPastCount++;
+        renderHistory();
+        updateAppliedInfo();
+      } else {
+        alert("더 적용할 같은 날짜 과거 데이터가 없습니다.");
+      }
+    });
+
+    document.getElementById("resetPastBtn").addEventListener("click", resetApplied);
+    document.getElementById("generateBtn").addEventListener("click", generateCombos);
+    document.getElementById("resetAllBtn").addEventListener("click", resetAll);
+    document.getElementById("saveBtn").addEventListener("click", saveState);
+
+    function init() {
+      initTopInfo();
+      fillComboCount();
+      sameDateHistory = findSameDateHistory(CURRENT_DRAW_DATE);
+      loadState();
+      renderHistory();
+      updateAppliedInfo();
+    }
+
+    init();
   </script>
 </body>
 </html>
