@@ -3,45 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>대박 로또 당첨기</title>
+  <title>🌸 대박 로또 당첨기</title>
   <style>
     * { box-sizing: border-box; }
 
     :root{
-      --bg:#fff7fb;
-      --bg-soft:#fff0f7;
+      --bg:#fff8fc;
+      --bg-soft:#fff1f7;
+      --bg-soft-2:#ffeaf3;
       --card:#ffffff;
-      --line:#f3d7e4;
-      --text:#6e4a5f;
-      --text-strong:#874968;
-      --sub:#a06f89;
-      --pink:#ff78b2;
-      --pink2:#ff9ec8;
-      --pink3:#ffd9ea;
-      --lav:#dccbff;
-      --mint:#d8f7ea;
-      --blue:#eaf6ff;
-      --danger:#ff94a8;
-      --shadow:0 8px 22px rgba(243, 157, 194, 0.12);
+      --line:#f4d8e5;
+      --text:#6d4a5d;
+      --text-strong:#844a67;
+      --sub:#a07188;
+      --pink:#ff7bb4;
+      --pink-2:#ff9ac6;
+      --pink-3:#ffd8e9;
+      --lav:#eadfff;
+      --mint:#ddf8ec;
+      --blue:#eef8ff;
+      --danger:#ff9aad;
+      --ok:#78cfa7;
+      --shadow:0 8px 22px rgba(245, 165, 197, 0.12);
     }
 
-    html, body {
-      background: var(--bg);
-      margin: 0;
-      padding: 0;
+    html, body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
       color-scheme: light;
-      -webkit-text-size-adjust: 100%;
+      -webkit-text-size-adjust:100%;
     }
 
     body{
       min-height:100vh;
       font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-      color:var(--text);
       background:
-        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.95) 0 3px, transparent 4px),
-        radial-gradient(circle at 82% 14%, rgba(255,255,255,0.95) 0 3px, transparent 4px),
-        radial-gradient(circle at 18% 80%, rgba(255,255,255,0.95) 0 3px, transparent 4px),
-        linear-gradient(180deg, #fffafc 0%, #fff2f8 52%, #ffeaf4 100%);
+        linear-gradient(180deg, #fffafd 0%, #fff3f8 56%, #ffedf5 100%);
       overflow-x:hidden;
       position:relative;
     }
@@ -51,20 +50,20 @@
       position:fixed;
       inset:0;
       pointer-events:none;
-      opacity:.18;
+      opacity:.12;
       background-image:url('data:image/svg+xml;utf8,\
-      <svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">\
+      <svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">\
         <g>\
-          <path d="M55 35 C64 22,80 22,89 35 C98 22,114 22,123 35 C114 48,98 48,89 58 C80 48,64 48,55 35Z" fill="%23ffcddd"/>\
-          <circle cx="89" cy="40" r="5" fill="%23ffabc9"/>\
-          <path d="M175 88 C184 75,200 75,209 88 C218 75,234 75,243 88 C234 101,218 101,209 111 C200 101,184 101,175 88Z" fill="%23ffdbe8"/>\
-          <circle cx="209" cy="93" r="5" fill="%23ffb7d1"/>\
-          <path d="M115 180 C124 167,140 167,149 180 C158 167,174 167,183 180 C174 193,158 193,149 203 C140 193,124 193,115 180Z" fill="%23ffe7f1"/>\
-          <circle cx="149" cy="185" r="5" fill="%23ffc5db"/>\
+          <path d="M45 32 C54 20,69 20,78 32 C87 20,102 20,111 32 C102 44,87 44,78 54 C69 44,54 44,45 32Z" fill="%23ffcfe0"/>\
+          <circle cx="78" cy="37" r="5" fill="%23ffabc9"/>\
+          <path d="M165 84 C174 72,189 72,198 84 C207 72,222 72,231 84 C222 96,207 96,198 106 C189 96,174 96,165 84Z" fill="%23ffdbe8"/>\
+          <circle cx="198" cy="89" r="5" fill="%23ffb7d1"/>\
+          <path d="M105 175 C114 163,129 163,138 175 C147 163,162 163,171 175 C162 187,147 187,138 197 C129 187,114 187,105 175Z" fill="%23ffe8f1"/>\
+          <circle cx="138" cy="180" r="5" fill="%23ffc9dc"/>\
         </g>\
       </svg>');
       background-repeat:repeat;
-      background-size:260px 260px;
+      background-size:250px 250px;
     }
 
     .petals{
@@ -80,9 +79,9 @@
       top:-30px;
       width:14px;
       height:10px;
-      background:linear-gradient(135deg,#ffe3ee,#ffc4d8);
+      background:#ffd1e2;
       border-radius:12px 12px 12px 2px;
-      opacity:.55;
+      opacity:.5;
       animation:fall linear infinite;
     }
 
@@ -109,16 +108,15 @@
       margin:0;
       font-size:34px;
       font-weight:900;
-      color:#ff5fa4;
+      color:#ff5fa5;
       letter-spacing:-0.5px;
-      text-shadow:0 1px 0 rgba(255,255,255,.95);
     }
 
     .hero p{
       margin:8px 0 0;
       font-size:14px;
       font-weight:800;
-      color:#b07b96;
+      color:#b07a95;
     }
 
     .card{
@@ -147,7 +145,7 @@
 
     .summary-box{
       background:#fff7fb;
-      border:1px solid #f5dbe7;
+      border:1px solid #f5dce7;
       border-radius:22px;
       padding:16px;
     }
@@ -160,7 +158,7 @@
 
     .summary-item{
       background:#fff;
-      border:1px solid #f3dbe6;
+      border:1px solid #f3dce7;
       border-radius:16px;
       padding:12px;
     }
@@ -168,27 +166,29 @@
     .summary-label{
       font-size:12px;
       font-weight:900;
-      color:#b27795;
+      color:#b27896;
       margin-bottom:6px;
     }
 
     .summary-value{
       font-size:18px;
       font-weight:900;
-      color:#7c4a64;
+      color:#7c4b64;
       line-height:1.35;
       word-break:keep-all;
     }
 
     .history-actions,
-    .bottom-actions{
+    .bottom-actions,
+    .manual-toggle-row{
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:10px;
       margin-top:12px;
     }
 
-    .generate-row{
+    .generate-row,
+    .check-row{
       display:grid;
       grid-template-columns:1.1fr .9fr;
       gap:10px;
@@ -201,7 +201,7 @@
       margin:0 0 6px;
       font-size:13px;
       font-weight:900;
-      color:#885872;
+      color:#885973;
     }
 
     button, select{
@@ -219,44 +219,49 @@
     button:active{ transform:scale(.98); }
 
     .btn-pink{
-      background:#ff7bb4;
+      background:var(--pink);
       color:#fff;
     }
     .btn-lav{
-      background:#eadfff;
-      color:#7a6196;
-      border:1px solid #dbcfff;
+      background:var(--lav);
+      color:#7a6096;
+      border:1px solid #dccfff;
     }
     .btn-mint{
-      background:#dcf8ec;
-      color:#537c6b;
-      border:1px solid #c8f0df;
+      background:var(--mint);
+      color:#557d6c;
+      border:1px solid #c9efdf;
     }
     .btn-light{
       background:#fff;
-      color:#7c5d6e;
-      border:1px solid #eddce5;
+      color:#7b5d6d;
+      border:1px solid #eddde6;
     }
     .btn-danger{
-      background:#ff9eb0;
+      background:var(--danger);
       color:#fff;
+    }
+    .btn-blue{
+      background:var(--blue);
+      color:#5a7892;
+      border:1px solid #d9ecfa;
     }
 
     select{
       background:#fff;
-      border:1px solid #eddce5;
-      color:#6d5062;
+      border:1px solid #eddde6;
+      color:#6e5162;
     }
 
     .history-mode{
       margin-top:12px;
-      background:#fff6fb;
-      border:1px solid #f3dce6;
+      background:#fff7fb;
+      border:1px solid #f3dde7;
       border-radius:16px;
       padding:12px 14px;
       font-size:14px;
       font-weight:900;
-      color:#a45e80;
+      color:#a45f80;
       line-height:1.6;
     }
 
@@ -285,13 +290,13 @@
     .history-round{
       font-size:18px;
       font-weight:900;
-      color:#7e5068;
+      color:#7e5168;
     }
 
     .history-date{
       font-size:13px;
       font-weight:900;
-      color:#a37a8f;
+      color:#a27b8f;
     }
 
     .num-zone{
@@ -358,22 +363,27 @@
       background:#fff;
       border-radius:16px;
       font-weight:900;
-      color:#785a6b;
+      color:#795b6c;
     }
 
     .opt input{
       width:18px;
       height:18px;
       margin:0;
-      accent-color:#ff78b2;
+      accent-color:#ff79b3;
     }
 
     .manual-box{
       border:1px solid #efdde6;
-      background:#fffafc;
+      background:#fffafd;
       border-radius:20px;
       padding:14px;
       margin-top:12px;
+      display:none;
+    }
+
+    .manual-box.show{
+      display:block;
     }
 
     .manual-top{
@@ -388,13 +398,13 @@
     .manual-title{
       font-size:15px;
       font-weight:900;
-      color:#7a5369;
+      color:#7a5469;
     }
 
     .manual-count{
       font-size:13px;
       font-weight:900;
-      color:#9f7990;
+      color:#9e798f;
     }
 
     .num-picker{
@@ -410,7 +420,7 @@
       padding:10px 0;
       text-align:center;
       font-weight:900;
-      color:#6f5866;
+      color:#705966;
       cursor:pointer;
       user-select:none;
       transition:.12s;
@@ -419,9 +429,9 @@
     .pick:hover{ transform:translateY(-1px); }
 
     .pick.active{
-      background:#ff7bb4;
+      background:var(--pink);
       color:#fff;
-      border-color:#ff7bb4;
+      border-color:var(--pink);
     }
 
     .selected-manual{
@@ -434,8 +444,8 @@
 
     .chip{
       background:#ffeaf3;
-      color:#b54f80;
-      border:1px solid #ffd2e1;
+      color:#b55080;
+      border:1px solid #ffd4e2;
       border-radius:999px;
       padding:7px 11px;
       font-size:13px;
@@ -455,12 +465,13 @@
       font-size:12px;
       font-weight:900;
       background:#fff0f7;
-      color:#b25482;
-      border:1px solid #f7d1e0;
+      color:#b25582;
+      border:1px solid #f7d2e0;
     }
 
-    .result-box{
-      min-height:150px;
+    .result-box,
+    .check-box{
+      min-height:120px;
       border-radius:22px;
       padding:16px;
       background:#fffafc;
@@ -472,11 +483,17 @@
       white-space:pre-line;
     }
 
+    .check-box{
+      min-height:86px;
+    }
+
     @media (max-width:860px){
       .summary-grid,
       .history-actions,
       .bottom-actions,
+      .manual-toggle-row,
       .generate-row,
+      .check-row,
       .num-zone{
         grid-template-columns:1fr;
       }
@@ -493,11 +510,11 @@
   <div class="wrap">
     <div class="hero">
       <h1>🌸 대박 로또 당첨기</h1>
-      <p>밝은 핑크 벚꽃 감성 · 현재회차 / 다음회차 과거 데이터 자동 전환</p>
+      <p>밝은 핑크 고정 · 번호생성 · 선택번호 저장 · 당첨확인</p>
     </div>
 
     <div class="card">
-      <h2>자동화 정보</h2>
+      <h2>💖 자동화 정보</h2>
       <div class="summary-box">
         <div class="summary-grid">
           <div class="summary-item">
@@ -529,27 +546,27 @@
     </div>
 
     <div class="card">
-      <h2>같은 날짜 과거 데이터 자동찾기</h2>
+      <h2>🌼 같은 날짜 과거 데이터 자동찾기</h2>
       <div class="sub">
-        현재는 <b>기준 추첨일</b> 기준으로 같은 날짜 과거 데이터를 불러옵니다.<br>
-        <b>다음 회차 데이터</b> 버튼을 누르면 <b>다음 추첨일 기준</b> 같은 날짜 과거 데이터로 자동 전환됩니다.
+        <b>다음 회차 데이터</b>를 누르면 다음 추첨일 기준 같은 날짜 과거 데이터로 전환됩니다.<br>
+        <b>+1 보기</b>는 원본 번호에 각 자리별로 +1씩 적용해서 보여줍니다.
       </div>
 
       <div class="history-actions">
-        <button class="btn-mint sfx" id="nextPlusBtn">+1 보기</button>
-        <button class="btn-lav sfx" id="nextRoundBtn">다음 회차 데이터</button>
-        <button class="btn-light sfx" id="resetPlusBtn">초기화</button>
+        <button class="btn-mint sfx" id="nextPlusBtn">➕ +1 보기</button>
+        <button class="btn-lav sfx" id="nextRoundBtn">📅 다음 회차 데이터</button>
+        <button class="btn-light sfx" id="resetPlusBtn">🔄 초기화</button>
       </div>
 
-      <div class="history-mode" id="historyModeInfo">현재 불러오는 기준: 2026-03-14 (현재 회차 날짜)</div>
+      <div class="history-mode" id="historyModeInfo">현재 불러오는 기준: 2026-03-14 (현재 회차 날짜 기준)</div>
       <div class="history-list" id="historyList"></div>
     </div>
 
     <div class="card">
-      <h2>추천옵션 번호 생성</h2>
+      <h2>🎀 추천옵션 번호 생성</h2>
       <div class="sub">
-        이 영역은 위 과거 데이터 보기와 <b>별개로 작동</b>합니다.<br>
-        수동번호를 선택하지 않으면 <b>추천옵션만으로 번호 생성</b>합니다. 수동번호를 선택하면 그 번호를 포함해서 조합합니다.
+        수동번호를 선택하지 않으면 추천옵션만으로 생성합니다.<br>
+        수동번호는 버튼을 눌렀을 때만 입력창이 열립니다.
       </div>
 
       <div class="option-grid">
@@ -563,13 +580,19 @@
         <label class="opt"><input type="checkbox" class="recOpt" value="dateMix"> 날짜 숫자 반영</label>
       </div>
 
-      <div class="manual-box">
+      <div class="manual-toggle-row">
+        <button class="btn-blue sfx" id="toggleManualBtn">📝 수동번호 입력창 열기</button>
+        <button class="btn-light sfx" id="clearManualBtn">🧹 수동번호 지우기</button>
+        <button class="btn-light sfx" id="saveSelectedBtn">💾 선택번호 저장</button>
+      </div>
+
+      <div class="manual-box" id="manualBox">
         <div class="manual-top">
           <div class="manual-title">수동번호 입력창</div>
           <div class="manual-count" id="manualCount">선택된 번호: 0개</div>
         </div>
         <div class="sub" style="margin-top:0;">
-          최대 6개까지 직접 선택할 수 있습니다. 선택하지 않으면 추천옵션만으로 생성합니다.
+          최대 6개까지 선택 가능합니다. 선택한 번호는 생성 조합에 포함됩니다.
         </div>
         <div class="num-picker" id="numPicker"></div>
         <div class="selected-manual" id="selectedManual"></div>
@@ -580,25 +603,30 @@
           <label for="comboCount">조합 수</label>
           <select id="comboCount"></select>
         </div>
-        <button class="btn-pink sfx" id="generateBtn">번호 생성</button>
+        <button class="btn-pink sfx" id="generateBtn">🎲 번호 생성</button>
       </div>
 
-      <div class="bottom-actions">
-        <button class="btn-light sfx" id="clearManualBtn">수동번호 지우기</button>
-        <button class="btn-danger sfx" id="resetResultBtn">결과 초기화</button>
-        <button class="btn-light sfx" id="saveBtn">현재 상태 저장</button>
+      <div class="check-row">
+        <button class="btn-mint sfx" id="checkWinBtn">🏆 당첨확인</button>
+        <button class="btn-danger sfx" id="resetResultBtn">❌ 결과 초기화</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>추천 결과</h2>
+      <h2>✨ 추천 결과</h2>
       <div class="tag-row" id="tagRow"></div>
       <div class="result-box" id="resultBox">여기에 추천 번호가 표시됩니다.</div>
+    </div>
+
+    <div class="card">
+      <h2>🎉 당첨 확인 결과</h2>
+      <div class="check-box" id="checkBox">여기에 당첨 확인 결과가 표시됩니다.</div>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "daebak_lotto_pink_mobile_fix_v1";
+    const STORAGE_KEY = "daebak_lotto_bright_mobile_final_v1";
+    const SAVED_NUMBERS_KEY = "daebak_lotto_saved_numbers_v1";
 
     const CURRENT_ROUND = 1215;
     const CURRENT_DRAW_DATE = "2026-03-14";
@@ -633,21 +661,24 @@
     const comboCountEl = document.getElementById("comboCount");
     const resultBoxEl = document.getElementById("resultBox");
     const tagRowEl = document.getElementById("tagRow");
+    const checkBoxEl = document.getElementById("checkBox");
     const petalsEl = document.getElementById("petals");
+    const manualBoxEl = document.getElementById("manualBox");
+    const toggleManualBtnEl = document.getElementById("toggleManualBtn");
 
     let plusStep = 0;
     let manualNumbers = [];
     let historyBaseDate = CURRENT_DRAW_DATE;
+    let lastGeneratedCombos = [];
 
     function makePetals() {
-      const count = 16;
+      const count = 14;
       for (let i = 0; i < count; i++) {
         const p = document.createElement("span");
         p.className = "petal";
         p.style.left = Math.random() * 100 + "vw";
-        p.style.animationDuration = (10 + Math.random() * 12) + "s";
-        p.style.animationDelay = (-Math.random() * 20) + "s";
-        p.style.opacity = (0.30 + Math.random() * 0.35).toFixed(2);
+        p.style.animationDuration = (10 + Math.random() * 10) + "s";
+        p.style.animationDelay = (-Math.random() * 18) + "s";
         petalsEl.appendChild(p);
       }
     }
@@ -734,14 +765,12 @@
                 </div>
               </div>
               <div>
-                ${
-                  plusStep === 0 ? "" : `
+                ${plusStep === 0 ? "" : `
                   <div class="mini-title">+${plusStep} 적용 번호</div>
                   <div class="balls">
                     ${changed.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
                   </div>
-                  `
-                }
+                `}
               </div>
             </div>
           </div>
@@ -783,6 +812,12 @@
       renderPicker();
       renderManualSelected();
       saveState(false);
+    }
+
+    function toggleManualBox() {
+      manualBoxEl.classList.toggle("show");
+      const isOpen = manualBoxEl.classList.contains("show");
+      toggleManualBtnEl.textContent = isOpen ? "🙈 수동번호 입력창 닫기" : "📝 수동번호 입력창 열기";
     }
 
     function getSelectedOptions() {
@@ -846,7 +881,6 @@
           return false;
         }
       }
-
       return true;
     }
 
@@ -870,7 +904,6 @@
 
       while (combo.size < 6 && tries < 600) {
         tries++;
-
         let pool = Array.from({ length: 45 }, (_, i) => i + 1).filter(n => !combo.has(n));
 
         if (opts.includes("avoidRepeat")) {
@@ -920,18 +953,9 @@
       };
 
       const tags = [];
-
-      if (manualNums.length) {
-        tags.push(`수동번호 포함: ${manualNums.sort((a,b)=>a-b).join(", ")}`);
-      } else {
-        tags.push("수동번호 없음");
-      }
-
-      if (opts.length) {
-        opts.forEach(o => tags.push(map[o]));
-      } else {
-        tags.push("기본 랜덤 생성");
-      }
+      tags.push(manualNums.length ? `수동번호 포함: ${manualNums.sort((a,b)=>a-b).join(", ")}` : "수동번호 없음");
+      if (opts.length) opts.forEach(o => tags.push(map[o]));
+      else tags.push("기본 랜덤 생성");
 
       tagRowEl.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
     }
@@ -959,6 +983,8 @@
         }
       }
 
+      lastGeneratedCombos = results;
+
       if (!results.length) {
         resultBoxEl.textContent = "번호를 만들지 못했습니다. 수동번호를 줄이거나 옵션을 바꿔보세요.";
         return;
@@ -966,6 +992,42 @@
 
       resultBoxEl.textContent = results.map((row, idx) => `${idx + 1}조합  :  ${row.join(" , ")}`).join("\n");
       saveState(false);
+    }
+
+    function saveSelectedNumbers() {
+      const payload = {
+        manualNumbers: [...manualNumbers].sort((a,b)=>a-b),
+        savedAt: new Date().toLocaleString("ko-KR")
+      };
+      localStorage.setItem(SAVED_NUMBERS_KEY, JSON.stringify(payload));
+      alert(payload.manualNumbers.length
+        ? `선택번호 저장 완료: ${payload.manualNumbers.join(", ")}`
+        : "현재 선택된 수동번호가 없어 빈 상태로 저장되었습니다.");
+    }
+
+    function checkWinning() {
+      const firstPrize = [...CURRENT_FIRST_PRIZE].sort((a,b)=>a-b);
+      const selected = [...manualNumbers].sort((a,b)=>a-b);
+
+      if (selected.length === 6) {
+        const isWin = JSON.stringify(selected) === JSON.stringify(firstPrize);
+        checkBoxEl.textContent = isWin
+          ? `🎉 축하합니다! 선택한 수동번호 ${selected.join(", ")} 가 현재 1등 번호와 일치합니다!`
+          : `😊 수동번호 ${selected.join(", ")} 는 현재 1등 번호 ${firstPrize.join(", ")} 와 일치하지 않습니다.`;
+        return;
+      }
+
+      if (lastGeneratedCombos.length) {
+        const exact = lastGeneratedCombos.find(c =>
+          JSON.stringify([...c].sort((a,b)=>a-b)) === JSON.stringify(firstPrize)
+        );
+        checkBoxEl.textContent = exact
+          ? `🎉 생성된 조합 중 당첨번호와 일치한 조합이 있습니다: ${exact.join(", ")}`
+          : `😊 생성된 조합 ${lastGeneratedCombos.length}개 중 현재 1등 번호와 완전일치한 조합은 없습니다.`;
+        return;
+      }
+
+      checkBoxEl.textContent = "먼저 수동번호 6개를 선택하거나 번호 생성을 해주세요.";
     }
 
     function clearManual() {
@@ -978,10 +1040,12 @@
     function resetResult() {
       tagRowEl.innerHTML = "";
       resultBoxEl.textContent = "여기에 추천 번호가 표시됩니다.";
+      checkBoxEl.textContent = "여기에 당첨 확인 결과가 표시됩니다.";
+      lastGeneratedCombos = [];
       saveState(false);
     }
 
-    function saveState(showAlert = true) {
+    function saveState(showAlert = false) {
       const state = {
         plusStep,
         manualNumbers,
@@ -989,7 +1053,8 @@
         opts: getSelectedOptions(),
         result: resultBoxEl.textContent,
         tags: tagRowEl.innerHTML,
-        historyBaseDate
+        historyBaseDate,
+        manualOpen: manualBoxEl.classList.contains("show")
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       if (showAlert) alert("저장되었습니다.");
@@ -1009,6 +1074,10 @@
         });
         if (data.result) resultBoxEl.textContent = data.result;
         if (data.tags) tagRowEl.innerHTML = data.tags;
+        if (data.manualOpen) {
+          manualBoxEl.classList.add("show");
+          toggleManualBtnEl.textContent = "🙈 수동번호 입력창 닫기";
+        }
       } catch (e) {}
     }
 
@@ -1034,7 +1103,6 @@
 
         osc.connect(gain);
         gain.connect(ctx.destination);
-
         osc.start(now);
         osc.stop(now + 0.12);
       } catch (e) {}
@@ -1071,10 +1139,16 @@
       saveState(false);
     });
 
-    document.getElementById("generateBtn").addEventListener("click", generateCombos);
+    document.getElementById("toggleManualBtn").addEventListener("click", () => {
+      toggleManualBox();
+      saveState(false);
+    });
+
     document.getElementById("clearManualBtn").addEventListener("click", clearManual);
+    document.getElementById("saveSelectedBtn").addEventListener("click", saveSelectedNumbers);
+    document.getElementById("generateBtn").addEventListener("click", generateCombos);
+    document.getElementById("checkWinBtn").addEventListener("click", checkWinning);
     document.getElementById("resetResultBtn").addEventListener("click", resetResult);
-    document.getElementById("saveBtn").addEventListener("click", () => saveState(true));
     comboCountEl.addEventListener("change", () => saveState(false));
 
     function init() {
