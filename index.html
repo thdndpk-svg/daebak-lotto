@@ -8,76 +8,57 @@
     * { box-sizing: border-box; }
 
     :root{
-      --bg1:#fff0f6;
-      --bg2:#ffe4ef;
-      --bg3:#fff8fb;
+      --bg1:#fff9fc;
+      --bg2:#ffeef6;
+      --bg3:#ffe3f0;
       --card:#ffffffee;
-      --line:#f3cddd;
-      --text:#5c3d4f;
-      --sub:#8f6a7c;
-      --pink:#ff6fa7;
-      --pink2:#ff9cc2;
-      --pink3:#ffd3e4;
-      --lav:#c6afff;
-      --mint:#8de7c0;
-      --sky:#8ecbff;
-      --danger:#ff7b8e;
-      --shadow:0 12px 30px rgba(208, 119, 160, 0.16);
+      --line:#f6cfe0;
+      --text:#6b4560;
+      --text-strong:#8b3f69;
+      --sub:#9d6f89;
+      --pink:#ff77b3;
+      --pink2:#ff9fc8;
+      --pink3:#ffd7e8;
+      --lav:#d8c4ff;
+      --mint:#bff3dc;
+      --sky:#cbe9ff;
+      --danger:#ff8aa0;
+      --shadow:0 12px 28px rgba(235, 146, 185, 0.14);
     }
 
     body{
       margin:0;
+      min-height:100vh;
       font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
       color:var(--text);
-      min-height:100vh;
       background:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.75) 0 2px, transparent 3px),
-        radial-gradient(circle at 22% 18%, rgba(255,255,255,0.7) 0 2px, transparent 3px),
-        radial-gradient(circle at 80% 16%, rgba(255,255,255,0.7) 0 2px, transparent 3px),
-        radial-gradient(circle at 90% 35%, rgba(255,255,255,0.7) 0 2px, transparent 3px),
-        radial-gradient(circle at 15% 70%, rgba(255,255,255,0.75) 0 2px, transparent 3px),
-        linear-gradient(180deg, var(--bg1), var(--bg2) 45%, var(--bg3));
-      overflow-x:hidden;
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.95) 0 2px, transparent 3px),
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,0.95) 0 2px, transparent 3px),
+        radial-gradient(circle at 20% 75%, rgba(255,255,255,0.95) 0 2px, transparent 3px),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 48%, var(--bg3) 100%);
       position:relative;
+      overflow-x:hidden;
     }
 
-    body::before,
-    body::after{
+    body::before{
       content:"";
       position:fixed;
       inset:0;
       pointer-events:none;
-      z-index:0;
-      opacity:.32;
+      opacity:.22;
+      background-image:url('data:image/svg+xml;utf8,\
+      <svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280">\
+        <g>\
+          <path d="M60 40 C70 25,88 25,98 40 C108 25,126 25,136 40 C126 55,108 55,98 67 C88 55,70 55,60 40Z" fill="%23ffc8de"/>\
+          <circle cx="98" cy="45" r="6" fill="%23ff9fc6"/>\
+          <path d="M190 90 C200 75,218 75,228 90 C238 75,256 75,266 90 C256 105,238 105,228 117 C218 105,200 105,190 90Z" fill="%23ffd8e8"/>\
+          <circle cx="228" cy="95" r="6" fill="%23ffb4d2"/>\
+          <path d="M120 185 C130 170,148 170,158 185 C168 170,186 170,196 185 C186 200,168 200,158 212 C148 200,130 200,120 185Z" fill="%23ffe3ef"/>\
+          <circle cx="158" cy="190" r="6" fill="%23ffc4da"/>\
+        </g>\
+      </svg>');
+      background-size:280px 280px;
       background-repeat:repeat;
-      background-size:260px 260px;
-    }
-
-    body::before{
-      background-image:url('data:image/svg+xml;utf8,\
-      <svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">\
-        <g opacity="0.9">\
-          <path d="M50 30 C58 18,72 18,80 30 C88 18,102 18,110 30 C102 42,88 42,80 52 C72 42,58 42,50 30Z" fill="%23ffd1e3"/>\
-          <circle cx="80" cy="34" r="6" fill="%23f7b0c8"/>\
-          <path d="M190 80 C198 68,212 68,220 80 C228 68,242 68,250 80 C242 92,228 92,220 102 C212 92,198 92,190 80Z" fill="%23ffc7dd"/>\
-          <circle cx="220" cy="84" r="6" fill="%23f3a5c0"/>\
-          <path d="M120 180 C128 168,142 168,150 180 C158 168,172 168,180 180 C172 192,158 192,150 202 C142 192,128 192,120 180Z" fill="%23ffd8e8"/>\
-          <circle cx="150" cy="184" r="6" fill="%23f4b4cb"/>\
-          <path d="M20 200 C28 188,42 188,50 200 C58 188,72 188,80 200 C72 212,58 212,50 222 C42 212,28 212,20 200Z" fill="%23ffe2ee"/>\
-          <circle cx="50" cy="204" r="6" fill="%23f5b8cf"/>\
-        </g>\
-      </svg>');
-    }
-
-    body::after{
-      background-image:url('data:image/svg+xml;utf8,\
-      <svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">\
-        <g opacity="0.85">\
-          <path d="M170 30 C176 20,188 20,194 30 C200 20,212 20,218 30 C212 40,200 40,194 48 C188 40,176 40,170 30Z" fill="%23ffffff"/>\
-          <path d="M70 120 C76 110,88 110,94 120 C100 110,112 110,118 120 C112 130,100 130,94 138 C88 130,76 130,70 120Z" fill="%23fff7fb"/>\
-          <path d="M200 180 C206 170,218 170,224 180 C230 170,242 170,248 180 C242 190,230 190,224 198 C218 190,206 190,200 180Z" fill="%23fff7fb"/>\
-        </g>\
-      </svg>');
     }
 
     .petals{
@@ -87,52 +68,48 @@
       z-index:1;
       overflow:hidden;
     }
-
     .petal{
       position:absolute;
       top:-40px;
       width:16px;
       height:12px;
-      background:linear-gradient(135deg,#ffd6e7,#ffb6d1);
+      background:linear-gradient(135deg,#ffe0eb,#ffbcd4);
       border-radius:14px 14px 14px 2px;
-      opacity:.72;
+      opacity:.68;
       animation:fall linear infinite;
-      box-shadow:0 1px 4px rgba(255,120,176,.25);
+      box-shadow:0 1px 4px rgba(255,120,176,.15);
     }
-
     @keyframes fall{
       0%{ transform:translateY(-30px) rotate(0deg) translateX(0); }
       50%{ transform:translateY(50vh) rotate(180deg) translateX(20px); }
-      100%{ transform:translateY(105vh) rotate(360deg) translateX(-20px); }
+      100%{ transform:translateY(105vh) rotate(360deg) translateX(-18px); }
     }
 
     .wrap{
+      position:relative;
+      z-index:2;
       max-width:1040px;
       margin:0 auto;
       padding:18px 14px 40px;
-      position:relative;
-      z-index:2;
     }
 
     .hero{
       text-align:center;
-      margin:10px 0 18px;
+      margin:8px 0 18px;
     }
-
     .hero h1{
       margin:0;
       font-size:34px;
       font-weight:900;
-      color:#ff4f98;
+      color:#ff5ca2;
       letter-spacing:-0.5px;
-      text-shadow:0 2px 0 rgba(255,255,255,.65);
+      text-shadow:0 2px 0 rgba(255,255,255,.9);
     }
-
     .hero p{
       margin:8px 0 0;
-      color:var(--sub);
       font-size:14px;
       font-weight:800;
+      color:#a56f8e;
     }
 
     .card{
@@ -140,15 +117,16 @@
       border:1px solid var(--line);
       border-radius:26px;
       box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
       padding:18px;
       margin-bottom:16px;
-      backdrop-filter: blur(10px);
     }
 
     .card h2{
       margin:0 0 10px;
-      font-size:21px;
-      color:#7c4a66;
+      font-size:22px;
+      color:var(--text-strong);
+      letter-spacing:-0.2px;
     }
 
     .sub{
@@ -156,41 +134,40 @@
       color:var(--sub);
       font-size:13px;
       line-height:1.7;
-      font-weight:700;
+      font-weight:800;
     }
 
-    .top-grid{
+    .summary-box{
+      background:linear-gradient(135deg,#fff7fb,#fff1f7);
+      border:1px solid #f7d7e5;
+      border-radius:22px;
+      padding:16px;
+    }
+    .summary-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:12px;
+      gap:12px 16px;
     }
-
-    .info-box{
-      border-radius:20px;
-      padding:15px;
-      color:#fff;
-      box-shadow:0 8px 22px rgba(0,0,0,.08);
+    .summary-item{
+      background:#ffffffd8;
+      border:1px solid #f3d7e4;
+      border-radius:18px;
+      padding:12px;
     }
-
-    .info-box:nth-child(1){ background:linear-gradient(135deg,#ff72ab,#ff9cc2); }
-    .info-box:nth-child(2){ background:linear-gradient(135deg,#c49fff,#d7c2ff); }
-    .info-box:nth-child(3){ background:linear-gradient(135deg,#ff8aba,#ffb4d0); }
-
-    .info-label{
+    .summary-label{
       font-size:12px;
       font-weight:900;
-      margin-bottom:8px;
-      opacity:.95;
+      color:#ad7091;
+      margin-bottom:6px;
     }
-
-    .info-value{
-      font-size:24px;
+    .summary-value{
+      font-size:18px;
       font-weight:900;
-      line-height:1.2;
+      color:#7d4763;
+      line-height:1.35;
     }
 
     .history-actions,
-    .generate-actions,
     .bottom-actions{
       display:grid;
       grid-template-columns:repeat(3,1fr);
@@ -211,7 +188,7 @@
       margin:0 0 6px;
       font-size:13px;
       font-weight:900;
-      color:#7a5970;
+      color:#84546f;
     }
 
     button, select{
@@ -224,30 +201,46 @@
       cursor:pointer;
       transition:.14s ease;
     }
-
     button:active{ transform:scale(.98); }
 
-    .btn-pink{ background:linear-gradient(135deg,#ff6ea6,#ff97bf); color:#fff; }
-    .btn-lav{ background:linear-gradient(135deg,#b29aff,#cebfff); color:#fff; }
-    .btn-mint{ background:linear-gradient(135deg,#72e4ba,#9cf0d0); color:#fff; }
-    .btn-light{ background:#fff; color:#70586a; border:1px solid #ecd5e0; }
-    .btn-danger{ background:linear-gradient(135deg,#ff7b8d,#ff9cab); color:#fff; }
+    .btn-pink{
+      background:linear-gradient(135deg,#ff6faa,#ff93bf);
+      color:#fff;
+      box-shadow:0 8px 18px rgba(255,120,176,.18);
+    }
+    .btn-lav{
+      background:linear-gradient(135deg,#c6b1ff,#dccfff);
+      color:#694f88;
+    }
+    .btn-mint{
+      background:linear-gradient(135deg,#b8efd7,#d6f8ea);
+      color:#4f816e;
+    }
+    .btn-light{
+      background:#fff;
+      color:#7b5c6d;
+      border:1px solid #edd9e3;
+    }
+    .btn-danger{
+      background:linear-gradient(135deg,#ff91a7,#ffb0c0);
+      color:#fff;
+    }
 
     select{
       background:#fff;
-      border:1px solid #ecd5e0;
-      color:#5e4655;
+      border:1px solid #edd9e3;
+      color:#6a4d5f;
     }
 
     .plus-info{
       margin-top:12px;
-      background:#fff7fb;
-      border:1px solid #f3d7e3;
+      background:#fff8fc;
+      border:1px solid #f6dbe7;
       border-radius:16px;
       padding:12px 14px;
       font-size:14px;
       font-weight:900;
-      color:#a4547a;
+      color:#a4567c;
     }
 
     .history-list{
@@ -257,7 +250,7 @@
     }
 
     .history-item{
-      border:1px solid #efdbe5;
+      border:1px solid #f0dce7;
       background:#fff;
       border-radius:20px;
       padding:13px;
@@ -275,13 +268,13 @@
     .history-round{
       font-size:18px;
       font-weight:900;
-      color:#7a5570;
+      color:#7f4f69;
     }
 
     .history-date{
       font-size:13px;
-      font-weight:800;
-      color:#9b7b8b;
+      font-weight:900;
+      color:#a1768c;
     }
 
     .num-zone{
@@ -293,7 +286,7 @@
     .mini-title{
       font-size:12px;
       font-weight:900;
-      color:#97748a;
+      color:#9d7189;
       margin-bottom:8px;
     }
 
@@ -313,19 +306,19 @@
       font-size:15px;
       font-weight:900;
       color:#fff;
-      box-shadow:0 4px 10px rgba(0,0,0,.08);
+      box-shadow:0 4px 10px rgba(0,0,0,.06);
     }
 
-    .ball.yellow{ background:#f6c53e; }
-    .ball.sky{ background:#64b8ff; }
-    .ball.red{ background:#ff7a8d; }
-    .ball.purple{ background:#a085ff; }
-    .ball.green{ background:#56c89a; }
+    .ball.yellow{ background:#f6c64c; }
+    .ball.sky{ background:#7ec7ff; }
+    .ball.red{ background:#ff89a0; }
+    .ball.purple{ background:#b09cff; }
+    .ball.green{ background:#78d6ac; }
 
     .empty{
-      border:1px dashed #e7d5de;
+      border:1px dashed #e8d8e0;
       background:#fff;
-      color:#8a7180;
+      color:#8e7381;
       border-radius:16px;
       padding:14px;
       font-size:14px;
@@ -344,23 +337,23 @@
       align-items:center;
       gap:8px;
       padding:11px 12px;
-      border:1px solid #efdbe5;
-      background:#fffafc;
+      border:1px solid #efdce6;
+      background:#fffafd;
       border-radius:16px;
       font-weight:900;
-      color:#74586a;
+      color:#76576a;
     }
 
     .opt input{
       width:18px;
       height:18px;
       margin:0;
-      accent-color:#ff6aa8;
+      accent-color:#ff72ad;
     }
 
     .manual-box{
-      border:1px solid #efdbe5;
-      background:#fffafc;
+      border:1px solid #efdce6;
+      background:#fffafd;
       border-radius:20px;
       padding:14px;
       margin-top:12px;
@@ -378,13 +371,13 @@
     .manual-title{
       font-size:15px;
       font-weight:900;
-      color:#724f67;
+      color:#764f67;
     }
 
     .manual-count{
       font-size:13px;
       font-weight:900;
-      color:#9b7b8b;
+      color:#9c758b;
     }
 
     .num-picker{
@@ -394,24 +387,23 @@
     }
 
     .pick{
-      border:1px solid #efdbe5;
+      border:1px solid #efdce6;
       background:#fff;
       border-radius:14px;
       padding:10px 0;
       text-align:center;
       font-weight:900;
-      color:#6c5664;
+      color:#6d5563;
       cursor:pointer;
       user-select:none;
       transition:.12s;
     }
-
     .pick:hover{ transform:translateY(-1px); }
     .pick.active{
-      background:linear-gradient(135deg,#ff75ac,#ff9bc1);
+      background:linear-gradient(135deg,#ff79b0,#ffa2c7);
       color:#fff;
       border-color:transparent;
-      box-shadow:0 8px 18px rgba(255,120,176,.24);
+      box-shadow:0 8px 18px rgba(255,120,176,.18);
     }
 
     .selected-manual{
@@ -423,9 +415,9 @@
     }
 
     .chip{
-      background:#ffe4f0;
-      color:#b54479;
-      border:1px solid #ffc3da;
+      background:#ffe7f1;
+      color:#b54a7d;
+      border:1px solid #ffd0df;
       border-radius:999px;
       padding:7px 11px;
       font-size:13px;
@@ -453,9 +445,9 @@
       min-height:150px;
       border-radius:22px;
       padding:16px;
-      background:linear-gradient(180deg,#fff9fc,#fff);
-      border:1px solid #f2d8e5;
-      color:#5b4653;
+      background:linear-gradient(180deg,#fffdfd,#fff6fa);
+      border:1px solid #f2dce7;
+      color:#654b5a;
       font-size:18px;
       font-weight:900;
       line-height:1.9;
@@ -463,9 +455,8 @@
     }
 
     @media (max-width:860px){
-      .top-grid,
+      .summary-grid,
       .history-actions,
-      .generate-actions,
       .bottom-actions,
       .generate-row,
       .num-zone{
@@ -473,7 +464,6 @@
       }
       .num-picker{ grid-template-columns:repeat(5,1fr); }
       .hero h1{ font-size:28px; }
-      .info-value{ font-size:20px; }
     }
   </style>
 </head>
@@ -483,23 +473,37 @@
   <div class="wrap">
     <div class="hero">
       <h1>🌸 대박 로또 당첨기</h1>
-      <p>핑크 벚꽃 감성 UI · 같은 날짜 과거 데이터 보기 + 추천옵션 번호생성</p>
+      <p>밝은 핑크 벚꽃 감성 · 같은 날짜 과거 데이터 보기 + 추천옵션 번호생성</p>
     </div>
 
     <div class="card">
-      <h2>자동 회차 정보</h2>
-      <div class="top-grid">
-        <div class="info-box">
-          <div class="info-label">기준 회차</div>
-          <div class="info-value" id="currentRound">1215회</div>
-        </div>
-        <div class="info-box">
-          <div class="info-label">기준 추첨일</div>
-          <div class="info-value" id="currentDate">2026-03-14</div>
-        </div>
-        <div class="info-box">
-          <div class="info-label">다음 회차 추첨일</div>
-          <div class="info-value" id="nextDate">2026-03-21</div>
+      <h2>자동화 정보</h2>
+      <div class="summary-box">
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="summary-label">기준 추첨일</div>
+            <div class="summary-value" id="currentDate">2026-03-14</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">기존 회차</div>
+            <div class="summary-value" id="currentRound">1215회</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">1등 당첨번호</div>
+            <div class="summary-value" id="firstPrizeNumbers">7, 12, 23, 28, 34, 41</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">당첨자 수</div>
+            <div class="summary-value" id="winnerCount">12명</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">당첨금액</div>
+            <div class="summary-value" id="prizeAmount">2,345,678,900원</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">다음회차 추첨일</div>
+            <div class="summary-value" id="nextDate">2026-03-21</div>
+          </div>
         </div>
       </div>
     </div>
@@ -508,13 +512,13 @@
       <h2>같은 날짜 과거 데이터 자동찾기</h2>
       <div class="sub">
         이번 추첨일이 <b>3월 14일</b>이면 과거에도 <b>3월 14일에 실제 추첨한 번호만</b> 보여줍니다.<br>
-        <b>다음 +1 보기</b>를 누르면 표시된 번호가 모두 <b>+1</b> 된 값으로 바뀝니다. 이 기능은 추천옵션 번호생성과 독립입니다.
+        처음에는 원본 번호만 보이고, <b>+1 보기</b>를 누르면 그때부터 변경된 번호가 나타납니다.
       </div>
 
       <div class="history-actions">
-        <button class="btn-mint sfx">다음 +1 보기</button>
+        <button class="btn-mint sfx" id="nextPlusBtn">+1 보기</button>
         <button class="btn-lav sfx" id="prevPlusBtn">이전 보기</button>
-        <button class="btn-light sfx" id="resetPlusBtn">+1 초기화</button>
+        <button class="btn-light sfx" id="resetPlusBtn">초기화</button>
       </div>
 
       <div class="plus-info" id="plusInfo">현재 표시 단계: 원본 번호</div>
@@ -574,10 +578,14 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "daebak_lotto_pink_sakura_v1";
+    const STORAGE_KEY = "daebak_lotto_pink_sakura_v2";
     const CURRENT_ROUND = 1215;
     const CURRENT_DRAW_DATE = "2026-03-14";
     const NEXT_DRAW_DATE = "2026-03-21";
+
+    const CURRENT_FIRST_PRIZE = [7, 12, 23, 28, 34, 41];
+    const CURRENT_WINNER_COUNT = "12명";
+    const CURRENT_PRIZE_AMOUNT = "2,345,678,900원";
 
     const DRAW_DB = [
       { round: 1215, date: "2026-03-14", numbers: [7, 12, 23, 28, 34, 41] },
@@ -619,9 +627,12 @@
       }
     }
 
-    function initInfo() {
-      document.getElementById("currentRound").textContent = CURRENT_ROUND + "회";
+    function initSummary() {
       document.getElementById("currentDate").textContent = CURRENT_DRAW_DATE;
+      document.getElementById("currentRound").textContent = CURRENT_ROUND + "회";
+      document.getElementById("firstPrizeNumbers").textContent = CURRENT_FIRST_PRIZE.join(", ");
+      document.getElementById("winnerCount").textContent = CURRENT_WINNER_COUNT;
+      document.getElementById("prizeAmount").textContent = CURRENT_PRIZE_AMOUNT;
       document.getElementById("nextDate").textContent = NEXT_DRAW_DATE;
     }
 
@@ -661,11 +672,9 @@
     }
 
     function plusNumbers(nums, step) {
-      return nums.map(n => {
-        let v = n + step;
-        while (v > 45) v -= 45;
-        return v;
-      }).sort((a, b) => a - b);
+      return nums
+        .map(n => ((n - 1 + step) % 45) + 1)
+        .sort((a, b) => a - b);
     }
 
     function renderHistory() {
@@ -696,10 +705,16 @@
                 </div>
               </div>
               <div>
-                <div class="mini-title">${plusStep === 0 ? "현재 표시 번호" : `+${plusStep} 적용 번호`}</div>
-                <div class="balls">
-                  ${changed.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
-                </div>
+                ${
+                  plusStep === 0
+                    ? ''
+                    : `
+                    <div class="mini-title">+${plusStep} 적용 번호</div>
+                    <div class="balls">
+                      ${changed.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
+                    </div>
+                    `
+                }
               </div>
             </div>
           </div>
@@ -714,7 +729,7 @@
         el.className = "pick" + (manualNumbers.includes(i) ? " active" : "");
         el.textContent = i;
         el.addEventListener("click", () => {
-          playClick();
+          playClick("soft");
           toggleManual(i);
         });
         numPickerEl.appendChild(el);
@@ -724,7 +739,7 @@
     function renderManualSelected() {
       manualCountEl.textContent = `선택된 번호: ${manualNumbers.length}개`;
       selectedManualEl.innerHTML = manualNumbers.length
-        ? manualNumbers.sort((a, b) => a - b).map(n => `<span class="chip">${n}</span>`).join("")
+        ? [...manualNumbers].sort((a, b) => a - b).map(n => `<span class="chip">${n}</span>`).join("")
         : `<span class="chip">선택 없음</span>`;
     }
 
@@ -853,7 +868,10 @@
 
         combo.add(pick);
 
-        if (tries > 120 && combo.size < 6) combo.clear(), manualNums.forEach(n => combo.add(n));
+        if (tries > 120 && combo.size < 6) {
+          combo.clear();
+          manualNums.forEach(n => combo.add(n));
+        }
       }
 
       const arr = [...combo].sort((a, b) => a - b);
@@ -1013,9 +1031,7 @@
       });
     });
 
-    comboCountEl?.addEventListener?.("change", () => saveState(false));
-
-    document.querySelector(".btn-mint").addEventListener("click", () => {
+    document.getElementById("nextPlusBtn").addEventListener("click", () => {
       plusStep++;
       renderHistory();
       saveState(false);
@@ -1037,15 +1053,30 @@
     document.getElementById("clearManualBtn").addEventListener("click", clearManual);
     document.getElementById("resetResultBtn").addEventListener("click", resetResult);
     document.getElementById("saveBtn").addEventListener("click", () => saveState(true));
+    comboCountEl.addEventListener("change", () => saveState(false));
 
     function init() {
-      initInfo();
+      initSummary();
       fillComboCount();
       loadState();
       renderHistory();
       renderPicker();
       renderManualSelected();
       makePetals();
+    }
+
+    function renderPicker() {
+      numPickerEl.innerHTML = "";
+      for (let i = 1; i <= 45; i++) {
+        const el = document.createElement("div");
+        el.className = "pick" + (manualNumbers.includes(i) ? " active" : "");
+        el.textContent = i;
+        el.addEventListener("click", () => {
+          playClick("soft");
+          toggleManual(i);
+        });
+        numPickerEl.appendChild(el);
+      }
     }
 
     init();
