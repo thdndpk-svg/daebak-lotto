@@ -2,42 +2,48 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>대박 로또 당첨기</title>
   <style>
     * { box-sizing: border-box; }
 
     :root{
-      --bg1:#fff9fc;
-      --bg2:#ffeef6;
-      --bg3:#ffe3f0;
-      --card:#ffffffee;
-      --line:#f6cfe0;
-      --text:#6b4560;
-      --text-strong:#8b3f69;
-      --sub:#9d6f89;
-      --pink:#ff77b3;
-      --pink2:#ff9fc8;
-      --pink3:#ffd7e8;
-      --lav:#d8c4ff;
-      --mint:#bff3dc;
-      --sky:#cbe9ff;
-      --danger:#ff8aa0;
-      --shadow:0 12px 28px rgba(235, 146, 185, 0.14);
+      --bg:#fff7fb;
+      --bg-soft:#fff0f7;
+      --card:#ffffff;
+      --line:#f3d7e4;
+      --text:#6e4a5f;
+      --text-strong:#874968;
+      --sub:#a06f89;
+      --pink:#ff78b2;
+      --pink2:#ff9ec8;
+      --pink3:#ffd9ea;
+      --lav:#dccbff;
+      --mint:#d8f7ea;
+      --blue:#eaf6ff;
+      --danger:#ff94a8;
+      --shadow:0 8px 22px rgba(243, 157, 194, 0.12);
+    }
+
+    html, body {
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      color-scheme: light;
+      -webkit-text-size-adjust: 100%;
     }
 
     body{
-      margin:0;
       min-height:100vh;
       font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.95) 0 2px, transparent 3px),
-        radial-gradient(circle at 85% 15%, rgba(255,255,255,0.95) 0 2px, transparent 3px),
-        radial-gradient(circle at 20% 75%, rgba(255,255,255,0.95) 0 2px, transparent 3px),
-        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 48%, var(--bg3) 100%);
-      position:relative;
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.95) 0 3px, transparent 4px),
+        radial-gradient(circle at 82% 14%, rgba(255,255,255,0.95) 0 3px, transparent 4px),
+        radial-gradient(circle at 18% 80%, rgba(255,255,255,0.95) 0 3px, transparent 4px),
+        linear-gradient(180deg, #fffafc 0%, #fff2f8 52%, #ffeaf4 100%);
       overflow-x:hidden;
+      position:relative;
     }
 
     body::before{
@@ -45,20 +51,20 @@
       position:fixed;
       inset:0;
       pointer-events:none;
-      opacity:.22;
+      opacity:.18;
       background-image:url('data:image/svg+xml;utf8,\
-      <svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280">\
+      <svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">\
         <g>\
-          <path d="M60 40 C70 25,88 25,98 40 C108 25,126 25,136 40 C126 55,108 55,98 67 C88 55,70 55,60 40Z" fill="%23ffc8de"/>\
-          <circle cx="98" cy="45" r="6" fill="%23ff9fc6"/>\
-          <path d="M190 90 C200 75,218 75,228 90 C238 75,256 75,266 90 C256 105,238 105,228 117 C218 105,200 105,190 90Z" fill="%23ffd8e8"/>\
-          <circle cx="228" cy="95" r="6" fill="%23ffb4d2"/>\
-          <path d="M120 185 C130 170,148 170,158 185 C168 170,186 170,196 185 C186 200,168 200,158 212 C148 200,130 200,120 185Z" fill="%23ffe3ef"/>\
-          <circle cx="158" cy="190" r="6" fill="%23ffc4da"/>\
+          <path d="M55 35 C64 22,80 22,89 35 C98 22,114 22,123 35 C114 48,98 48,89 58 C80 48,64 48,55 35Z" fill="%23ffcddd"/>\
+          <circle cx="89" cy="40" r="5" fill="%23ffabc9"/>\
+          <path d="M175 88 C184 75,200 75,209 88 C218 75,234 75,243 88 C234 101,218 101,209 111 C200 101,184 101,175 88Z" fill="%23ffdbe8"/>\
+          <circle cx="209" cy="93" r="5" fill="%23ffb7d1"/>\
+          <path d="M115 180 C124 167,140 167,149 180 C158 167,174 167,183 180 C174 193,158 193,149 203 C140 193,124 193,115 180Z" fill="%23ffe7f1"/>\
+          <circle cx="149" cy="185" r="5" fill="%23ffc5db"/>\
         </g>\
       </svg>');
-      background-size:280px 280px;
       background-repeat:repeat;
+      background-size:260px 260px;
     }
 
     .petals{
@@ -68,20 +74,21 @@
       z-index:1;
       overflow:hidden;
     }
+
     .petal{
       position:absolute;
-      top:-40px;
-      width:16px;
-      height:12px;
-      background:linear-gradient(135deg,#ffe0eb,#ffbcd4);
-      border-radius:14px 14px 14px 2px;
-      opacity:.68;
+      top:-30px;
+      width:14px;
+      height:10px;
+      background:linear-gradient(135deg,#ffe3ee,#ffc4d8);
+      border-radius:12px 12px 12px 2px;
+      opacity:.55;
       animation:fall linear infinite;
-      box-shadow:0 1px 4px rgba(255,120,176,.15);
     }
+
     @keyframes fall{
-      0%{ transform:translateY(-30px) rotate(0deg) translateX(0); }
-      50%{ transform:translateY(50vh) rotate(180deg) translateX(20px); }
+      0%{ transform:translateY(-25px) rotate(0deg) translateX(0); }
+      50%{ transform:translateY(50vh) rotate(180deg) translateX(18px); }
       100%{ transform:translateY(105vh) rotate(360deg) translateX(-18px); }
     }
 
@@ -97,27 +104,28 @@
       text-align:center;
       margin:8px 0 18px;
     }
+
     .hero h1{
       margin:0;
       font-size:34px;
       font-weight:900;
-      color:#ff5ca2;
+      color:#ff5fa4;
       letter-spacing:-0.5px;
-      text-shadow:0 2px 0 rgba(255,255,255,.9);
+      text-shadow:0 1px 0 rgba(255,255,255,.95);
     }
+
     .hero p{
       margin:8px 0 0;
       font-size:14px;
       font-weight:800;
-      color:#a56f8e;
+      color:#b07b96;
     }
 
     .card{
       background:var(--card);
       border:1px solid var(--line);
-      border-radius:26px;
+      border-radius:24px;
       box-shadow:var(--shadow);
-      backdrop-filter: blur(10px);
       padding:18px;
       margin-bottom:16px;
     }
@@ -138,33 +146,38 @@
     }
 
     .summary-box{
-      background:linear-gradient(135deg,#fff7fb,#fff1f7);
-      border:1px solid #f7d7e5;
+      background:#fff7fb;
+      border:1px solid #f5dbe7;
       border-radius:22px;
       padding:16px;
     }
+
     .summary-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:12px 16px;
     }
+
     .summary-item{
-      background:#ffffffd8;
-      border:1px solid #f3d7e4;
-      border-radius:18px;
+      background:#fff;
+      border:1px solid #f3dbe6;
+      border-radius:16px;
       padding:12px;
     }
+
     .summary-label{
       font-size:12px;
       font-weight:900;
-      color:#ad7091;
+      color:#b27795;
       margin-bottom:6px;
     }
+
     .summary-value{
       font-size:18px;
       font-weight:900;
-      color:#7d4763;
+      color:#7c4a64;
       line-height:1.35;
+      word-break:keep-all;
     }
 
     .history-actions,
@@ -188,7 +201,7 @@
       margin:0 0 6px;
       font-size:13px;
       font-weight:900;
-      color:#84546f;
+      color:#885872;
     }
 
     button, select{
@@ -200,47 +213,51 @@
       font-weight:900;
       cursor:pointer;
       transition:.14s ease;
+      appearance:none;
     }
+
     button:active{ transform:scale(.98); }
 
     .btn-pink{
-      background:linear-gradient(135deg,#ff6faa,#ff93bf);
+      background:#ff7bb4;
       color:#fff;
-      box-shadow:0 8px 18px rgba(255,120,176,.18);
     }
     .btn-lav{
-      background:linear-gradient(135deg,#c6b1ff,#dccfff);
-      color:#694f88;
+      background:#eadfff;
+      color:#7a6196;
+      border:1px solid #dbcfff;
     }
     .btn-mint{
-      background:linear-gradient(135deg,#b8efd7,#d6f8ea);
-      color:#4f816e;
+      background:#dcf8ec;
+      color:#537c6b;
+      border:1px solid #c8f0df;
     }
     .btn-light{
       background:#fff;
-      color:#7b5c6d;
-      border:1px solid #edd9e3;
+      color:#7c5d6e;
+      border:1px solid #eddce5;
     }
     .btn-danger{
-      background:linear-gradient(135deg,#ff91a7,#ffb0c0);
+      background:#ff9eb0;
       color:#fff;
     }
 
     select{
       background:#fff;
-      border:1px solid #edd9e3;
-      color:#6a4d5f;
+      border:1px solid #eddce5;
+      color:#6d5062;
     }
 
-    .plus-info{
+    .history-mode{
       margin-top:12px;
-      background:#fff8fc;
-      border:1px solid #f6dbe7;
+      background:#fff6fb;
+      border:1px solid #f3dce6;
       border-radius:16px;
       padding:12px 14px;
       font-size:14px;
       font-weight:900;
-      color:#a4567c;
+      color:#a45e80;
+      line-height:1.6;
     }
 
     .history-list{
@@ -250,7 +267,7 @@
     }
 
     .history-item{
-      border:1px solid #f0dce7;
+      border:1px solid #f0dde7;
       background:#fff;
       border-radius:20px;
       padding:13px;
@@ -268,13 +285,13 @@
     .history-round{
       font-size:18px;
       font-weight:900;
-      color:#7f4f69;
+      color:#7e5068;
     }
 
     .history-date{
       font-size:13px;
       font-weight:900;
-      color:#a1768c;
+      color:#a37a8f;
     }
 
     .num-zone{
@@ -286,7 +303,7 @@
     .mini-title{
       font-size:12px;
       font-weight:900;
-      color:#9d7189;
+      color:#a0758b;
       margin-bottom:8px;
     }
 
@@ -306,19 +323,19 @@
       font-size:15px;
       font-weight:900;
       color:#fff;
-      box-shadow:0 4px 10px rgba(0,0,0,.06);
+      box-shadow:0 3px 8px rgba(0,0,0,.05);
     }
 
-    .ball.yellow{ background:#f6c64c; }
-    .ball.sky{ background:#7ec7ff; }
-    .ball.red{ background:#ff89a0; }
-    .ball.purple{ background:#b09cff; }
-    .ball.green{ background:#78d6ac; }
+    .ball.yellow{ background:#f4c64b; }
+    .ball.sky{ background:#7dc8ff; }
+    .ball.red{ background:#ff8ea2; }
+    .ball.purple{ background:#b4a0ff; }
+    .ball.green{ background:#7dd9ae; }
 
     .empty{
-      border:1px dashed #e8d8e0;
+      border:1px dashed #e8d9e0;
       background:#fff;
-      color:#8e7381;
+      color:#8f7584;
       border-radius:16px;
       padding:14px;
       font-size:14px;
@@ -337,23 +354,23 @@
       align-items:center;
       gap:8px;
       padding:11px 12px;
-      border:1px solid #efdce6;
-      background:#fffafd;
+      border:1px solid #efdde6;
+      background:#fff;
       border-radius:16px;
       font-weight:900;
-      color:#76576a;
+      color:#785a6b;
     }
 
     .opt input{
       width:18px;
       height:18px;
       margin:0;
-      accent-color:#ff72ad;
+      accent-color:#ff78b2;
     }
 
     .manual-box{
-      border:1px solid #efdce6;
-      background:#fffafd;
+      border:1px solid #efdde6;
+      background:#fffafc;
       border-radius:20px;
       padding:14px;
       margin-top:12px;
@@ -371,13 +388,13 @@
     .manual-title{
       font-size:15px;
       font-weight:900;
-      color:#764f67;
+      color:#7a5369;
     }
 
     .manual-count{
       font-size:13px;
       font-weight:900;
-      color:#9c758b;
+      color:#9f7990;
     }
 
     .num-picker{
@@ -387,23 +404,24 @@
     }
 
     .pick{
-      border:1px solid #efdce6;
+      border:1px solid #efdde6;
       background:#fff;
       border-radius:14px;
       padding:10px 0;
       text-align:center;
       font-weight:900;
-      color:#6d5563;
+      color:#6f5866;
       cursor:pointer;
       user-select:none;
       transition:.12s;
     }
+
     .pick:hover{ transform:translateY(-1px); }
+
     .pick.active{
-      background:linear-gradient(135deg,#ff79b0,#ffa2c7);
+      background:#ff7bb4;
       color:#fff;
-      border-color:transparent;
-      box-shadow:0 8px 18px rgba(255,120,176,.18);
+      border-color:#ff7bb4;
     }
 
     .selected-manual{
@@ -415,9 +433,9 @@
     }
 
     .chip{
-      background:#ffe7f1;
-      color:#b54a7d;
-      border:1px solid #ffd0df;
+      background:#ffeaf3;
+      color:#b54f80;
+      border:1px solid #ffd2e1;
       border-radius:999px;
       padding:7px 11px;
       font-size:13px;
@@ -437,17 +455,17 @@
       font-size:12px;
       font-weight:900;
       background:#fff0f7;
-      color:#b14d7e;
-      border:1px solid #f7cddd;
+      color:#b25482;
+      border:1px solid #f7d1e0;
     }
 
     .result-box{
       min-height:150px;
       border-radius:22px;
       padding:16px;
-      background:linear-gradient(180deg,#fffdfd,#fff6fa);
-      border:1px solid #f2dce7;
-      color:#654b5a;
+      background:#fffafc;
+      border:1px solid #f2dee8;
+      color:#654b59;
       font-size:18px;
       font-weight:900;
       line-height:1.9;
@@ -464,6 +482,8 @@
       }
       .num-picker{ grid-template-columns:repeat(5,1fr); }
       .hero h1{ font-size:28px; }
+      .summary-value{ font-size:17px; }
+      .card{ padding:16px; }
     }
   </style>
 </head>
@@ -473,7 +493,7 @@
   <div class="wrap">
     <div class="hero">
       <h1>🌸 대박 로또 당첨기</h1>
-      <p>밝은 핑크 벚꽃 감성 · 같은 날짜 과거 데이터 보기 + 추천옵션 번호생성</p>
+      <p>밝은 핑크 벚꽃 감성 · 현재회차 / 다음회차 과거 데이터 자동 전환</p>
     </div>
 
     <div class="card">
@@ -511,17 +531,17 @@
     <div class="card">
       <h2>같은 날짜 과거 데이터 자동찾기</h2>
       <div class="sub">
-        이번 추첨일이 <b>3월 14일</b>이면 과거에도 <b>3월 14일에 실제 추첨한 번호만</b> 보여줍니다.<br>
-        처음에는 원본 번호만 보이고, <b>+1 보기</b>를 누르면 그때부터 변경된 번호가 나타납니다.
+        현재는 <b>기준 추첨일</b> 기준으로 같은 날짜 과거 데이터를 불러옵니다.<br>
+        <b>다음 회차 데이터</b> 버튼을 누르면 <b>다음 추첨일 기준</b> 같은 날짜 과거 데이터로 자동 전환됩니다.
       </div>
 
       <div class="history-actions">
         <button class="btn-mint sfx" id="nextPlusBtn">+1 보기</button>
-        <button class="btn-lav sfx" id="prevPlusBtn">이전 보기</button>
+        <button class="btn-lav sfx" id="nextRoundBtn">다음 회차 데이터</button>
         <button class="btn-light sfx" id="resetPlusBtn">초기화</button>
       </div>
 
-      <div class="plus-info" id="plusInfo">현재 표시 단계: 원본 번호</div>
+      <div class="history-mode" id="historyModeInfo">현재 불러오는 기준: 2026-03-14 (현재 회차 날짜)</div>
       <div class="history-list" id="historyList"></div>
     </div>
 
@@ -578,7 +598,8 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "daebak_lotto_pink_sakura_v2";
+    const STORAGE_KEY = "daebak_lotto_pink_mobile_fix_v1";
+
     const CURRENT_ROUND = 1215;
     const CURRENT_DRAW_DATE = "2026-03-14";
     const NEXT_DRAW_DATE = "2026-03-21";
@@ -597,11 +618,15 @@
 
       { round: 903,  date: "2020-03-14", numbers: [3, 13, 20, 30, 37, 45] },
       { round: 643,  date: "2015-03-14", numbers: [2, 8, 19, 26, 33, 42] },
-      { round: 331,  date: "2009-03-14", numbers: [5, 12, 19, 24, 35, 42] }
+      { round: 331,  date: "2009-03-14", numbers: [5, 12, 19, 24, 35, 42] },
+
+      { round: 904,  date: "2020-03-21", numbers: [4, 8, 19, 25, 34, 44] },
+      { round: 644,  date: "2015-03-21", numbers: [6, 14, 21, 28, 37, 41] },
+      { round: 332,  date: "2009-03-21", numbers: [1, 9, 18, 29, 33, 40] }
     ];
 
     const historyListEl = document.getElementById("historyList");
-    const plusInfoEl = document.getElementById("plusInfo");
+    const historyModeInfoEl = document.getElementById("historyModeInfo");
     const numPickerEl = document.getElementById("numPicker");
     const selectedManualEl = document.getElementById("selectedManual");
     const manualCountEl = document.getElementById("manualCount");
@@ -612,17 +637,17 @@
 
     let plusStep = 0;
     let manualNumbers = [];
+    let historyBaseDate = CURRENT_DRAW_DATE;
 
     function makePetals() {
-      const count = 18;
+      const count = 16;
       for (let i = 0; i < count; i++) {
         const p = document.createElement("span");
         p.className = "petal";
         p.style.left = Math.random() * 100 + "vw";
         p.style.animationDuration = (10 + Math.random() * 12) + "s";
         p.style.animationDelay = (-Math.random() * 20) + "s";
-        p.style.opacity = (0.35 + Math.random() * 0.5).toFixed(2);
-        p.style.transform = `scale(${0.7 + Math.random() * 0.8})`;
+        p.style.opacity = (0.30 + Math.random() * 0.35).toFixed(2);
         petalsEl.appendChild(p);
       }
     }
@@ -672,22 +697,26 @@
     }
 
     function plusNumbers(nums, step) {
-      return nums
-        .map(n => ((n - 1 + step) % 45) + 1)
-        .sort((a, b) => a - b);
+      return nums.map(n => ((n - 1 + step) % 45) + 1);
+    }
+
+    function updateHistoryModeText() {
+      const modeText = historyBaseDate === CURRENT_DRAW_DATE
+        ? `${historyBaseDate} (현재 회차 날짜 기준)`
+        : `${historyBaseDate} (다음 회차 날짜 기준)`;
+      historyModeInfoEl.textContent = plusStep === 0
+        ? `현재 불러오는 기준: ${modeText}`
+        : `현재 불러오는 기준: ${modeText} · 번호 +${plusStep} 적용중`;
     }
 
     function renderHistory() {
-      const rows = findSameDateHistory(CURRENT_DRAW_DATE);
+      const rows = findSameDateHistory(historyBaseDate);
+      updateHistoryModeText();
 
       if (!rows.length) {
-        historyListEl.innerHTML = `<div class="empty">같은 날짜 과거 데이터가 없습니다.</div>`;
+        historyListEl.innerHTML = `<div class="empty">해당 날짜의 과거 데이터가 없습니다.</div>`;
         return;
       }
-
-      plusInfoEl.textContent = plusStep === 0
-        ? "현재 표시 단계: 원본 번호"
-        : `현재 표시 단계: 모든 번호 +${plusStep}`;
 
       historyListEl.innerHTML = rows.map(row => {
         const changed = plusNumbers(row.numbers, plusStep);
@@ -706,14 +735,12 @@
               </div>
               <div>
                 ${
-                  plusStep === 0
-                    ? ''
-                    : `
-                    <div class="mini-title">+${plusStep} 적용 번호</div>
-                    <div class="balls">
-                      ${changed.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
-                    </div>
-                    `
+                  plusStep === 0 ? "" : `
+                  <div class="mini-title">+${plusStep} 적용 번호</div>
+                  <div class="balls">
+                    ${changed.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
+                  </div>
+                  `
                 }
               </div>
             </div>
@@ -887,7 +914,7 @@
         oddEven: "홀짝 균형",
         highLow: "고저 균형",
         sumRange: "합계 범위",
-        avoidRepeat: "최근 반복 줄이기",
+        avoidRepeat: "최근 회차 반복 줄이기",
         sectionMix: "구간 분산",
         dateMix: "날짜 숫자 반영"
       };
@@ -915,11 +942,6 @@
       const baseRows = DRAW_DB.filter(row => row.round !== CURRENT_ROUND);
       const manualNums = [...manualNumbers].sort((a, b) => a - b);
 
-      if (manualNums.length > 6) {
-        alert("수동번호는 최대 6개까지 선택 가능합니다.");
-        return;
-      }
-
       renderTags(opts, manualNums);
 
       const results = [];
@@ -942,10 +964,7 @@
         return;
       }
 
-      resultBoxEl.textContent = results.map((row, idx) => {
-        return `${idx + 1}조합  :  ${row.join(" , ")}`;
-      }).join("\n");
-
+      resultBoxEl.textContent = results.map((row, idx) => `${idx + 1}조합  :  ${row.join(" , ")}`).join("\n");
       saveState(false);
     }
 
@@ -969,7 +988,8 @@
         comboCount: comboCountEl.value,
         opts: getSelectedOptions(),
         result: resultBoxEl.textContent,
-        tags: tagRowEl.innerHTML
+        tags: tagRowEl.innerHTML,
+        historyBaseDate
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       if (showAlert) alert("저장되었습니다.");
@@ -983,6 +1003,7 @@
         plusStep = Number(data.plusStep || 0);
         manualNumbers = Array.isArray(data.manualNumbers) ? data.manualNumbers : [];
         comboCountEl.value = data.comboCount || "3";
+        historyBaseDate = data.historyBaseDate || CURRENT_DRAW_DATE;
         document.querySelectorAll(".recOpt").forEach(el => {
           el.checked = (data.opts || []).includes(el.value);
         });
@@ -997,7 +1018,6 @@
         if (!AudioCtx) return;
         if (!window._clickCtx) window._clickCtx = new AudioCtx();
         const ctx = window._clickCtx;
-
         if (ctx.state === "suspended") ctx.resume();
 
         const now = ctx.currentTime;
@@ -1037,13 +1057,15 @@
       saveState(false);
     });
 
-    document.getElementById("prevPlusBtn").addEventListener("click", () => {
-      if (plusStep > 0) plusStep--;
+    document.getElementById("nextRoundBtn").addEventListener("click", () => {
+      historyBaseDate = NEXT_DRAW_DATE;
+      plusStep = 0;
       renderHistory();
       saveState(false);
     });
 
     document.getElementById("resetPlusBtn").addEventListener("click", () => {
+      historyBaseDate = CURRENT_DRAW_DATE;
       plusStep = 0;
       renderHistory();
       saveState(false);
@@ -1063,20 +1085,6 @@
       renderPicker();
       renderManualSelected();
       makePetals();
-    }
-
-    function renderPicker() {
-      numPickerEl.innerHTML = "";
-      for (let i = 1; i <= 45; i++) {
-        const el = document.createElement("div");
-        el.className = "pick" + (manualNumbers.includes(i) ? " active" : "");
-        el.textContent = i;
-        el.addEventListener("click", () => {
-          playClick("soft");
-          toggleManual(i);
-        });
-        numPickerEl.appendChild(el);
-      }
     }
 
     init();
