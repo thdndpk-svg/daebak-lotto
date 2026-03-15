@@ -1,651 +1,1038 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>대박 로또 당첨기</title>
-<style>
-:root {
-  --bg:#0b1020; --panel:#121931; --panel2:#1a2343; --line:#2c3764;
-  --text:#eef2ff; --muted:#aeb8da; --accent:#7c9cff; --accent2:#4de2c5;
-  --good:#2fd27b; --warn:#ffb84d; --bad:#ff6b7a; --chip:#222c52;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Pretendard,Arial,sans-serif;
-  background: linear-gradient(180deg,#0a1020,#0f1630 30%,#0b1020);
-  color:var(--text);
-}
-.container { max-width:1260px; margin:0 auto; padding:20px; }
-.top { display:grid; grid-template-columns:1.2fr .8fr; gap:16px; margin-bottom:16px; }
-.card {
-  background:rgba(18,25,49,.92); border:1px solid var(--line); border-radius:20px; padding:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
-}
-.hero { background:radial-gradient(circle at top left, rgba(124,156,255,.22), transparent 35%), rgba(18,25,49,.92); }
-h1,h2,h3,p { margin:0; }
-h1 { font-size:31px; margin-bottom:8px; }
-.sub { color:var(--muted); line-height:1.55; }
-.grid { display:grid; grid-template-columns: 1.1fr .9fr; gap:16px; }
-.section-title { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:10px; flex-wrap:wrap; }
-.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
-.kpi { padding:14px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.02); }
-.kpi .label { color:var(--muted); font-size:12px; margin-bottom:6px; }
-.kpi .value { font-size:22px; font-weight:800; }
-button, .btn {
-  background:linear-gradient(180deg,#7c9cff,#6288ff); color:white; border:none; cursor:pointer;
-  border-radius:12px; padding:12px 14px; font-weight:700; font-size:14px;
-}
-button.secondary { background:#26315f; color:#dbe4ff; border:1px solid #344377; }
-button.ghost, .btn.ghost { background:transparent; border:1px solid #42518b; color:#dfe6ff; }
-button.good { background:linear-gradient(180deg,#27d67b,#16b969); }
-button.warn { background:linear-gradient(180deg,#ffbf61,#ff9e2b); color:#1c160a; }
-button.bad { background:linear-gradient(180deg,#ff8390,#ff6476); }
-.row { display:flex; gap:10px; flex-wrap:wrap; }
-.mini { font-size:12px; color:var(--muted); }
-.numbers { display:flex; flex-wrap:wrap; gap:8px; }
-.ball {
-  width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-weight:800; color:#0d1224; background:#ddd; box-shadow: inset 0 -4px 8px rgba(0,0,0,.12);
-}
-.ball.bonus { outline:3px solid white; }
-.ball.sel { transform:scale(1.06); box-shadow:0 0 0 3px rgba(255,255,255,.18); }
-.ball.n1 { background:#f7d046; }
-.ball.n2 { background:#84d3ff; }
-.ball.n3 { background:#ff7a7a; color:white; }
-.ball.n4 { background:#b3b7c6; }
-.ball.n5 { background:#7dde87; }
-.panel-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-label { display:block; font-size:13px; color:var(--muted); margin-bottom:6px; }
-input, select, textarea {
-  width:100%; background:#0f1530; color:var(--text); border:1px solid #33406f; border-radius:12px; padding:11px 12px;
-}
-.stats-list, .ticket-list, .history-list { display:grid; gap:10px; }
-.item { border:1px solid var(--line); border-radius:14px; padding:14px; background:rgba(255,255,255,.02); }
-.item-top { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
-.badge { padding:6px 10px; border-radius:999px; font-size:12px; font-weight:800; background:var(--chip); color:#dfe6ff; }
-.badge.good { background:rgba(47,210,123,.16); color:#8ef2b8; }
-.badge.warn { background:rgba(255,184,77,.14); color:#ffd38c; }
-.badge.bad { background:rgba(255,107,122,.14); color:#ffadb6; }
-.table-wrap { overflow:auto; border:1px solid var(--line); border-radius:14px; }
-table { width:100%; border-collapse:collapse; }
-th,td { padding:10px 12px; text-align:center; border-bottom:1px solid rgba(255,255,255,.06); font-size:13px; }
-th { position:sticky; top:0; background:#182245; color:#dbe4ff; }
-tr:hover td { background:rgba(255,255,255,.025); }
-.toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:end; }
-.toolbar > div { min-width:110px; flex:1; }
-.footer-note { color:var(--muted); font-size:12px; line-height:1.5; margin-top:10px; }
-.split { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
-.highlight { border:1px solid rgba(77,226,197,.28); background:linear-gradient(180deg,rgba(77,226,197,.1),rgba(77,226,197,.03)); }
-@media (max-width: 980px) {
-  .top, .grid, .split { grid-template-columns:1fr; }
-  .kpis { grid-template-columns:repeat(2,1fr); }
-  .panel-grid { grid-template-columns:1fr; }
-}
-@media (max-width: 580px) {
-  .container { padding:14px; }
-  h1 { font-size:25px; }
-  .kpis { grid-template-columns:1fr 1fr; }
-  .ball { width:38px; height:38px; font-size:13px; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대박 로또 당첨기</title>
+  <style>
+    :root{
+      --bg1:#fff8fb;
+      --bg2:#eef6ff;
+      --card:#ffffffee;
+      --text:#42475f;
+      --sub:#727997;
+      --title:#6a4cff;
+      --blue:#73b8ff;
+      --mint:#75e0ca;
+      --pink:#ffb6d9;
+      --soft:#eff5ff;
+      --danger:#fff1f4;
+      --dangerText:#cb5164;
+      --line:#e8edf7;
+      --shadow:0 12px 34px rgba(114,132,181,.14);
+      --gold1:#ffd76a;
+      --gold2:#ffb347;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left,#ffe8f4 0%,transparent 30%),
+        radial-gradient(circle at top right,#e9f2ff 0%,transparent 34%),
+        linear-gradient(135deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+      padding:16px;
+    }
+
+    .app{max-width:1380px;margin:0 auto}
+
+    .hero,.card{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.9);
+      backdrop-filter:blur(10px);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero{padding:22px;margin-bottom:18px}
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+    }
+
+    .brand-icon{
+      width:64px;height:64px;border-radius:20px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#ffe08f,#ffd1ea,#d9f1ff);
+      box-shadow:var(--shadow);
+      font-size:31px;flex-shrink:0;
+    }
+
+    h1{
+      margin:0;
+      font-size:30px;
+      color:var(--title);
+      line-height:1.2;
+    }
+
+    .subtitle{
+      margin-top:8px;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .hero-right{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:10px;
+      min-width:320px;
+    }
+
+    .hero-badge{
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:13px;
+      color:#8c6d88;
+      background:linear-gradient(90deg,#ffe8f4,#f3e8ff,#e9f6ff);
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+
+    .top-tools{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      transition:.18s ease;
+      font-weight:800;
+      border-radius:15px;
+      font-family:inherit;
+      padding:12px 16px;
+      font-size:14px;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{
+      color:#fff;
+      background:linear-gradient(135deg,var(--blue),var(--mint));
+      box-shadow:var(--shadow);
+    }
+    .btn.soft{
+      color:#4b69c6;
+      background:var(--soft);
+      border:1px solid #dfeafc;
+    }
+    .btn.gold{
+      color:#7a5300;
+      background:linear-gradient(135deg,var(--gold1),var(--gold2));
+      box-shadow:var(--shadow);
+    }
+    .btn.danger{
+      color:var(--dangerText);
+      background:var(--danger);
+      border:1px solid #ffd9e0;
+    }
+
+    .status-box{
+      width:100%;
+      max-width:470px;
+      min-height:42px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      border-radius:14px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      background:#f9fbff;
+      color:#66708d;
+      font-size:13px;
+      text-align:right;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .card{padding:18px}
+    .card h2{
+      margin:0 0 16px;
+      color:#5a5f84;
+      font-size:21px;
+    }
+
+    .section{
+      margin-top:14px;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:rgba(250,252,255,.92);
+    }
+
+    .section-title{
+      font-size:17px;
+      font-weight:900;
+      color:#6980c1;
+      margin-bottom:10px;
+    }
+
+    .section-desc{
+      color:#75809d;
+      font-size:13px;
+      line-height:1.58;
+      margin-bottom:10px;
+    }
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .triple{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .quad{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+
+    .label{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      font-weight:800;
+      color:#666c88;
+    }
+
+    input,textarea,select{
+      width:100%;
+      border:1px solid #e4e8f2;
+      border-radius:16px;
+      background:#fff;
+      color:#535975;
+      padding:13px 14px;
+      font-size:15px;
+      outline:none;
+      font-family:inherit;
+    }
+
+    textarea{
+      min-height:95px;
+      resize:vertical;
+      line-height:1.55;
+    }
+
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+      align-items:center;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      min-height:42px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#f8fbff;
+      border:1px solid #e6ecf7;
+      color:#69718d;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .result-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .result-item{
+      background:#fff;
+      border:1px solid #edf1f8;
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .result-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .result-title{
+      font-size:16px;
+      font-weight:900;
+      color:#555d82;
+    }
+
+    .result-badge{
+      border-radius:999px;
+      padding:7px 11px;
+      font-size:12px;
+      font-weight:800;
+      background:#eef4ff;
+      color:#5b6fbb;
+    }
+
+    .balls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .ball{
+      width:44px;height:44px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:15px;font-weight:900;
+      color:#4a4f68;background:#f4f7ff;border:1px solid #e2e8f5;
+    }
+
+    .ball.n1{background:#fff7d6}
+    .ball.n2{background:#e9f8ff}
+    .ball.n3{background:#ffe9ef}
+    .ball.n4{background:#ebfff7}
+    .ball.n5{background:#f0ebff}
+
+    .meta{
+      margin-top:10px;
+      font-size:13px;
+      color:#7a839e;
+      line-height:1.55;
+      white-space:pre-line;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .stat-box{
+      background:#fff;
+      border:1px solid #edf1f8;
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .stat-title{
+      font-size:13px;
+      color:#6f7895;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .stat-value{
+      font-size:17px;
+      color:#54609a;
+      font-weight:900;
+      line-height:1.4;
+      word-break:break-word;
+    }
+
+    .log-box{
+      margin-top:12px;
+      min-height:155px;
+      background:#fff;
+      border:1px solid #edf1f8;
+      border-radius:18px;
+      padding:12px;
+      font-size:14px;
+      color:#6b7391;
+      line-height:1.6;
+      white-space:pre-line;
+      overflow:auto;
+    }
+
+    .notice{
+      margin-top:10px;
+      font-size:12px;
+      color:#8b92a8;
+      line-height:1.6;
+    }
+
+    .footer-tip{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background:#fffdf5;
+      border:1px solid #ffe6a3;
+      color:#8a6b21;
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+      .hero-top{flex-direction:column}
+      .hero-right{align-items:flex-start;min-width:100%}
+      .top-tools{justify-content:flex-start}
+      .status-box{justify-content:flex-start;text-align:left;max-width:none}
+    }
+
+    @media (max-width: 760px){
+      body{padding:10px}
+      .hero,.card{border-radius:22px}
+      .hero{padding:14px}
+      .card{padding:14px}
+      h1{font-size:24px}
+      .row,.triple,.quad,.mini-grid{grid-template-columns:1fr}
+      input,textarea,select{font-size:16px}
+      .ball{width:40px;height:40px}
+      .btn{width:100%}
+      .toolbar .chip{width:100%;justify-content:center}
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="top">
-    <section class="card hero">
-      <h1>대박 로또 당첨기</h1>
-      <p class="sub">업로드한 1등 당첨 데이터를 기본 탑재한 단일 HTML 버전입니다. 최신 회차 자동 업데이트를 시도하고, 내가 선택한 번호를 저장해 다음 회차 당첨 여부까지 자동 체크합니다.</p>
-      <div class="kpis">
-        <div class="kpi"><div class="label">기본 탑재 회차</div><div class="value" id="kpiDraws">-</div></div>
-        <div class="kpi"><div class="label">최신 저장 회차</div><div class="value" id="kpiLatestRound">-</div></div>
-        <div class="kpi"><div class="label">다음 목표 회차</div><div class="value" id="kpiNextRound">-</div></div>
-        <div class="kpi"><div class="label">저장된 내 번호</div><div class="value" id="kpiTickets">-</div></div>
-      </div>
-    </section>
-    <section class="card">
-      <div class="section-title">
-        <h2>최신 당첨 정보</h2>
-        <span class="badge" id="updateStatus">준비중</span>
-      </div>
-      <div class="item highlight">
-        <div class="item-top">
+  <div class="app">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="brand">
+          <div class="brand-icon">💰</div>
           <div>
-            <div class="mini">회차 / 추첨일</div>
-            <div style="font-size:24px;font-weight:800;" id="latestMeta">-</div>
-          </div>
-          <div>
-            <div class="mini">1등 / 2등</div>
-            <div id="latestPrize" style="font-weight:700;">-</div>
-          </div>
-        </div>
-        <div class="numbers" id="latestBalls"></div>
-      </div>
-      <div class="row" style="margin-top:12px;">
-        <button id="btnAutoUpdate">최신 회차 업데이트</button>
-        <button class="secondary" id="btnExport">내 번호 백업 저장</button>
-        <label class="btn ghost" style="display:inline-flex;align-items:center;gap:8px;">
-          백업 불러오기
-          <input type="file" id="backupFile" accept=".json" hidden />
-        </label>
-      </div>
-      <div class="footer-note">업데이트는 동행복권 회차 조회 주소를 순차 조회해 최신 회차를 붙이는 방식입니다. 브라우저 환경에 따라 외부 조회가 막히면, 내장 데이터로 계속 동작합니다.</div>
-    </section>
-  </div>
-
-  <div class="grid">
-    <section class="card">
-      <div class="section-title">
-        <h2>번호 생성기</h2>
-        <span class="badge">수동 선택 + 자동 조합</span>
-      </div>
-      <div class="split">
-        <div>
-          <label>고정할 번호 선택 (0~5개 추천, 최대 6개)</label>
-          <div class="numbers" id="picker"></div>
-          <div class="row" style="margin-top:12px;">
-            <button class="secondary" id="btnClearPick">선택 초기화</button>
-            <button class="ghost" id="btnQuickLucky">추천 고정값 채우기</button>
-          </div>
-        </div>
-        <div>
-          <div class="panel-grid">
-            <div>
-              <label>생성 세트 수</label>
-              <select id="genCount">
-                <option>1</option><option selected>3</option><option>5</option><option>10</option>
-              </select>
-            </div>
-            <div>
-              <label>목표 회차</label>
-              <input id="targetRound" type="number" />
-            </div>
-            <div>
-              <label>전략</label>
-              <select id="genMode">
-                <option value="balanced" selected>균형형</option>
-                <option value="hot">출현빈도 반영</option>
-                <option value="cold">저출현 반영</option>
-                <option value="mix">혼합형</option>
-              </select>
+            <h1>대박 로또 당첨기</h1>
+            <div class="subtitle">
+              통계형 3조합 + 날짜/회차 규칙형 2조합<br>
+              자동 불러오기와 수동 입력을 함께 지원하는 유튜브·GitHub 배포용 버전
             </div>
           </div>
-          <div class="row" style="margin-top:12px;">
-            <button id="btnGenerate">번호 생성</button>
-            <button class="secondary" id="btnSaveManual">현재 선택 6개 저장</button>
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-badge">유튜브 구독자용 깔끔한 1페이지 앱</div>
+          <div class="top-tools">
+            <button class="btn gold" id="autoFetchBtn">최근 당첨번호 자동 불러오기</button>
+            <button class="btn primary" id="generateBtn">5조합 생성</button>
+            <button class="btn soft" id="sampleBtn">예시 채우기</button>
+            <button class="btn danger" id="resetBtn">초기화</button>
           </div>
-          <div class="footer-note">고정 번호를 먼저 고른 뒤 나머지를 자동으로 채웁니다. 균형형은 구간/홀짝 편중을 줄이고, 출현빈도 반영은 최근 데이터의 상대 빈도를 활용합니다.</div>
+          <div class="status-box" id="topStatus">준비됨</div>
         </div>
-      </div>
-      <div style="margin-top:16px;">
-        <div class="section-title">
-          <h3>생성 결과</h3>
-          <span class="mini">클릭 한 번으로 저장 가능</span>
-        </div>
-        <div class="ticket-list" id="generatedList"></div>
       </div>
     </section>
 
-    <section class="card">
-      <div class="section-title">
-        <h2>내 번호 관리</h2>
-        <span class="badge good" id="savedSummary">0개 저장</span>
-      </div>
-      <div class="ticket-list" id="myTickets"></div>
-    </section>
-  </div>
+    <section class="grid">
+      <div class="card">
+        <h2>추천 조건 입력</h2>
 
-  <div class="grid" style="margin-top:16px;">
-    <section class="card">
-      <div class="section-title">
-        <h2>자동 당첨 체크</h2>
-        <span class="badge warn">저장 번호 전체 검사</span>
-      </div>
-      <div class="stats-list" id="checkResults"></div>
-    </section>
-
-    <section class="card">
-      <div class="section-title">
-        <h2>간단 분석</h2>
-        <span class="badge">내장 데이터 기반</span>
-      </div>
-      <div class="stats-list" id="statsPanel"></div>
-    </section>
-  </div>
-
-  <section class="card" style="margin-top:16px;">
-    <div class="section-title">
-      <h2>전체 회차 데이터</h2>
-      <div class="toolbar">
-        <div>
-          <label>회차 검색</label>
-          <input id="searchRound" type="number" placeholder="예: 1214" />
-        </div>
-        <div>
-          <label>번호 포함 검색</label>
-          <input id="searchNumber" type="number" min="1" max="45" placeholder="예: 27" />
-        </div>
-        <div style="flex:0 0 auto;">
-          <button id="btnSearch">검색</button>
-        </div>
-      </div>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>회차</th>
-            <th>추첨일</th>
-            <th>당첨번호</th>
-            <th>보너스</th>
-            <th>1등</th>
-            <th>2등</th>
-          </tr>
-        </thead>
-        <tbody id="historyTable"></tbody>
-      </table>
-    </div>
-  </section>
-</div>
-
-<script id="seed-data" type="application/json">[PASTE_SEED_DATA_HERE]</script>
-<script>
-const seedData = JSON.parse(document.getElementById('seed-data').textContent);
-const STORAGE_KEY = 'daebak-lotto-dataset-v1';
-const TICKET_KEY = 'daebak-lotto-tickets-v1';
-
-const state = {
-  dataset: loadDataset(),
-  selected: new Set(),
-  generated: [],
-  tickets: loadTickets()
-};
-
-function loadDataset() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    if (Array.isArray(saved) && saved.length) return normalizeDataset(saved);
-  } catch (_) {}
-  return normalizeDataset(seedData);
-}
-function saveDataset() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.dataset));
-}
-function loadTickets() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(TICKET_KEY) || '[]');
-    return Array.isArray(saved) ? saved : [];
-  } catch (_) { return []; }
-}
-function saveTickets() {
-  localStorage.setItem(TICKET_KEY, JSON.stringify(state.tickets));
-}
-function normalizeDataset(arr) {
-  return arr.map(r => ({
-    round: Number(r.round),
-    date: String(r.date || ''),
-    numbers: [...r.numbers].map(Number).sort((a,b)=>a-b),
-    bonus: Number(r.bonus),
-    firstPrize: Number(r.firstPrize || 0),
-    firstWinners: Number(r.firstWinners || 0),
-    secondPrize: Number(r.secondPrize || 0),
-    secondWinners: Number(r.secondWinners || 0)
-  })).sort((a,b)=>a.round-b.round);
-}
-function fmtMoney(n) {
-  return Number(n || 0).toLocaleString('ko-KR') + '원';
-}
-function numClass(n) {
-  if (n <= 10) return 'n1';
-  if (n <= 20) return 'n2';
-  if (n <= 30) return 'n3';
-  if (n <= 40) return 'n4';
-  return 'n5';
-}
-function ball(n, extra='') {
-  return `<span class="ball ${numClass(n)} ${extra}">${n}</span>`;
-}
-function latestDraw() {
-  return state.dataset[state.dataset.length - 1];
-}
-function nextRound() {
-  const latest = latestDraw();
-  return latest ? latest.round + 1 : 1;
-}
-function renderTop() {
-  const latest = latestDraw();
-  document.getElementById('kpiDraws').textContent = state.dataset.length.toLocaleString('ko-KR');
-  document.getElementById('kpiLatestRound').textContent = latest?.round ?? '-';
-  document.getElementById('kpiNextRound').textContent = nextRound();
-  document.getElementById('kpiTickets').textContent = state.tickets.length;
-  document.getElementById('savedSummary').textContent = `${state.tickets.length}개 저장`;
-  document.getElementById('targetRound').value = nextRound();
-  if (latest) {
-    document.getElementById('latestMeta').textContent = `${latest.round}회 · ${latest.date}`;
-    document.getElementById('latestPrize').textContent = `1등 ${latest.firstWinners}명 / 2등 ${latest.secondWinners}명`;
-    document.getElementById('latestBalls').innerHTML = latest.numbers.map(n => ball(n)).join('') + ball(latest.bonus, 'bonus');
-  }
-}
-function renderPicker() {
-  const wrap = document.getElementById('picker');
-  wrap.innerHTML = '';
-  for (let i=1;i<=45;i++) {
-    const el = document.createElement('button');
-    el.type = 'button';
-    el.className = `ball ${numClass(i)} ${state.selected.has(i) ? 'sel' : ''}`;
-    el.textContent = i;
-    el.title = '클릭해서 고정 번호 선택';
-    el.onclick = () => {
-      if (state.selected.has(i)) state.selected.delete(i);
-      else {
-        if (state.selected.size >= 6) return alert('최대 6개까지 선택할 수 있어요.');
-        state.selected.add(i);
-      }
-      renderPicker();
-    };
-    wrap.appendChild(el);
-  }
-}
-function frequencies(lastN=120) {
-  const freq = Array(46).fill(0);
-  const subset = state.dataset.slice(-lastN);
-  subset.forEach(r => r.numbers.forEach(n => freq[n]++));
-  return freq;
-}
-function weightedPick(pool, weights) {
-  const total = pool.reduce((sum,n)=>sum + Math.max(0.0001, weights[n] || 0.0001), 0);
-  let rand = Math.random() * total;
-  for (const n of pool) {
-    rand -= Math.max(0.0001, weights[n] || 0.0001);
-    if (rand <= 0) return n;
-  }
-  return pool[pool.length-1];
-}
-function generateOne(mode='balanced') {
-  const picked = new Set([...state.selected]);
-  const freq = frequencies(120);
-  const recent30 = frequencies(30);
-  let guard = 0;
-  while (picked.size < 6 && guard < 500) {
-    guard++;
-    const remain = Array.from({length:45},(_,i)=>i+1).filter(n => !picked.has(n));
-    const weights = {};
-    remain.forEach(n => {
-      const hot = freq[n] + recent30[n] * 0.8 + 1;
-      const cold = 1 / (freq[n] + 1);
-      let w = 1;
-      if (mode === 'hot') w = hot;
-      else if (mode === 'cold') w = cold * 20;
-      else if (mode === 'mix') w = (hot * 0.65) + (cold * 12);
-      else w = 1.4 + (n <= 10 || n > 40 ? 0.1 : 0.2);
-      const low = [...picked].filter(v=>v<=10).length;
-      const mid = [...picked].filter(v=>v>=11 && v<=30).length;
-      const high = [...picked].filter(v=>v>=31).length;
-      if (mode === 'balanced') {
-        if (n <= 10 && low >= 2) w *= 0.5;
-        if (n >= 11 && n <= 30 && mid >= 3) w *= 0.6;
-        if (n >= 31 && high >= 2) w *= 0.5;
-      }
-      const odd = [...picked].filter(v=>v%2===1).length;
-      const even = picked.size - odd;
-      if (n % 2 === 1 && odd >= 4) w *= 0.55;
-      if (n % 2 === 0 && even >= 4) w *= 0.55;
-      weights[n] = w;
-    });
-    picked.add(weightedPick(remain, weights));
-  }
-  return [...picked].sort((a,b)=>a-b);
-}
-function renderGenerated() {
-  const box = document.getElementById('generatedList');
-  if (!state.generated.length) {
-    box.innerHTML = '<div class="item mini">아직 생성한 번호가 없습니다.</div>';
-    return;
-  }
-  box.innerHTML = state.generated.map((nums, idx) => `
-    <div class="item">
-      <div class="item-top">
-        <strong>${idx+1}번 조합</strong>
-        <div class="row">
-          <span class="badge">합계 ${nums.reduce((a,b)=>a+b,0)}</span>
-          <button class="good" onclick="saveGenerated(${idx})">이 조합 저장</button>
-        </div>
-      </div>
-      <div class="numbers">${nums.map(n => ball(n)).join('')}</div>
-    </div>
-  `).join('');
-}
-function saveGenerated(idx) {
-  const nums = state.generated[idx];
-  const round = Number(document.getElementById('targetRound').value || nextRound());
-  addTicket(nums, round, '자동생성');
-}
-function addTicket(nums, round, source='수동선택') {
-  if (!Array.isArray(nums) || nums.length !== 6) return alert('번호 6개가 필요합니다.');
-  const clean = [...new Set(nums.map(Number))].sort((a,b)=>a-b);
-  if (clean.length !== 6 || clean.some(n => n < 1 || n > 45)) return alert('1~45 번호 6개를 정확히 선택해주세요.');
-  state.tickets.unshift({
-    id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
-    round: Number(round),
-    numbers: clean,
-    source,
-    createdAt: new Date().toISOString()
-  });
-  saveTickets();
-  renderAll();
-  alert(`${round}회용 번호가 저장되었습니다.`);
-}
-function prizeLabel(match, bonus) {
-  if (match === 6) return ['1등', 'good'];
-  if (match === 5 && bonus) return ['2등', 'good'];
-  if (match === 5) return ['3등', 'warn'];
-  if (match === 4) return ['4등', 'warn'];
-  if (match === 3) return ['5등', 'warn'];
-  return ['낙첨', 'bad'];
-}
-function checkTicket(ticket) {
-  const draw = state.dataset.find(r => r.round === Number(ticket.round));
-  if (!draw) {
-    return { status:'대기중', cls:'badge', draw:null, matches:0, bonus:false, label:'추첨 대기 또는 데이터 없음' };
-  }
-  const matchCount = ticket.numbers.filter(n => draw.numbers.includes(n)).length;
-  const bonus = ticket.numbers.includes(draw.bonus);
-  const [label, cls2] = prizeLabel(matchCount, bonus);
-  return {
-    status: label,
-    cls: `badge ${cls2}`,
-    draw,
-    matches: matchCount,
-    bonus,
-    label: `${matchCount}개 일치${matchCount >= 5 ? ` / 보너스 ${bonus ? '일치' : '불일치'}` : ''}`
-  };
-}
-function renderTickets() {
-  const box = document.getElementById('myTickets');
-  if (!state.tickets.length) {
-    box.innerHTML = '<div class="item mini">저장된 번호가 없습니다.</div>';
-    return;
-  }
-  box.innerHTML = state.tickets.map(t => {
-    const ck = checkTicket(t);
-    return `
-      <div class="item">
-        <div class="item-top">
-          <div>
-            <div class="mini">${t.round}회 / ${t.source}</div>
-            <strong>${new Date(t.createdAt).toLocaleString('ko-KR')}</strong>
-          </div>
+        <div class="section">
+          <div class="section-title">기본 정보</div>
           <div class="row">
-            <span class="${ck.cls}">${ck.status}</span>
-            <button class="bad" onclick="removeTicket('${t.id}')">삭제</button>
+            <div>
+              <label class="label" for="drawDate">목표 추첨일</label>
+              <input id="drawDate" type="date" />
+            </div>
+            <div>
+              <label class="label" for="drawRound">목표 회차</label>
+              <input id="drawRound" type="number" placeholder="예: 1214" value="1214" />
+            </div>
+          </div>
+          <div class="notice">
+            자동 불러오기는 브라우저 환경에 따라 차단될 수 있습니다. 그런 경우 아래 텍스트 입력칸을 그대로 사용하면 됩니다.
           </div>
         </div>
-        <div class="numbers">${t.numbers.map(n=>ball(n)).join('')}</div>
-        <div class="footer-note">${ck.label}</div>
+
+        <div class="section">
+          <div class="section-title">최근 회차 데이터</div>
+          <div class="section-desc">
+            각 줄 형식: 회차: 번호6개<br>
+            예: 1214: 10,15,19,27,30,33
+          </div>
+          <label class="label" for="recentData">최근/과거 회차 데이터</label>
+          <textarea id="recentData">1214: 10,15,19,27,30,33
+1213: 7,9,12,18,24,38
+1212: 3,11,16,28,35,41
+1211: 5,14,20,22,29,44
+1210: 1,8,17,23,31,42
+1209: 6,13,19,25,34,40
+1208: 2,10,15,21,32,45
+1207: 4,12,18,26,30,39
+1206: 9,16,24,27,33,43
+1205: 5,11,20,28,36,41</textarea>
+        </div>
+
+        <div class="section">
+          <div class="section-title">같은 날짜 과거 회차 번호</div>
+          <div class="section-desc">
+            같은 월/일의 과거 추첨 결과를 입력하세요.
+          </div>
+          <label class="label" for="sameDateData">같은 날짜 번호</label>
+          <textarea id="sameDateData">901: 5,18,20,23,30,34</textarea>
+        </div>
+
+        <div class="section">
+          <div class="section-title">회차 끝자리 같은 회차 번호</div>
+          <div class="section-desc">
+            목표 회차와 끝자리가 같은 회차의 1등 번호를 입력하세요.
+          </div>
+          <label class="label" for="sameEndingRoundData">회차 끝자리 같은 번호</label>
+          <textarea id="sameEndingRoundData">16: 8,12,19,24,33,41
+216: 4,10,19,22,30,37
+1016: 3,14,21,27,30,40</textarea>
+        </div>
+
+        <div class="section">
+          <div class="section-title">추천 옵션</div>
+          <div class="quad">
+            <div>
+              <label class="label" for="plusOneWeight">+1 규칙 강도</label>
+              <select id="plusOneWeight">
+                <option value="1">약하게</option>
+                <option value="2" selected>보통</option>
+                <option value="3">강하게</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="coldWeight">최근 저출현 강도</label>
+              <select id="coldWeight">
+                <option value="1">약하게</option>
+                <option value="2" selected>보통</option>
+                <option value="3">강하게</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="hotWeight">장기 출현 강도</label>
+              <select id="hotWeight">
+                <option value="1">약하게</option>
+                <option value="2" selected>보통</option>
+                <option value="3">강하게</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="gapWeight">1~2회 쉬고 출현 강도</label>
+              <select id="gapWeight">
+                <option value="1">약하게</option>
+                <option value="2" selected>보통</option>
+                <option value="3">강하게</option>
+              </select>
+            </div>
+          </div>
+          <div class="toolbar">
+            <span class="chip" id="statusChip">상태: 대기중</span>
+          </div>
+        </div>
+
+        <div class="footer-tip">
+          유튜브 운영 팁: 영상 설명란, 고정댓글, 채널 링크에 이 앱 주소를 연결해서 구독자들이 바로 쓰게 만들면 좋아요.
+        </div>
       </div>
-    `;
-  }).join('');
-}
-function removeTicket(id) {
-  state.tickets = state.tickets.filter(t => t.id !== id);
-  saveTickets();
-  renderAll();
-}
-function renderChecks() {
-  const box = document.getElementById('checkResults');
-  if (!state.tickets.length) {
-    box.innerHTML = '<div class="item mini">번호를 저장하면 회차별 자동 체크가 표시됩니다.</div>';
-    return;
-  }
-  const wins = state.tickets.map(t => ({ ticket:t, result:checkTicket(t) }));
-  box.innerHTML = wins.map(({ticket, result}) => `
-    <div class="item">
-      <div class="item-top">
-        <strong>${ticket.round}회</strong>
-        <span class="${result.cls}">${result.status}</span>
+
+      <div class="card">
+        <h2>추천 결과</h2>
+
+        <div class="mini-grid">
+          <div class="stat-box">
+            <div class="stat-title">강한 날짜/회차 후보</div>
+            <div class="stat-value" id="topRuleNums">-</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-title">통계 핵심 후보</div>
+            <div class="stat-value" id="topStatNums">-</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">5조합 출력</div>
+          <div id="resultList" class="result-list">
+            <div class="result-item">
+              <div class="result-title">아직 추천 조합이 없습니다.</div>
+              <div class="meta">왼쪽에서 데이터를 입력하거나 자동 불러오기를 누른 뒤 5조합 생성을 눌러주세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">분석 로그</div>
+          <div id="logBox" class="log-box">여기에 분석 로그가 표시됩니다.</div>
+        </div>
       </div>
-      <div class="numbers">${ticket.numbers.map(n=>ball(n)).join('')}</div>
-      <div class="footer-note">${result.draw ? `당첨번호: ${result.draw.numbers.join(', ')} + 보너스 ${result.draw.bonus}` : '해당 회차 데이터가 아직 없습니다.'}</div>
-      <div class="footer-note">${result.label}</div>
-    </div>
-  `).join('');
-}
-function renderStats() {
-  const freq = frequencies(180);
-  const entries = Array.from({length:45},(_,i)=>({ n:i+1, f:freq[i+1] })).sort((a,b)=>b.f-a.f);
-  const hot = entries.slice(0,6).map(v=>v.n);
-  const cold = [...entries].slice(-6).map(v=>v.n).sort((a,b)=>a-b);
-  const latest = latestDraw();
-  const recent = state.dataset.slice(-10);
-  const avgSum = Math.round(recent.reduce((s,r)=>s+r.numbers.reduce((a,b)=>a+b,0),0) / recent.length);
-  document.getElementById('statsPanel').innerHTML = `
-    <div class="item"><div class="item-top"><strong>최근 180회 다출현 번호</strong><span class="badge good">핫</span></div><div class="numbers">${hot.map(n=>ball(n)).join('')}</div></div>
-    <div class="item"><div class="item-top"><strong>최근 180회 저출현 번호</strong><span class="badge warn">콜드</span></div><div class="numbers">${cold.map(n=>ball(n)).join('')}</div></div>
-    <div class="item"><div class="item-top"><strong>최근 10회 평균 합계</strong><span class="badge">${avgSum}</span></div><div class="footer-note">최신 회차 ${latest.round}회까지 반영된 간단 분석입니다.</div></div>
-  `;
-}
-function renderHistory(rows=state.dataset.slice().reverse()) {
-  const body = document.getElementById('historyTable');
-  body.innerHTML = rows.map(r => `
-    <tr>
-      <td>${r.round}</td>
-      <td>${r.date}</td>
-      <td><div class="numbers" style="justify-content:center;">${r.numbers.map(n=>ball(n)).join('')}</div></td>
-      <td>${ball(r.bonus, 'bonus')}</td>
-      <td>${r.firstWinners}명<br><span class="mini">${fmtMoney(r.firstPrize)}</span></td>
-      <td>${r.secondWinners}명<br><span class="mini">${fmtMoney(r.secondPrize)}</span></td>
-    </tr>
-  `).join('');
-}
-function renderAll() {
-  renderTop();
-  renderPicker();
-  renderGenerated();
-  renderTickets();
-  renderChecks();
-  renderStats();
-  renderHistory();
-}
-async function fetchRound(round) {
-  const url = `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${round}`;
-  const res = await fetch(url, { cache:'no-store' });
-  const text = await res.text();
-  let data;
-  try { data = JSON.parse(text); } catch { return null; }
-  if (!data || data.returnValue !== 'success') return null;
-  return {
-    round: Number(data.drwNo),
-    date: String(data.drwNoDate || ''),
-    numbers: [data.drwtNo1, data.drwtNo2, data.drwtNo3, data.drwtNo4, data.drwtNo5, data.drwtNo6].map(Number).sort((a,b)=>a-b),
-    bonus: Number(data.bnusNo),
-    firstPrize: Number(data.firstWinamnt || 0),
-    firstWinners: Number(data.firstPrzwnerCo || 0),
-    secondPrize: Number(data.firstWinamnt ? Math.round(Number(data.firstWinamnt) / Math.max(1, Number(data.firstPrzwnerCo || 1))) : 0),
-    secondWinners: Number(data.firstAccumamnt ? 0 : 0)
-  };
-}
-async function autoUpdateLatest() {
-  const badge = document.getElementById('updateStatus');
-  badge.textContent = '업데이트 중';
-  badge.className = 'badge warn';
-  const start = latestDraw().round + 1;
-  let added = 0;
-  try {
-    for (let r = start; r < start + 20; r++) {
-      const row = await fetchRound(r);
-      if (!row) break;
-      if (!state.dataset.some(x => x.round === row.round)) {
-        state.dataset.push(row);
-        added++;
+    </section>
+  </div>
+
+  <script>
+    const topStatus = document.getElementById('topStatus');
+    const statusChip = document.getElementById('statusChip');
+    const resultList = document.getElementById('resultList');
+    const logBox = document.getElementById('logBox');
+    const topRuleNums = document.getElementById('topRuleNums');
+    const topStatNums = document.getElementById('topStatNums');
+
+    function setTopStatus(text){
+      topStatus.textContent = text;
+    }
+
+    function setStatus(text){
+      statusChip.textContent = '상태: ' + text;
+      setTopStatus(text);
+    }
+
+    function log(message){
+      const now = new Date();
+      const time = now.toLocaleTimeString('ko-KR', {
+        hour:'2-digit', minute:'2-digit', second:'2-digit'
+      });
+      const initial = '여기에 분석 로그가 표시됩니다.';
+      const prev = logBox.textContent.trim() === initial ? '' : logBox.textContent + '\\n';
+      logBox.textContent = `${prev}[${time}] ${message}`;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function uniqueSorted(arr){
+      return [...new Set(arr)].sort((a,b)=>a-b);
+    }
+
+    function getBallClass(n){
+      if(n <= 10) return 'n1';
+      if(n <= 20) return 'n2';
+      if(n <= 30) return 'n3';
+      if(n <= 40) return 'n4';
+      return 'n5';
+    }
+
+    function parseLineNumbers(line){
+      const nums = (line.match(/\\d+/g) || []).map(Number);
+      if(nums.length < 7) return null;
+      return {
+        round: nums[0],
+        numbers: nums.slice(1,7).filter(n => n >= 1 && n <= 45)
+      };
+    }
+
+    function parseDataBlock(text){
+      return text
+        .split('\\n')
+        .map(v => v.trim())
+        .filter(Boolean)
+        .map(parseLineNumbers)
+        .filter(Boolean)
+        .filter(v => v.numbers.length === 6);
+    }
+
+    function initScoreMap(){
+      const map = {};
+      for(let i=1;i<=45;i++) map[i] = 0;
+      return map;
+    }
+
+    function addScore(scoreMap, nums, amount){
+      nums.forEach(n => {
+        if(scoreMap[n] !== undefined) scoreMap[n] += amount;
+      });
+    }
+
+    function countFrequency(data){
+      const freq = {};
+      for(let i=1;i<=45;i++) freq[i] = 0;
+      data.forEach(item => item.numbers.forEach(n => freq[n]++));
+      return freq;
+    }
+
+    function getRecentColdNumbers(data, count=10){
+      const recent = data.slice(0, Math.min(count, data.length));
+      const freq = countFrequency(recent);
+      const arr = Object.entries(freq).map(([num, c]) => ({ num:Number(num), count:c }));
+      arr.sort((a,b)=> a.count-b.count || a.num-b.num);
+      return arr.slice(0, 12).map(v => v.num);
+    }
+
+    function getLongHotNumbers(data){
+      const freq = countFrequency(data);
+      const arr = Object.entries(freq).map(([num, c]) => ({ num:Number(num), count:c }));
+      arr.sort((a,b)=> b.count-a.count || a.num-b.num);
+      return arr.slice(0, 15).map(v => v.num);
+    }
+
+    function getLastRoundNumbers(data){
+      return data.length ? data[0].numbers.slice() : [];
+    }
+
+    function getGapPatternNumbers(data){
+      const candidates = [];
+      for(let n=1;n<=45;n++){
+        const hits = [];
+        data.forEach((item, idx) => {
+          if(item.numbers.includes(n)) hits.push(idx);
+        });
+        if(hits.length >= 2){
+          let score = 0;
+          for(let i=1;i<hits.length;i++){
+            const gap = hits[i] - hits[i-1] - 1;
+            if(gap === 1) score += 2;
+            if(gap === 2) score += 2;
+          }
+          if(score > 0) candidates.push({ num:n, score });
+        }
+      }
+      candidates.sort((a,b)=> b.score-a.score || a.num-b.num);
+      return candidates.slice(0, 15).map(v => v.num);
+    }
+
+    function plusOneTransform(nums){
+      return nums.map(n => n === 45 ? 1 : n + 1);
+    }
+
+    function countOccurrences(nums){
+      const map = {};
+      nums.forEach(n => map[n] = (map[n] || 0) + 1);
+      return map;
+    }
+
+    function getIntersectionPriority(sameDateData, sameEndingData, plusOneWeight){
+      const directPool = [];
+      const plusOnePool = [];
+      const endingPool = [];
+
+      sameDateData.forEach(item => {
+        directPool.push(...item.numbers);
+        plusOnePool.push(...plusOneTransform(item.numbers));
+      });
+      sameEndingData.forEach(item => endingPool.push(...item.numbers));
+
+      const directCount = countOccurrences(directPool);
+      const plusOneCount = countOccurrences(plusOnePool);
+      const endingCount = countOccurrences(endingPool);
+
+      const allNums = new Set([
+        ...Object.keys(directCount).map(Number),
+        ...Object.keys(plusOneCount).map(Number),
+        ...Object.keys(endingCount).map(Number)
+      ]);
+
+      const scored = [];
+      allNums.forEach(num => {
+        let score = 0;
+        if(directCount[num]) score += directCount[num] * 3;
+        if(plusOneCount[num]) score += plusOneCount[num] * plusOneWeight;
+        if(endingCount[num]) score += endingCount[num] * 2;
+        if(directCount[num] && endingCount[num]) score += 2;
+        if(plusOneCount[num] && endingCount[num]) score += 1;
+        scored.push({ num, score });
+      });
+
+      scored.sort((a,b)=> b.score-a.score || a.num-b.num);
+      return scored;
+    }
+
+    function patternPenalty(nums){
+      let penalty = 0;
+      const sorted = [...nums].sort((a,b)=>a-b);
+
+      const under31 = sorted.filter(n => n <= 31).length;
+      if(under31 >= 5) penalty += 2;
+
+      for(let i=1;i<sorted.length;i++){
+        if(sorted[i] === sorted[i-1] + 1) penalty += 0.7;
+      }
+
+      const endDigits = {};
+      sorted.forEach(n => {
+        const d = n % 10;
+        endDigits[d] = (endDigits[d] || 0) + 1;
+      });
+      Object.values(endDigits).forEach(c => {
+        if(c >= 3) penalty += 1.5;
+      });
+
+      const odd = sorted.filter(n => n % 2 === 1).length;
+      if(odd === 0 || odd === 6) penalty += 1.2;
+
+      return penalty;
+    }
+
+    function pickWeightedNumbers(scoreMap, count, locked=[]){
+      const selected = [...locked];
+      const pool = [];
+
+      for(let i=1;i<=45;i++){
+        if(!selected.includes(i)){
+          pool.push({ num:i, score: Math.max(0.1, scoreMap[i]) });
+        }
+      }
+
+      while(selected.length < count && pool.length){
+        const total = pool.reduce((sum,v)=>sum+v.score,0);
+        let rand = Math.random() * total;
+        let chosenIndex = 0;
+
+        for(let i=0;i<pool.length;i++){
+          rand -= pool[i].score;
+          if(rand <= 0){
+            chosenIndex = i;
+            break;
+          }
+        }
+
+        selected.push(pool[chosenIndex].num);
+        pool.splice(chosenIndex,1);
+      }
+
+      return uniqueSorted(selected).slice(0, 6);
+    }
+
+    function buildStatRecommendations(data, options){
+      const scoreMap = initScoreMap();
+      const longHot = getLongHotNumbers(data);
+      const cold = getRecentColdNumbers(data, 10);
+      const gapNums = getGapPatternNumbers(data);
+      const lastNums = getLastRoundNumbers(data);
+
+      addScore(scoreMap, longHot, options.hotWeight * 1.5);
+      addScore(scoreMap, cold, options.coldWeight * 1.4);
+      addScore(scoreMap, gapNums, options.gapWeight * 1.4);
+      addScore(scoreMap, lastNums.slice(0,3), 1);
+
+      const sets = [];
+
+      for(let i=0;i<3;i++){
+        let best = null;
+        for(let t=0;t<40;t++){
+          const locked = [];
+          if(i === 0 && cold.length) locked.push(cold[0]);
+          if(i === 1 && gapNums.length >= 2) locked.push(gapNums[0], gapNums[1]);
+          if(i === 2 && longHot.length) locked.push(longHot[0]);
+
+          const candidate = pickWeightedNumbers(scoreMap, 6, uniqueSorted(locked));
+          if(candidate.length < 6) continue;
+
+          const score = candidate.reduce((acc,n)=>acc+(scoreMap[n]||0),0)
+            - patternPenalty(candidate)
+            + ((candidate.reduce((a,b)=>a+b,0) >= 100 && candidate.reduce((a,b)=>a+b,0) <= 170) ? 1.2 : 0);
+
+          if(!best || score > best.score){
+            best = { numbers:candidate, score };
+          }
+        }
+        if(best) sets.push(best.numbers);
+      }
+
+      return { sets, info:{ longHot, cold, gapNums, lastNums } };
+    }
+
+    function buildRuleRecommendations(sameDateData, sameEndingData, options){
+      const priority = getIntersectionPriority(sameDateData, sameEndingData, options.plusOneWeight);
+      const top = priority.slice(0, 15);
+      const sets = [];
+
+      for(let i=0;i<2;i++){
+        const locked = top.slice(i*3, i*3+3).map(v => v.num);
+        const scoreMap = initScoreMap();
+
+        top.forEach((item, idx) => {
+          scoreMap[item.num] += Math.max(1, 12 - idx);
+        });
+
+        let best = null;
+        for(let t=0;t<50;t++){
+          const candidate = pickWeightedNumbers(scoreMap, 6, uniqueSorted(locked));
+          if(candidate.length < 6) continue;
+
+          const score = candidate.reduce((acc,n)=>acc+(scoreMap[n]||0),0) - patternPenalty(candidate);
+          if(!best || score > best.score){
+            best = { numbers:candidate, score };
+          }
+        }
+        if(best) sets.push(best.numbers);
+      }
+
+      return { sets, info:priority };
+    }
+
+    function renderResults(results){
+      if(!results.length){
+        resultList.innerHTML = `
+          <div class="result-item">
+            <div class="result-title">추천 결과가 없습니다.</div>
+            <div class="meta">입력값을 확인한 뒤 다시 시도해주세요.</div>
+          </div>
+        `;
+        return;
+      }
+
+      resultList.innerHTML = results.map(item => {
+        const balls = item.numbers
+          .map(n => `<div class="ball ${getBallClass(n)}">${n}</div>`)
+          .join('');
+        return `
+          <div class="result-item">
+            <div class="result-top">
+              <div class="result-title">${item.title}</div>
+              <div class="result-badge">${item.type}</div>
+            </div>
+            <div class="balls">${balls}</div>
+            <div class="meta">${item.meta}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function sampleFill(){
+      document.getElementById('drawRound').value = '1214';
+      document.getElementById('sameDateData').value = '901: 5,18,20,23,30,34';
+      document.getElementById('sameEndingRoundData').value = `16: 8,12,19,24,33,41
+216: 4,10,19,22,30,37
+1016: 3,14,21,27,30,40`;
+      setStatus('예시 입력 완료');
+      log('예시 데이터를 채웠습니다.');
+    }
+
+    function resetAll(){
+      document.getElementById('drawRound').value = '';
+      document.getElementById('recentData').value = '';
+      document.getElementById('sameDateData').value = '';
+      document.getElementById('sameEndingRoundData').value = '';
+      topRuleNums.textContent = '-';
+      topStatNums.textContent = '-';
+      resultList.innerHTML = `
+        <div class="result-item">
+          <div class="result-title">아직 추천 조합이 없습니다.</div>
+          <div class="meta">왼쪽에서 데이터를 입력하거나 자동 불러오기를 누른 뒤 5조합 생성을 눌러주세요.</div>
+        </div>
+      `;
+      logBox.textContent = '여기에 분석 로그가 표시됩니다.';
+      setStatus('초기화 완료');
+    }
+
+    function generate(){
+      setStatus('분석 중');
+
+      const recentData = parseDataBlock(document.getElementById('recentData').value);
+      const sameDateData = parseDataBlock(document.getElementById('sameDateData').value);
+      const sameEndingData = parseDataBlock(document.getElementById('sameEndingRoundData').value);
+      const drawRound = Number(document.getElementById('drawRound').value || 0);
+
+      const options = {
+        plusOneWeight: Number(document.getElementById('plusOneWeight').value || 2),
+        coldWeight: Number(document.getElementById('coldWeight').value || 2),
+        hotWeight: Number(document.getElementById('hotWeight').value || 2),
+        gapWeight: Number(document.getElementById('gapWeight').value || 2)
+      };
+
+      if(recentData.length < 3){
+        setStatus('데이터 부족');
+        log('최근 회차 데이터가 너무 적습니다. 최소 3줄 이상 넣어주세요.');
+        return;
+      }
+
+      log(`목표 회차 ${drawRound} 기준 추천 계산을 시작했습니다.`);
+      log(`최근 회차 데이터 ${recentData.length}개, 같은 날짜 데이터 ${sameDateData.length}개, 끝자리 회차 데이터 ${sameEndingData.length}개를 읽었습니다.`);
+
+      const stat = buildStatRecommendations(recentData, options);
+      const rule = buildRuleRecommendations(sameDateData, sameEndingData, options);
+
+      log(`장기 출현 상위 번호: ${stat.info.longHot.join(', ')}`);
+      log(`최근 저출현 후보: ${stat.info.cold.join(', ')}`);
+      log(`1~2회 쉬고 자주 나온 후보: ${stat.info.gapNums.join(', ')}`);
+
+      const topRules = rule.info.slice(0, 8).map(v => v.num);
+      topRuleNums.textContent = topRules.length ? topRules.join(', ') : '-';
+
+      const topStats = uniqueSorted([
+        ...stat.info.longHot.slice(0,4),
+        ...stat.info.cold.slice(0,3),
+        ...stat.info.gapNums.slice(0,3)
+      ]).slice(0,10);
+      topStatNums.textContent = topStats.length ? topStats.join(', ') : '-';
+
+      if(rule.info.length){
+        const topRuleLog = rule.info.slice(0, 10).map(v => `${v.num}(${v.score})`).join(', ');
+        log(`날짜/회차 규칙 상위 후보: ${topRuleLog}`);
+      } else {
+        log('날짜/회차 규칙 후보가 부족해 기본 점수 방식으로 계산했습니다.');
+      }
+
+      const finalResults = [];
+      const statNames = ['A 조합', 'B 조합', 'C 조합'];
+      const ruleNames = ['D 조합', 'E 조합'];
+
+      stat.sets.forEach((numbers, idx) => {
+        finalResults.push({
+          title: statNames[idx] || `통계 조합 ${idx+1}`,
+          type: '통계형',
+          numbers,
+          meta: '장기 출현 + 최근 저출현 + 1~2회 쉬고 출현 패턴 기반'
+        });
+      });
+
+      rule.sets.forEach((numbers, idx) => {
+        finalResults.push({
+          title: ruleNames[idx] || `규칙 조합 ${idx+1}`,
+          type: '날짜/회차형',
+          numbers,
+          meta: '같은 날짜 + 회차 끝자리 + 중복 번호 + +1 규칙 기반'
+        });
+      });
+
+      renderResults(finalResults);
+      setStatus('5조합 생성 완료');
+      log('최종 추천 5조합 생성을 완료했습니다.');
+    }
+
+    async function fetchOfficialRound(round){
+      const url = `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${round}`;
+      const res = await fetch(url, { method:'GET', mode:'cors', cache:'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if(!data || data.returnValue !== 'success') throw new Error('invalid data');
+      return {
+        round: data.drwNo,
+        date: data.drwNoDate,
+        numbers: [
+          data.drwtNo1, data.drwtNo2, data.drwtNo3,
+          data.drwtNo4, data.drwtNo5, data.drwtNo6
+        ].map(Number)
+      };
+    }
+
+    async function autoFetchRecentRounds(){
+      const currentRound = Number(document.getElementById('drawRound').value || 0);
+      if(!currentRound || currentRound < 2){
+        setStatus('회차 입력 필요');
+        log('자동 불러오기를 위해 목표 회차를 먼저 넣어주세요.');
+        return;
+      }
+
+      setStatus('자동 불러오기 시도 중');
+      log('공식 회차 정보 자동 불러오기를 시도합니다.');
+
+      const items = [];
+      try{
+        for(let r=currentRound; r>Math.max(0, currentRound-9); r--){
+          const item = await fetchOfficialRound(r);
+          items.push(`${item.round}: ${item.numbers.join(',')}`);
+        }
+
+        document.getElementById('recentData').value = items.join('\\n');
+        setStatus('자동 불러오기 완료');
+        log('최근 10개 회차 번호를 자동으로 불러왔습니다.');
+      }catch(err){
+        setStatus('자동 불러오기 실패');
+        log('자동 불러오기가 브라우저 또는 교차출처 정책 때문에 실패했습니다. GitHub Pages에서는 공식 사이트 응답이 막힐 수 있으니 아래 입력칸을 직접 사용하세요.');
       }
     }
-    state.dataset = normalizeDataset(state.dataset);
-    saveDataset();
-    renderAll();
-    badge.textContent = added ? `최신 반영 +${added}` : '최신 상태';
-    badge.className = 'badge good';
-  } catch (e) {
-    badge.textContent = '업데이트 실패';
-    badge.className = 'badge bad';
-  }
-}
-function exportTickets() {
-  const blob = new Blob([JSON.stringify({ tickets: state.tickets, exportedAt: new Date().toISOString() }, null, 2)], { type:'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'daebak-lotto-backup.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-function importTickets(file) {
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const data = JSON.parse(reader.result);
-      if (!Array.isArray(data.tickets)) throw new Error('형식 오류');
-      state.tickets = data.tickets;
-      saveTickets();
-      renderAll();
-      alert('백업 불러오기 완료');
-    } catch (e) {
-      alert('백업 파일 형식이 올바르지 않습니다.');
-    }
-  };
-  reader.readAsText(file);
-}
 
-document.getElementById('btnClearPick').onclick = () => { state.selected.clear(); renderPicker(); };
-document.getElementById('btnQuickLucky').onclick = () => {
-  state.selected = new Set(generateOne('mix').slice(0, Math.min(3, 6)));
-  renderPicker();
-};
-document.getElementById('btnGenerate').onclick = () => {
-  const count = Number(document.getElementById('genCount').value || 3);
-  const mode = document.getElementById('genMode').value;
-  state.generated = Array.from({length:count}, ()=>generateOne(mode));
-  renderGenerated();
-};
-document.getElementById('btnSaveManual').onclick = () => {
-  if (state.selected.size !== 6) return alert('직접 저장은 번호 6개를 선택해야 합니다.');
-  addTicket([...state.selected], Number(document.getElementById('targetRound').value || nextRound()), '수동선택');
-};
-document.getElementById('btnAutoUpdate').onclick = autoUpdateLatest;
-document.getElementById('btnExport').onclick = exportTickets;
-document.getElementById('backupFile').addEventListener('change', (e) => {
-  const file = e.target.files?.[0];
-  if (file) importTickets(file);
-  e.target.value = '';
-});
-document.getElementById('btnSearch').onclick = () => {
-  const round = Number(document.getElementById('searchRound').value || 0);
-  const num = Number(document.getElementById('searchNumber').value || 0);
-  let rows = state.dataset.slice().reverse();
-  if (round) rows = rows.filter(r => r.round === round);
-  if (num) rows = rows.filter(r => r.numbers.includes(num) || r.bonus === num);
-  renderHistory(rows);
-};
+    document.getElementById('generateBtn').addEventListener('click', generate);
+    document.getElementById('sampleBtn').addEventListener('click', sampleFill);
+    document.getElementById('resetBtn').addEventListener('click', resetAll);
+    document.getElementById('autoFetchBtn').addEventListener('click', autoFetchRecentRounds);
 
-renderAll();
-</script>
+    (function init(){
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth()+1).padStart(2,'0');
+      const dd = String(today.getDate()).padStart(2,'0');
+      document.getElementById('drawDate').value = `${yyyy}-${mm}-${dd}`;
+      log('프로그램이 준비되었습니다.');
+    })();
+  </script>
 </body>
 </html>
