@@ -1,636 +1,1254 @@
-<script>
-  const STORAGE_KEY = "daebak_lotto_live_v1";
-  const SAVED_NUMBERS_KEY = "daebak_lotto_saved_numbers_v1";
-  const API_BASE = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=";
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>🌸 대박 로또 당첨기</title>
+  <style>
+    * { box-sizing: border-box; }
 
-  const FIRST_DRAW_DATE = "2002-12-07"; // 1회차 기준일
-  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
-
-  const historyListEl = document.getElementById("historyList");
-  const historyModeInfoEl = document.getElementById("historyModeInfo");
-  const numPickerEl = document.getElementById("numPicker");
-  const selectedManualEl = document.getElementById("selectedManual");
-  const manualCountEl = document.getElementById("manualCount");
-  const comboCountEl = document.getElementById("comboCount");
-  const resultBoxEl = document.getElementById("resultBox");
-  const tagRowEl = document.getElementById("tagRow");
-  const checkBoxEl = document.getElementById("checkBox");
-  const petalsEl = document.getElementById("petals");
-  const manualBoxEl = document.getElementById("manualBox");
-  const toggleManualBtnEl = document.getElementById("toggleManualBtn");
-
-  let plusStep = 0;
-  let manualNumbers = [];
-  let historyBaseDate = null;
-  let lastGeneratedCombos = [];
-
-  let CURRENT_ROUND = null;
-  let CURRENT_DRAW_DATE = null;
-  let NEXT_DRAW_DATE = null;
-  let CURRENT_FIRST_PRIZE = [];
-  let CURRENT_WINNER_COUNT = null;
-  let CURRENT_PRIZE_AMOUNT = null;
-
-  let DRAW_DB = [];
-
-  function makePetals() {
-    const count = 14;
-    for (let i = 0; i < count; i++) {
-      const p = document.createElement("span");
-      p.className = "petal";
-      p.style.left = Math.random() * 100 + "vw";
-      p.style.animationDuration = (10 + Math.random() * 10) + "s";
-      p.style.animationDelay = (-Math.random() * 18) + "s";
-      petalsEl.appendChild(p);
+    :root{
+      --bg:#fff8fc;
+      --bg2:#fff2f8;
+      --bg3:#ffedf5;
+      --card:#ffffff;
+      --line:#f4d8e5;
+      --text:#6c4a5d;
+      --text-strong:#874967;
+      --sub:#a27088;
+      --pink:#ff7bb4;
+      --pink-2:#ff9ac6;
+      --pink-3:#ffe2ee;
+      --lav:#eadfff;
+      --mint:#ddf8ec;
+      --blue:#eef8ff;
+      --danger:#ff9aad;
+      --ok:#77cfa5;
+      --shadow:0 8px 22px rgba(245, 165, 197, 0.10);
     }
-  }
 
-  function formatMoneyKRW(value) {
-    if (typeof value !== "number" || Number.isNaN(value)) return "-";
-    return value.toLocaleString("ko-KR") + "원";
-  }
-
-  function addDays(dateStr, days) {
-    const d = new Date(dateStr + "T00:00:00");
-    d.setDate(d.getDate() + days);
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
-  }
-
-  function getMonthDay(dateStr) {
-    const [y, m, d] = dateStr.split("-").map(Number);
-    return { month: m, day: d };
-  }
-
-  function daysBetween(a, b) {
-    const da = new Date(a + "T00:00:00");
-    const db = new Date(b + "T00:00:00");
-    return Math.round((db - da) / (24 * 60 * 60 * 1000));
-  }
-
-  async function fetchRound(round) {
-    const res = await fetch(API_BASE + round, { method: "GET" });
-    if (!res.ok) {
-      throw new Error("회차 조회 실패: HTTP " + res.status);
+    html, body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      color-scheme: light;
+      -webkit-text-size-adjust:100%;
     }
-    const data = await res.json();
-    if (!data || data.returnValue !== "success") {
-      throw new Error("유효하지 않은 회차: " + round);
+
+    body{
+      min-height:100vh;
+      font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+      background:
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 55%, var(--bg3) 100%);
+      overflow-x:hidden;
+      position:relative;
     }
-    return {
-      round: data.drwNo,
-      date: data.drwNoDate,
-      numbers: [
-        data.drwtNo1,
-        data.drwtNo2,
-        data.drwtNo3,
-        data.drwtNo4,
-        data.drwtNo5,
-        data.drwtNo6
-      ],
-      bonus: data.bnusNo,
-      firstPrizeWinnerCount: data.firstPrzwnerCo,
-      firstPrizeAmount: data.firstWinamnt
-    };
-  }
 
-  async function findLatestRound() {
-    // 1회차 기준일(2002-12-07)로 대략 추정 후 내려가며 확인
-    const today = new Date();
-    const first = new Date(FIRST_DRAW_DATE + "T00:00:00");
-    const diffWeeks = Math.floor((today - first) / ONE_WEEK);
-    let guess = Math.max(1, diffWeeks + 1 + 2); // 약간 여유
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.08;
+      background-image:url('data:image/svg+xml;utf8,\
+      <svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">\
+        <g>\
+          <path d="M45 32 C54 20,69 20,78 32 C87 20,102 20,111 32 C102 44,87 44,78 54 C69 44,54 44,45 32Z" fill="%23ffcfe0"/>\
+          <circle cx="78" cy="37" r="5" fill="%23ffabc9"/>\
+          <path d="M165 84 C174 72,189 72,198 84 C207 72,222 72,231 84 C222 96,207 96,198 106 C189 96,174 96,165 84Z" fill="%23ffdbe8"/>\
+          <circle cx="198" cy="89" r="5" fill="%23ffb7d1"/>\
+          <path d="M105 175 C114 163,129 163,138 175 C147 163,162 163,171 175 C162 187,147 187,138 197 C129 187,114 187,105 175Z" fill="%23ffe8f1"/>\
+          <circle cx="138" cy="180" r="5" fill="%23ffc9dc"/>\
+        </g>\
+      </svg>');
+      background-repeat:repeat;
+      background-size:250px 250px;
+    }
 
-    for (let round = guess; round >= 1; round--) {
-      try {
-        const hit = await fetchRound(round);
-        return hit;
-      } catch (e) {
-        // 계속 아래로
+    .petals{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+      overflow:hidden;
+    }
+
+    .petal{
+      position:absolute;
+      top:-30px;
+      width:14px;
+      height:10px;
+      background:#ffd1e2;
+      border-radius:12px 12px 12px 2px;
+      opacity:.45;
+      animation:fall linear infinite;
+    }
+
+    @keyframes fall{
+      0%{ transform:translateY(-25px) rotate(0deg) translateX(0); }
+      50%{ transform:translateY(50vh) rotate(180deg) translateX(18px); }
+      100%{ transform:translateY(105vh) rotate(360deg) translateX(-18px); }
+    }
+
+    .wrap{
+      position:relative;
+      z-index:2;
+      max-width:1040px;
+      margin:0 auto;
+      padding:18px 14px 40px;
+    }
+
+    .hero{
+      text-align:center;
+      margin:8px 0 18px;
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:34px;
+      font-weight:900;
+      color:#ff5fa5;
+      letter-spacing:-0.5px;
+    }
+
+    .hero p{
+      margin:8px 0 0;
+      font-size:14px;
+      font-weight:800;
+      color:#b07a95;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin-bottom:16px;
+    }
+
+    .card h2{
+      margin:0 0 10px;
+      font-size:22px;
+      color:var(--text-strong);
+      letter-spacing:-0.2px;
+    }
+
+    .sub{
+      margin:0 0 12px;
+      color:var(--sub);
+      font-size:13px;
+      line-height:1.7;
+      font-weight:800;
+    }
+
+    .summary-box{
+      background:#fff7fb;
+      border:1px solid #f5dce7;
+      border-radius:22px;
+      padding:16px;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px 16px;
+    }
+
+    .summary-item{
+      background:#fff;
+      border:1px solid #f3dce7;
+      border-radius:16px;
+      padding:12px;
+    }
+
+    .summary-label{
+      font-size:12px;
+      font-weight:900;
+      color:#b27896;
+      margin-bottom:6px;
+    }
+
+    .summary-value{
+      font-size:18px;
+      font-weight:900;
+      color:#7c4b64;
+      line-height:1.35;
+      word-break:keep-all;
+    }
+
+    .status-box{
+      margin-top:12px;
+      background:#fff8fc;
+      border:1px solid #f3dde7;
+      border-radius:16px;
+      padding:12px 14px;
+      font-size:14px;
+      font-weight:900;
+      color:#a45f80;
+      line-height:1.6;
+    }
+
+    .history-actions,
+    .bottom-actions,
+    .manual-toggle-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .generate-row,
+    .check-row{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:10px;
+      align-items:end;
+      margin-top:12px;
+    }
+
+    .field label{
+      display:block;
+      margin:0 0 6px;
+      font-size:13px;
+      font-weight:900;
+      color:#885973;
+    }
+
+    button, select{
+      width:100%;
+      border:none;
+      border-radius:16px;
+      padding:13px 14px;
+      font-size:15px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.14s ease;
+      appearance:none;
+    }
+
+    button:active{ transform:scale(.98); }
+
+    .btn-pink{
+      background:var(--pink);
+      color:#fff;
+    }
+    .btn-lav{
+      background:var(--lav);
+      color:#7a6096;
+      border:1px solid #dccfff;
+    }
+    .btn-mint{
+      background:var(--mint);
+      color:#557d6c;
+      border:1px solid #c9efdf;
+    }
+    .btn-light{
+      background:#fff;
+      color:#7b5d6d;
+      border:1px solid #eddde6;
+    }
+    .btn-danger{
+      background:var(--danger);
+      color:#fff;
+    }
+    .btn-blue{
+      background:var(--blue);
+      color:#5a7892;
+      border:1px solid #d9ecfa;
+    }
+
+    select{
+      background:#fff;
+      border:1px solid #eddde6;
+      color:#6e5162;
+    }
+
+    .history-list{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .history-item{
+      border:1px solid #f0dde7;
+      background:#fff;
+      border-radius:20px;
+      padding:13px;
+    }
+
+    .history-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+
+    .history-round{
+      font-size:18px;
+      font-weight:900;
+      color:#7e5168;
+    }
+
+    .history-date{
+      font-size:13px;
+      font-weight:900;
+      color:#a27b8f;
+    }
+
+    .num-zone{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .mini-title{
+      font-size:12px;
+      font-weight:900;
+      color:#a0758b;
+      margin-bottom:8px;
+    }
+
+    .balls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .ball{
+      min-width:38px;
+      height:38px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:15px;
+      font-weight:900;
+      color:#fff;
+      box-shadow:0 3px 8px rgba(0,0,0,.05);
+    }
+
+    .ball.yellow{ background:#f4c64b; }
+    .ball.sky{ background:#7dc8ff; }
+    .ball.red{ background:#ff8ea2; }
+    .ball.purple{ background:#b4a0ff; }
+    .ball.green{ background:#7dd9ae; }
+
+    .empty{
+      border:1px dashed #e8d9e0;
+      background:#fff;
+      color:#8f7584;
+      border-radius:16px;
+      padding:14px;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .option-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .opt{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:11px 12px;
+      border:1px solid #efdde6;
+      background:#fff;
+      border-radius:16px;
+      font-weight:900;
+      color:#795b6c;
+    }
+
+    .opt input{
+      width:18px;
+      height:18px;
+      margin:0;
+      accent-color:#ff79b3;
+    }
+
+    .manual-box{
+      border:1px solid #efdde6;
+      background:#fffafd;
+      border-radius:20px;
+      padding:14px;
+      margin-top:12px;
+      display:none;
+    }
+
+    .manual-box.show{
+      display:block;
+    }
+
+    .manual-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+
+    .manual-title{
+      font-size:15px;
+      font-weight:900;
+      color:#7a5469;
+    }
+
+    .manual-count{
+      font-size:13px;
+      font-weight:900;
+      color:#9e798f;
+    }
+
+    .num-picker{
+      display:grid;
+      grid-template-columns:repeat(9,1fr);
+      gap:8px;
+    }
+
+    .pick{
+      border:1px solid #efdde6;
+      background:#fff;
+      border-radius:14px;
+      padding:10px 0;
+      text-align:center;
+      font-weight:900;
+      color:#705966;
+      cursor:pointer;
+      user-select:none;
+      transition:.12s;
+    }
+
+    .pick:hover{ transform:translateY(-1px); }
+
+    .pick.active{
+      background:var(--pink);
+      color:#fff;
+      border-color:var(--pink);
+    }
+
+    .selected-manual{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+      min-height:20px;
+    }
+
+    .chip{
+      background:#ffeaf3;
+      color:#b55080;
+      border:1px solid #ffd4e2;
+      border-radius:999px;
+      padding:7px 11px;
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .tag-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .tag{
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      background:#fff0f7;
+      color:#b25582;
+      border:1px solid #f7d2e0;
+    }
+
+    .result-box,
+    .check-box{
+      min-height:120px;
+      border-radius:22px;
+      padding:16px;
+      background:#fffafc;
+      border:1px solid #f2dee8;
+      color:#654b59;
+      font-size:18px;
+      font-weight:900;
+      line-height:1.9;
+      white-space:pre-line;
+    }
+
+    .check-box{
+      min-height:86px;
+    }
+
+    @media (max-width:860px){
+      .summary-grid,
+      .history-actions,
+      .bottom-actions,
+      .manual-toggle-row,
+      .generate-row,
+      .check-row,
+      .num-zone{
+        grid-template-columns:1fr;
       }
+      .num-picker{ grid-template-columns:repeat(5,1fr); }
+      .hero h1{ font-size:28px; }
+      .summary-value{ font-size:17px; }
+      .card{ padding:16px; }
     }
-    throw new Error("최신 회차를 찾지 못했습니다.");
-  }
+  </style>
+</head>
+<body>
+  <div class="petals" id="petals"></div>
 
-  async function preloadRecentRounds(latestRound, count = 180) {
-    const start = Math.max(1, latestRound - count + 1);
-    const arr = [];
-    for (let r = latestRound; r >= start; r--) {
-      try {
-        const item = await fetchRound(r);
-        arr.push(item);
-      } catch (e) {
-        // 실패 회차는 무시
-      }
-    }
-    DRAW_DB = arr.sort((a, b) => b.round - a.round);
-  }
+  <div class="wrap">
+    <div class="hero">
+      <h1>🌸 대박 로또 당첨기</h1>
+      <p>밝은 핑크 고정 · 실제 웹 데이터 로드 · 번호생성 · 선택번호 저장 · 당첨확인</p>
+    </div>
 
-  function initSummaryUI() {
-    document.getElementById("currentDate").textContent = CURRENT_DRAW_DATE || "-";
-    document.getElementById("currentRound").textContent = CURRENT_ROUND ? `${CURRENT_ROUND}회` : "-";
-    document.getElementById("firstPrizeNumbers").textContent =
-      CURRENT_FIRST_PRIZE.length ? CURRENT_FIRST_PRIZE.join(", ") : "-";
-    document.getElementById("winnerCount").textContent =
-      CURRENT_WINNER_COUNT != null ? `${CURRENT_WINNER_COUNT}명` : "-";
-    document.getElementById("prizeAmount").textContent =
-      CURRENT_PRIZE_AMOUNT != null ? formatMoneyKRW(CURRENT_PRIZE_AMOUNT) : "-";
-    document.getElementById("nextDate").textContent = NEXT_DRAW_DATE || "-";
-  }
-
-  function fillComboCount() {
-    comboCountEl.innerHTML = "";
-    for (let i = 1; i <= 10; i++) {
-      const op = document.createElement("option");
-      op.value = i;
-      op.textContent = i + "조합";
-      comboCountEl.appendChild(op);
-    }
-    comboCountEl.value = "3";
-  }
-
-  function getBallClass(n) {
-    if (n <= 10) return "yellow";
-    if (n <= 20) return "sky";
-    if (n <= 30) return "red";
-    if (n <= 40) return "purple";
-    return "green";
-  }
-
-  function plusNumbers(nums, step) {
-    return nums.map(n => ((n - 1 + step) % 45) + 1);
-  }
-
-  function findSameDateHistory(baseDate) {
-    const base = getMonthDay(baseDate);
-    return DRAW_DB
-      .filter(row => row.round !== CURRENT_ROUND)
-      .filter(row => {
-        const md = getMonthDay(row.date);
-        return md.month === base.month && md.day === base.day;
-      })
-      .sort((a, b) => b.round - a.round);
-  }
-
-  function updateHistoryModeText() {
-    const modeText = historyBaseDate === CURRENT_DRAW_DATE
-      ? `${historyBaseDate} (현재 회차 날짜 기준)`
-      : `${historyBaseDate} (다음 회차 날짜 기준)`;
-
-    historyModeInfoEl.textContent = plusStep === 0
-      ? `현재 불러오는 기준: ${modeText}`
-      : `현재 불러오는 기준: ${modeText} · 번호 +${plusStep} 적용중`;
-  }
-
-  function renderHistory() {
-    const rows = historyBaseDate ? findSameDateHistory(historyBaseDate) : [];
-    updateHistoryModeText();
-
-    if (!rows.length) {
-      historyListEl.innerHTML = `<div class="empty">해당 날짜의 과거 데이터가 없습니다.</div>`;
-      return;
-    }
-
-    historyListEl.innerHTML = rows.map(row => {
-      const changed = plusNumbers(row.numbers, plusStep);
-      return `
-        <div class="history-item">
-          <div class="history-head">
-            <div class="history-round">${row.round}회</div>
-            <div class="history-date">${row.date}</div>
+    <div class="card">
+      <h2>💖 자동화 정보</h2>
+      <div class="summary-box">
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="summary-label">기준 추첨일</div>
+            <div class="summary-value" id="currentDate">불러오는 중...</div>
           </div>
-          <div class="num-zone">
-            <div>
-              <div class="mini-title">원본 번호</div>
-              <div class="balls">
-                ${row.numbers.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
-              </div>
-            </div>
-            <div>
-              ${plusStep === 0 ? "" : `
-                <div class="mini-title">+${plusStep} 적용 번호</div>
-                <div class="balls">
-                  ${changed.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
-                </div>
-              `}
-            </div>
+          <div class="summary-item">
+            <div class="summary-label">기존 회차</div>
+            <div class="summary-value" id="currentRound">불러오는 중...</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">1등 당첨번호</div>
+            <div class="summary-value" id="firstPrizeNumbers">불러오는 중...</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">당첨자 수</div>
+            <div class="summary-value" id="winnerCount">불러오는 중...</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">당첨금액</div>
+            <div class="summary-value" id="prizeAmount">불러오는 중...</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">다음회차 추첨일</div>
+            <div class="summary-value" id="nextDate">불러오는 중...</div>
           </div>
         </div>
-      `;
-    }).join("");
-  }
+      </div>
+      <div class="status-box" id="loadStatus">데이터를 불러오는 중입니다.</div>
+    </div>
 
-  function renderPicker() {
-    numPickerEl.innerHTML = "";
-    for (let i = 1; i <= 45; i++) {
-      const el = document.createElement("div");
-      el.className = "pick" + (manualNumbers.includes(i) ? " active" : "");
-      el.textContent = i;
-      el.addEventListener("click", () => {
-        playClick("soft");
-        toggleManual(i);
-      });
-      numPickerEl.appendChild(el);
-    }
-  }
+    <div class="card">
+      <h2>🌼 같은 날짜 과거 데이터 자동찾기</h2>
+      <div class="sub">
+        <b>다음 회차 데이터</b>를 누르면 다음 추첨일 기준 같은 날짜 과거 데이터로 전환됩니다.<br>
+        <b>+1 보기</b>는 원본 번호에 각 자리별로 +1씩 적용해서 보여줍니다.
+      </div>
 
-  function renderManualSelected() {
-    manualCountEl.textContent = `선택된 번호: ${manualNumbers.length}개`;
-    selectedManualEl.innerHTML = manualNumbers.length
-      ? [...manualNumbers].sort((a, b) => a - b).map(n => `<span class="chip">${n}</span>`).join("")
-      : `<span class="chip">선택 없음</span>`;
-  }
+      <div class="history-actions">
+        <button class="btn-mint sfx" id="nextPlusBtn">➕ +1 보기</button>
+        <button class="btn-lav sfx" id="nextRoundBtn">📅 다음 회차 데이터</button>
+        <button class="btn-light sfx" id="resetPlusBtn">🔄 초기화</button>
+      </div>
 
-  function toggleManual(n) {
-    if (manualNumbers.includes(n)) {
-      manualNumbers = manualNumbers.filter(v => v !== n);
-    } else {
-      if (manualNumbers.length >= 6) {
-        alert("수동번호는 최대 6개까지 선택할 수 있습니다.");
-        return;
-      }
-      manualNumbers.push(n);
-    }
-    renderPicker();
-    renderManualSelected();
-    saveState(false);
-  }
+      <div class="status-box" id="historyModeInfo">현재 불러오는 기준: -</div>
+      <div class="history-list" id="historyList"></div>
+    </div>
 
-  function toggleManualBox() {
-    manualBoxEl.classList.toggle("show");
-    const isOpen = manualBoxEl.classList.contains("show");
-    toggleManualBtnEl.textContent = isOpen ? "🙈 수동번호 입력창 닫기" : "📝 수동번호 입력창 열기";
-  }
+    <div class="card">
+      <h2>🎀 추천옵션 번호 생성</h2>
+      <div class="sub">
+        수동번호를 선택하지 않으면 추천옵션만으로 생성합니다.<br>
+        수동번호는 버튼을 눌렀을 때만 입력창이 열립니다.
+      </div>
 
-  function getSelectedOptions() {
-    return [...document.querySelectorAll(".recOpt:checked")].map(el => el.value);
-  }
+      <div class="option-grid">
+        <label class="opt"><input type="checkbox" class="recOpt" value="hot"> 자주 나온 번호</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="cold"> 덜 나온 번호</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="oddEven"> 홀짝 균형</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="highLow"> 고저 균형</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="sumRange"> 합계 범위</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="avoidRepeat"> 최근 회차 반복 줄이기</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="sectionMix"> 구간 분산</label>
+        <label class="opt"><input type="checkbox" class="recOpt" value="dateMix"> 날짜 숫자 반영</label>
+      </div>
 
-  function frequencyMap(rows) {
-    const freq = {};
-    for (let i = 1; i <= 45; i++) freq[i] = 0;
-    rows.forEach(r => r.numbers.forEach(n => freq[n]++));
-    return freq;
-  }
+      <div class="manual-toggle-row">
+        <button class="btn-blue sfx" id="toggleManualBtn">📝 수동번호 입력창 열기</button>
+        <button class="btn-light sfx" id="clearManualBtn">🧹 수동번호 지우기</button>
+        <button class="btn-light sfx" id="saveSelectedBtn">💾 선택번호 저장</button>
+      </div>
 
-  function pickWeighted(freq, pool, preferHigh) {
-    const items = pool.map(n => ({
-      n,
-      w: preferHigh ? (freq[n] + 1) : (1 / (freq[n] + 1))
-    }));
-    const total = items.reduce((s, x) => s + x.w, 0);
-    let rand = Math.random() * total;
-    for (const item of items) {
-      rand -= item.w;
-      if (rand <= 0) return item.n;
-    }
-    return items[items.length - 1].n;
-  }
+      <div class="manual-box" id="manualBox">
+        <div class="manual-top">
+          <div class="manual-title">수동번호 입력창</div>
+          <div class="manual-count" id="manualCount">선택된 번호: 0개</div>
+        </div>
+        <div class="sub" style="margin-top:0;">
+          최대 6개까지 선택 가능합니다. 선택한 번호는 생성 조합에 포함됩니다.
+        </div>
+        <div class="num-picker" id="numPicker"></div>
+        <div class="selected-manual" id="selectedManual"></div>
+      </div>
 
-  function sum(arr) {
-    return arr.reduce((a, b) => a + b, 0);
-  }
+      <div class="generate-row">
+        <div class="field">
+          <label for="comboCount">조합 수</label>
+          <select id="comboCount"></select>
+        </div>
+        <button class="btn-pink sfx" id="generateBtn">🎲 번호 생성</button>
+      </div>
 
-  function isValidCombo(nums, opts) {
-    const sorted = [...nums].sort((a, b) => a - b);
+      <div class="check-row">
+        <button class="btn-mint sfx" id="checkWinBtn">🏆 당첨확인</button>
+        <button class="btn-danger sfx" id="resetResultBtn">❌ 결과 초기화</button>
+      </div>
+    </div>
 
-    if (opts.includes("oddEven")) {
-      const odd = sorted.filter(n => n % 2 === 1).length;
-      if (odd < 2 || odd > 4) return false;
-    }
+    <div class="card">
+      <h2>✨ 추천 결과</h2>
+      <div class="tag-row" id="tagRow"></div>
+      <div class="result-box" id="resultBox">여기에 추천 번호가 표시됩니다.</div>
+    </div>
 
-    if (opts.includes("highLow")) {
-      const low = sorted.filter(n => n <= 22).length;
-      if (low < 2 || low > 4) return false;
-    }
+    <div class="card">
+      <h2>🎉 당첨 확인 결과</h2>
+      <div class="check-box" id="checkBox">여기에 당첨 확인 결과가 표시됩니다.</div>
+    </div>
+  </div>
 
-    if (opts.includes("sumRange")) {
-      const s = sum(sorted);
-      if (s < 100 || s > 175) return false;
-    }
+  <script>
+    const STORAGE_KEY = "daebak_lotto_bright_mobile_full_v2";
+    const SAVED_NUMBERS_KEY = "daebak_lotto_saved_numbers_v2";
 
-    if (opts.includes("sectionMix")) {
-      const s1 = sorted.filter(n => n <= 10).length;
-      const s2 = sorted.filter(n => n >= 11 && n <= 20).length;
-      const s3 = sorted.filter(n => n >= 21 && n <= 30).length;
-      const s4 = sorted.filter(n => n >= 31).length;
-      const used = [s1, s2, s3, s4].filter(v => v > 0).length;
-      if (used < 3) return false;
-    }
+    // 공개 GitHub Pages JSON 데이터셋
+    const DATA_LATEST_URL = "https://smok95.github.io/lotto/results/latest.json";
+    const DATA_ALL_URL = "https://smok95.github.io/lotto/results/all.json";
 
-    for (let i = 0; i < sorted.length - 2; i++) {
-      if (sorted[i] + 1 === sorted[i + 1] && sorted[i + 1] + 1 === sorted[i + 2]) {
-        return false;
-      }
-    }
-    return true;
-  }
+    const historyListEl = document.getElementById("historyList");
+    const historyModeInfoEl = document.getElementById("historyModeInfo");
+    const numPickerEl = document.getElementById("numPicker");
+    const selectedManualEl = document.getElementById("selectedManual");
+    const manualCountEl = document.getElementById("manualCount");
+    const comboCountEl = document.getElementById("comboCount");
+    const resultBoxEl = document.getElementById("resultBox");
+    const tagRowEl = document.getElementById("tagRow");
+    const checkBoxEl = document.getElementById("checkBox");
+    const petalsEl = document.getElementById("petals");
+    const manualBoxEl = document.getElementById("manualBox");
+    const toggleManualBtnEl = document.getElementById("toggleManualBtn");
+    const loadStatusEl = document.getElementById("loadStatus");
 
-  function buildDateSet() {
-    if (!NEXT_DRAW_DATE) return new Set();
-    const [y, m, d] = NEXT_DRAW_DATE.split("-").map(Number);
-    const s = new Set();
-    [y % 100, m, d, m + d, (y % 10) + d].forEach(v => {
-      if (v >= 1 && v <= 45) s.add(v);
-    });
-    return s;
-  }
+    let plusStep = 0;
+    let manualNumbers = [];
+    let historyBaseDate = null;
+    let lastGeneratedCombos = [];
 
-  function generateOneCombo(baseRows, opts, manualNums) {
-    const freq = frequencyMap(baseRows);
-    const current = DRAW_DB.find(v => v.round === CURRENT_ROUND);
-    const avoidSet = new Set(opts.includes("avoidRepeat") && current ? current.numbers : []);
-    const dateSet = buildDateSet();
+    let CURRENT_ROUND = null;
+    let CURRENT_DRAW_DATE = null;
+    let NEXT_DRAW_DATE = null;
+    let CURRENT_FIRST_PRIZE = [];
+    let CURRENT_WINNER_COUNT = null;
+    let CURRENT_PRIZE_AMOUNT = null;
+    let DRAW_DB = [];
 
-    const combo = new Set(manualNums);
-    let tries = 0;
-
-    while (combo.size < 6 && tries < 600) {
-      tries++;
-      let pool = Array.from({ length: 45 }, (_, i) => i + 1).filter(n => !combo.has(n));
-
-      if (opts.includes("avoidRepeat")) {
-        const filtered = pool.filter(n => !avoidSet.has(n));
-        if (filtered.length >= 6 - combo.size) pool = filtered;
-      }
-
-      let pick = null;
-
-      if (opts.includes("dateMix") && Math.random() < 0.22) {
-        const dp = [...dateSet].filter(n => pool.includes(n));
-        if (dp.length) pick = dp[Math.floor(Math.random() * dp.length)];
-      }
-
-      if (!pick && opts.includes("hot")) {
-        pick = pickWeighted(freq, pool, true);
-      } else if (!pick && opts.includes("cold")) {
-        pick = pickWeighted(freq, pool, false);
-      } else if (!pick) {
-        pick = pool[Math.floor(Math.random() * pool.length)];
-      }
-
-      combo.add(pick);
-
-      if (tries > 120 && combo.size < 6) {
-        combo.clear();
-        manualNums.forEach(n => combo.add(n));
+    function makePetals() {
+      const count = 14;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement("span");
+        p.className = "petal";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = (10 + Math.random() * 10) + "s";
+        p.style.animationDelay = (-Math.random() * 18) + "s";
+        petalsEl.appendChild(p);
       }
     }
 
-    const arr = [...combo].sort((a, b) => a - b);
-    if (arr.length !== 6) return null;
-    if (!isValidCombo(arr, opts)) return null;
-    return arr;
-  }
-
-  function renderTags(opts, manualNums) {
-    const map = {
-      hot: "자주 나온 번호",
-      cold: "덜 나온 번호",
-      oddEven: "홀짝 균형",
-      highLow: "고저 균형",
-      sumRange: "합계 범위",
-      avoidRepeat: "최근 회차 반복 줄이기",
-      sectionMix: "구간 분산",
-      dateMix: "날짜 숫자 반영"
-    };
-
-    const tags = [];
-    tags.push(manualNums.length ? `수동번호 포함: ${manualNums.sort((a,b)=>a-b).join(", ")}` : "수동번호 없음");
-    if (opts.length) opts.forEach(o => tags.push(map[o]));
-    else tags.push("기본 랜덤 생성");
-
-    tagRowEl.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
-  }
-
-  function generateCombos() {
-    const opts = getSelectedOptions();
-    const comboCount = Number(comboCountEl.value || 1);
-    const baseRows = DRAW_DB.filter(row => row.round !== CURRENT_ROUND);
-    const manualNums = [...manualNumbers].sort((a, b) => a - b);
-
-    renderTags(opts, manualNums);
-
-    const results = [];
-    const seen = new Set();
-    let safe = 0;
-
-    while (results.length < comboCount && safe < 5000) {
-      safe++;
-      const combo = generateOneCombo(baseRows, opts, manualNums);
-      if (!combo) continue;
-      const key = combo.join(",");
-      if (!seen.has(key)) {
-        seen.add(key);
-        results.push(combo);
-      }
+    function formatMoneyKRW(value) {
+      if (typeof value !== "number" || Number.isNaN(value)) return "-";
+      return value.toLocaleString("ko-KR") + "원";
     }
 
-    lastGeneratedCombos = results;
-
-    if (!results.length) {
-      resultBoxEl.textContent = "번호를 만들지 못했습니다. 수동번호를 줄이거나 옵션을 바꿔보세요.";
-      return;
+    function formatDate(isoLike) {
+      if (!isoLike) return "-";
+      return isoLike.slice(0, 10);
     }
 
-    resultBoxEl.textContent = results.map((row, idx) => `${idx + 1}조합  :  ${row.join(" , ")}`).join("\n");
-    saveState(false);
-  }
-
-  function saveSelectedNumbers() {
-    const payload = {
-      manualNumbers: [...manualNumbers].sort((a,b)=>a-b),
-      savedAt: new Date().toLocaleString("ko-KR")
-    };
-    localStorage.setItem(SAVED_NUMBERS_KEY, JSON.stringify(payload));
-    alert(payload.manualNumbers.length
-      ? `선택번호 저장 완료: ${payload.manualNumbers.join(", ")}`
-      : "현재 선택된 수동번호가 없어 빈 상태로 저장되었습니다.");
-  }
-
-  function checkWinning() {
-    const firstPrize = [...CURRENT_FIRST_PRIZE].sort((a,b)=>a-b);
-    const selected = [...manualNumbers].sort((a,b)=>a-b);
-
-    if (selected.length === 6) {
-      const isWin = JSON.stringify(selected) === JSON.stringify(firstPrize);
-      checkBoxEl.textContent = isWin
-        ? `🎉 축하합니다! 선택한 수동번호 ${selected.join(", ")} 가 현재 1등 번호와 일치합니다!`
-        : `😊 수동번호 ${selected.join(", ")} 는 현재 1등 번호 ${firstPrize.join(", ")} 와 일치하지 않습니다.`;
-      return;
+    function addDays(dateStr, days) {
+      const d = new Date(dateStr + "T00:00:00");
+      d.setDate(d.getDate() + days);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
     }
 
-    if (lastGeneratedCombos.length) {
-      const exact = lastGeneratedCombos.find(c =>
-        JSON.stringify([...c].sort((a,b)=>a-b)) === JSON.stringify(firstPrize)
-      );
-      checkBoxEl.textContent = exact
-        ? `🎉 생성된 조합 중 당첨번호와 일치한 조합이 있습니다: ${exact.join(", ")}`
-        : `😊 생성된 조합 ${lastGeneratedCombos.length}개 중 현재 1등 번호와 완전일치한 조합은 없습니다.`;
-      return;
+    function getMonthDay(dateStr) {
+      const [_, m, d] = dateStr.split("-").map(Number);
+      return { month: m, day: d };
     }
 
-    checkBoxEl.textContent = "먼저 수동번호 6개를 선택하거나 번호 생성을 해주세요.";
-  }
+    function getBallClass(n) {
+      if (n <= 10) return "yellow";
+      if (n <= 20) return "sky";
+      if (n <= 30) return "red";
+      if (n <= 40) return "purple";
+      return "green";
+    }
 
-  function clearManual() {
-    manualNumbers = [];
-    renderPicker();
-    renderManualSelected();
-    saveState(false);
-  }
+    function normalizeLatest(data) {
+      return {
+        round: data.draw_no,
+        date: formatDate(data.date),
+        numbers: data.numbers || [],
+        bonus: data.bonus_no,
+        firstPrizeWinnerCount: data.divisions?.[0]?.winners ?? null,
+        firstPrizeAmount: data.divisions?.[0]?.prize ?? null
+      };
+    }
 
-  function resetResult() {
-    tagRowEl.innerHTML = "";
-    resultBoxEl.textContent = "여기에 추천 번호가 표시됩니다.";
-    checkBoxEl.textContent = "여기에 당첨 확인 결과가 표시됩니다.";
-    lastGeneratedCombos = [];
-    saveState(false);
-  }
+    function normalizeAll(list) {
+      return (list || []).map(item => ({
+        round: item.draw_no,
+        date: formatDate(item.date),
+        numbers: item.numbers || [],
+        bonus: item.bonus_no,
+        firstPrizeWinnerCount: item.divisions?.[0]?.winners ?? null,
+        firstPrizeAmount: item.divisions?.[0]?.prize ?? null
+      })).sort((a, b) => b.round - a.round);
+    }
 
-  function saveState(showAlert = false) {
-    const state = {
-      plusStep,
-      manualNumbers,
-      comboCount: comboCountEl.value,
-      opts: getSelectedOptions(),
-      result: resultBoxEl.textContent,
-      tags: tagRowEl.innerHTML,
-      historyBaseDate,
-      manualOpen: manualBoxEl.classList.contains("show")
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    if (showAlert) alert("저장되었습니다.");
-  }
+    async function fetchJson(url) {
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error("데이터 요청 실패: " + res.status);
+      return await res.json();
+    }
 
-  function loadState() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    try {
-      const data = JSON.parse(raw);
-      plusStep = Number(data.plusStep || 0);
-      manualNumbers = Array.isArray(data.manualNumbers) ? data.manualNumbers : [];
-      comboCountEl.value = data.comboCount || "3";
-      historyBaseDate = data.historyBaseDate || null;
-      document.querySelectorAll(".recOpt").forEach(el => {
-        el.checked = (data.opts || []).includes(el.value);
-      });
-      if (data.result) resultBoxEl.textContent = data.result;
-      if (data.tags) tagRowEl.innerHTML = data.tags;
-      if (data.manualOpen) {
-        manualBoxEl.classList.add("show");
-        toggleManualBtnEl.textContent = "🙈 수동번호 입력창 닫기";
-      }
-    } catch (e) {}
-  }
+    async function loadLiveData() {
+      const [latestRaw, allRaw] = await Promise.all([
+        fetchJson(DATA_LATEST_URL),
+        fetchJson(DATA_ALL_URL)
+      ]);
 
-  function playClick(type = "normal") {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      if (!window._clickCtx) window._clickCtx = new AudioCtx();
-      const ctx = window._clickCtx;
-      if (ctx.state === "suspended") ctx.resume();
+      const latest = normalizeLatest(latestRaw);
+      const all = normalizeAll(allRaw);
 
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(type === "soft" ? 520 : 680, now);
-      osc.frequency.exponentialRampToValueAtTime(type === "soft" ? 320 : 420, now + 0.08);
-
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.04, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.12);
-    } catch (e) {}
-  }
-
-  document.querySelectorAll("button.sfx").forEach(btn => {
-    btn.addEventListener("click", () => playClick("normal"));
-  });
-
-  document.querySelectorAll(".recOpt").forEach(el => {
-    el.addEventListener("change", () => {
-      playClick("soft");
-      saveState(false);
-    });
-  });
-
-  document.getElementById("nextPlusBtn").addEventListener("click", () => {
-    plusStep++;
-    renderHistory();
-    saveState(false);
-  });
-
-  document.getElementById("nextRoundBtn").addEventListener("click", () => {
-    historyBaseDate = NEXT_DRAW_DATE;
-    plusStep = 0;
-    renderHistory();
-    saveState(false);
-  });
-
-  document.getElementById("resetPlusBtn").addEventListener("click", () => {
-    historyBaseDate = CURRENT_DRAW_DATE;
-    plusStep = 0;
-    renderHistory();
-    saveState(false);
-  });
-
-  document.getElementById("toggleManualBtn").addEventListener("click", () => {
-    toggleManualBox();
-    saveState(false);
-  });
-
-  document.getElementById("clearManualBtn").addEventListener("click", clearManual);
-  document.getElementById("saveSelectedBtn").addEventListener("click", saveSelectedNumbers);
-  document.getElementById("generateBtn").addEventListener("click", generateCombos);
-  document.getElementById("checkWinBtn").addEventListener("click", checkWinning);
-  document.getElementById("resetResultBtn").addEventListener("click", resetResult);
-  comboCountEl.addEventListener("change", () => saveState(false));
-
-  async function initLiveData() {
-    try {
-      const latest = await findLatestRound();
       CURRENT_ROUND = latest.round;
       CURRENT_DRAW_DATE = latest.date;
+      NEXT_DRAW_DATE = addDays(CURRENT_DRAW_DATE, 7);
       CURRENT_FIRST_PRIZE = latest.numbers;
       CURRENT_WINNER_COUNT = latest.firstPrizeWinnerCount;
       CURRENT_PRIZE_AMOUNT = latest.firstPrizeAmount;
-      NEXT_DRAW_DATE = addDays(CURRENT_DRAW_DATE, 7);
-
-      await preloadRecentRounds(CURRENT_ROUND, 220);
+      DRAW_DB = all;
 
       if (!historyBaseDate) historyBaseDate = CURRENT_DRAW_DATE;
+    }
 
-      initSummaryUI();
-      renderHistory();
+    function initSummaryUI() {
+      document.getElementById("currentDate").textContent = CURRENT_DRAW_DATE || "-";
+      document.getElementById("currentRound").textContent = CURRENT_ROUND ? `${CURRENT_ROUND}회` : "-";
+      document.getElementById("firstPrizeNumbers").textContent = CURRENT_FIRST_PRIZE.length ? CURRENT_FIRST_PRIZE.join(", ") : "-";
+      document.getElementById("winnerCount").textContent = CURRENT_WINNER_COUNT != null ? `${CURRENT_WINNER_COUNT}명` : "-";
+      document.getElementById("prizeAmount").textContent = CURRENT_PRIZE_AMOUNT != null ? formatMoneyKRW(CURRENT_PRIZE_AMOUNT) : "-";
+      document.getElementById("nextDate").textContent = NEXT_DRAW_DATE || "-";
+    }
+
+    function fillComboCount() {
+      comboCountEl.innerHTML = "";
+      for (let i = 1; i <= 10; i++) {
+        const op = document.createElement("option");
+        op.value = i;
+        op.textContent = i + "조합";
+        comboCountEl.appendChild(op);
+      }
+      comboCountEl.value = "3";
+    }
+
+    function plusNumbers(nums, step) {
+      return nums.map(n => ((n - 1 + step) % 45) + 1);
+    }
+
+    function findSameDateHistory(baseDate) {
+      if (!baseDate) return [];
+      const base = getMonthDay(baseDate);
+      return DRAW_DB
+        .filter(row => row.round !== CURRENT_ROUND)
+        .filter(row => {
+          const md = getMonthDay(row.date);
+          return md.month === base.month && md.day === base.day;
+        })
+        .sort((a, b) => b.round - a.round);
+    }
+
+    function updateHistoryModeText() {
+      if (!historyBaseDate) {
+        historyModeInfoEl.textContent = "현재 불러오는 기준: -";
+        return;
+      }
+      const modeText = historyBaseDate === CURRENT_DRAW_DATE
+        ? `${historyBaseDate} (현재 회차 날짜 기준)`
+        : `${historyBaseDate} (다음 회차 날짜 기준)`;
+
+      historyModeInfoEl.textContent = plusStep === 0
+        ? `현재 불러오는 기준: ${modeText}`
+        : `현재 불러오는 기준: ${modeText} · 번호 +${plusStep} 적용중`;
+    }
+
+    function renderHistory() {
+      const rows = findSameDateHistory(historyBaseDate);
+      updateHistoryModeText();
+
+      if (!rows.length) {
+        historyListEl.innerHTML = `<div class="empty">해당 날짜의 과거 데이터가 없습니다.</div>`;
+        return;
+      }
+
+      historyListEl.innerHTML = rows.map(row => {
+        const changed = plusNumbers(row.numbers, plusStep);
+        return `
+          <div class="history-item">
+            <div class="history-head">
+              <div class="history-round">${row.round}회</div>
+              <div class="history-date">${row.date}</div>
+            </div>
+            <div class="num-zone">
+              <div>
+                <div class="mini-title">원본 번호</div>
+                <div class="balls">
+                  ${row.numbers.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
+                </div>
+              </div>
+              <div>
+                ${plusStep === 0 ? "" : `
+                  <div class="mini-title">+${plusStep} 적용 번호</div>
+                  <div class="balls">
+                    ${changed.map(n => `<span class="ball ${getBallClass(n)}">${n}</span>`).join("")}
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderPicker() {
+      numPickerEl.innerHTML = "";
+      for (let i = 1; i <= 45; i++) {
+        const el = document.createElement("div");
+        el.className = "pick" + (manualNumbers.includes(i) ? " active" : "");
+        el.textContent = i;
+        el.addEventListener("click", () => {
+          playClick("soft");
+          toggleManual(i);
+        });
+        numPickerEl.appendChild(el);
+      }
+    }
+
+    function renderManualSelected() {
+      manualCountEl.textContent = `선택된 번호: ${manualNumbers.length}개`;
+      selectedManualEl.innerHTML = manualNumbers.length
+        ? [...manualNumbers].sort((a, b) => a - b).map(n => `<span class="chip">${n}</span>`).join("")
+        : `<span class="chip">선택 없음</span>`;
+    }
+
+    function toggleManual(n) {
+      if (manualNumbers.includes(n)) {
+        manualNumbers = manualNumbers.filter(v => v !== n);
+      } else {
+        if (manualNumbers.length >= 6) {
+          alert("수동번호는 최대 6개까지 선택할 수 있습니다.");
+          return;
+        }
+        manualNumbers.push(n);
+      }
       renderPicker();
       renderManualSelected();
-      checkBoxEl.textContent = "인터넷에서 최신 데이터를 불러왔습니다.";
-    } catch (err) {
-      console.error(err);
-      initSummaryUI();
-      historyListEl.innerHTML = `<div class="empty">인터넷에서 최신 데이터를 불러오지 못했습니다.</div>`;
-      checkBoxEl.textContent = "최신 데이터 조회 실패. 네트워크 또는 브라우저 설정을 확인해주세요.";
+      saveState(false);
     }
-  }
 
-  async function init() {
-    fillComboCount();
-    loadState();
-    renderPicker();
-    renderManualSelected();
-    makePetals();
-    await initLiveData();
-  }
+    function toggleManualBox() {
+      manualBoxEl.classList.toggle("show");
+      const isOpen = manualBoxEl.classList.contains("show");
+      toggleManualBtnEl.textContent = isOpen ? "🙈 수동번호 입력창 닫기" : "📝 수동번호 입력창 열기";
+    }
 
-  init();
-</script>
+    function getSelectedOptions() {
+      return [...document.querySelectorAll(".recOpt:checked")].map(el => el.value);
+    }
+
+    function frequencyMap(rows) {
+      const freq = {};
+      for (let i = 1; i <= 45; i++) freq[i] = 0;
+      rows.forEach(r => r.numbers.forEach(n => freq[n]++));
+      return freq;
+    }
+
+    function pickWeighted(freq, pool, preferHigh) {
+      const items = pool.map(n => ({
+        n,
+        w: preferHigh ? (freq[n] + 1) : (1 / (freq[n] + 1))
+      }));
+      const total = items.reduce((s, x) => s + x.w, 0);
+      let rand = Math.random() * total;
+      for (const item of items) {
+        rand -= item.w;
+        if (rand <= 0) return item.n;
+      }
+      return items[items.length - 1].n;
+    }
+
+    function sum(arr) {
+      return arr.reduce((a, b) => a + b, 0);
+    }
+
+    function isValidCombo(nums, opts) {
+      const sorted = [...nums].sort((a, b) => a - b);
+
+      if (opts.includes("oddEven")) {
+        const odd = sorted.filter(n => n % 2 === 1).length;
+        if (odd < 2 || odd > 4) return false;
+      }
+
+      if (opts.includes("highLow")) {
+        const low = sorted.filter(n => n <= 22).length;
+        if (low < 2 || low > 4) return false;
+      }
+
+      if (opts.includes("sumRange")) {
+        const s = sum(sorted);
+        if (s < 100 || s > 175) return false;
+      }
+
+      if (opts.includes("sectionMix")) {
+        const s1 = sorted.filter(n => n <= 10).length;
+        const s2 = sorted.filter(n => n >= 11 && n <= 20).length;
+        const s3 = sorted.filter(n => n >= 21 && n <= 30).length;
+        const s4 = sorted.filter(n => n >= 31).length;
+        const used = [s1, s2, s3, s4].filter(v => v > 0).length;
+        if (used < 3) return false;
+      }
+
+      for (let i = 0; i < sorted.length - 2; i++) {
+        if (sorted[i] + 1 === sorted[i + 1] && sorted[i + 1] + 1 === sorted[i + 2]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function buildDateSet() {
+      if (!NEXT_DRAW_DATE) return new Set();
+      const [y, m, d] = NEXT_DRAW_DATE.split("-").map(Number);
+      const s = new Set();
+      [y % 100, m, d, m + d, (y % 10) + d].forEach(v => {
+        if (v >= 1 && v <= 45) s.add(v);
+      });
+      return s;
+    }
+
+    function generateOneCombo(baseRows, opts, manualNums) {
+      const freq = frequencyMap(baseRows);
+      const current = DRAW_DB.find(v => v.round === CURRENT_ROUND);
+      const avoidSet = new Set(opts.includes("avoidRepeat") && current ? current.numbers : []);
+      const dateSet = buildDateSet();
+
+      const combo = new Set(manualNums);
+      let tries = 0;
+
+      while (combo.size < 6 && tries < 600) {
+        tries++;
+        let pool = Array.from({ length: 45 }, (_, i) => i + 1).filter(n => !combo.has(n));
+
+        if (opts.includes("avoidRepeat")) {
+          const filtered = pool.filter(n => !avoidSet.has(n));
+          if (filtered.length >= 6 - combo.size) pool = filtered;
+        }
+
+        let pick = null;
+
+        if (opts.includes("dateMix") && Math.random() < 0.22) {
+          const dp = [...dateSet].filter(n => pool.includes(n));
+          if (dp.length) pick = dp[Math.floor(Math.random() * dp.length)];
+        }
+
+        if (!pick && opts.includes("hot")) {
+          pick = pickWeighted(freq, pool, true);
+        } else if (!pick && opts.includes("cold")) {
+          pick = pickWeighted(freq, pool, false);
+        } else if (!pick) {
+          pick = pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        combo.add(pick);
+
+        if (tries > 120 && combo.size < 6) {
+          combo.clear();
+          manualNums.forEach(n => combo.add(n));
+        }
+      }
+
+      const arr = [...combo].sort((a, b) => a - b);
+      if (arr.length !== 6) return null;
+      if (!isValidCombo(arr, opts)) return null;
+      return arr;
+    }
+
+    function renderTags(opts, manualNums) {
+      const map = {
+        hot: "자주 나온 번호",
+        cold: "덜 나온 번호",
+        oddEven: "홀짝 균형",
+        highLow: "고저 균형",
+        sumRange: "합계 범위",
+        avoidRepeat: "최근 회차 반복 줄이기",
+        sectionMix: "구간 분산",
+        dateMix: "날짜 숫자 반영"
+      };
+
+      const tags = [];
+      tags.push(manualNums.length ? `수동번호 포함: ${manualNums.sort((a,b)=>a-b).join(", ")}` : "수동번호 없음");
+      if (opts.length) opts.forEach(o => tags.push(map[o]));
+      else tags.push("기본 랜덤 생성");
+
+      tagRowEl.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
+    }
+
+    function generateCombos() {
+      if (!DRAW_DB.length) {
+        resultBoxEl.textContent = "데이터가 아직 로드되지 않았습니다.";
+        return;
+      }
+
+      const opts = getSelectedOptions();
+      const comboCount = Number(comboCountEl.value || 1);
+      const baseRows = DRAW_DB.filter(row => row.round !== CURRENT_ROUND);
+      const manualNums = [...manualNumbers].sort((a, b) => a - b);
+
+      renderTags(opts, manualNums);
+
+      const results = [];
+      const seen = new Set();
+      let safe = 0;
+
+      while (results.length < comboCount && safe < 5000) {
+        safe++;
+        const combo = generateOneCombo(baseRows, opts, manualNums);
+        if (!combo) continue;
+        const key = combo.join(",");
+        if (!seen.has(key)) {
+          seen.add(key);
+          results.push(combo);
+        }
+      }
+
+      lastGeneratedCombos = results;
+
+      if (!results.length) {
+        resultBoxEl.textContent = "번호를 만들지 못했습니다. 수동번호를 줄이거나 옵션을 바꿔보세요.";
+        return;
+      }
+
+      resultBoxEl.textContent = results.map((row, idx) => `${idx + 1}조합  :  ${row.join(" , ")}`).join("\n");
+      saveState(false);
+    }
+
+    function saveSelectedNumbers() {
+      const payload = {
+        manualNumbers: [...manualNumbers].sort((a,b)=>a-b),
+        savedAt: new Date().toLocaleString("ko-KR")
+      };
+      localStorage.setItem(SAVED_NUMBERS_KEY, JSON.stringify(payload));
+      alert(payload.manualNumbers.length
+        ? `선택번호 저장 완료: ${payload.manualNumbers.join(", ")}`
+        : "현재 선택된 수동번호가 없어 빈 상태로 저장되었습니다.");
+    }
+
+    function checkWinning() {
+      if (!CURRENT_FIRST_PRIZE.length) {
+        checkBoxEl.textContent = "최신 당첨 데이터가 아직 없습니다.";
+        return;
+      }
+
+      const firstPrize = [...CURRENT_FIRST_PRIZE].sort((a,b)=>a-b);
+      const selected = [...manualNumbers].sort((a,b)=>a-b);
+
+      if (selected.length === 6) {
+        const isWin = JSON.stringify(selected) === JSON.stringify(firstPrize);
+        checkBoxEl.textContent = isWin
+          ? `🎉 축하합니다! 선택한 수동번호 ${selected.join(", ")} 가 현재 1등 번호와 일치합니다!`
+          : `😊 수동번호 ${selected.join(", ")} 는 현재 1등 번호 ${firstPrize.join(", ")} 와 일치하지 않습니다.`;
+        return;
+      }
+
+      if (lastGeneratedCombos.length) {
+        const exact = lastGeneratedCombos.find(c =>
+          JSON.stringify([...c].sort((a,b)=>a-b)) === JSON.stringify(firstPrize)
+        );
+        checkBoxEl.textContent = exact
+          ? `🎉 생성된 조합 중 당첨번호와 일치한 조합이 있습니다: ${exact.join(", ")}`
+          : `😊 생성된 조합 ${lastGeneratedCombos.length}개 중 현재 1등 번호와 완전일치한 조합은 없습니다.`;
+        return;
+      }
+
+      checkBoxEl.textContent = "먼저 수동번호 6개를 선택하거나 번호 생성을 해주세요.";
+    }
+
+    function clearManual() {
+      manualNumbers = [];
+      renderPicker();
+      renderManualSelected();
+      saveState(false);
+    }
+
+    function resetResult() {
+      tagRowEl.innerHTML = "";
+      resultBoxEl.textContent = "여기에 추천 번호가 표시됩니다.";
+      checkBoxEl.textContent = "여기에 당첨 확인 결과가 표시됩니다.";
+      lastGeneratedCombos = [];
+      saveState(false);
+    }
+
+    function saveState(showAlert = false) {
+      const state = {
+        plusStep,
+        manualNumbers,
+        comboCount: comboCountEl.value,
+        opts: getSelectedOptions(),
+        result: resultBoxEl.textContent,
+        tags: tagRowEl.innerHTML,
+        historyBaseDate,
+        manualOpen: manualBoxEl.classList.contains("show")
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      if (showAlert) alert("저장되었습니다.");
+    }
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        plusStep = Number(data.plusStep || 0);
+        manualNumbers = Array.isArray(data.manualNumbers) ? data.manualNumbers : [];
+        comboCountEl.value = data.comboCount || "3";
+        historyBaseDate = data.historyBaseDate || null;
+        document.querySelectorAll(".recOpt").forEach(el => {
+          el.checked = (data.opts || []).includes(el.value);
+        });
+        if (data.result) resultBoxEl.textContent = data.result;
+        if (data.tags) tagRowEl.innerHTML = data.tags;
+        if (data.manualOpen) {
+          manualBoxEl.classList.add("show");
+          toggleManualBtnEl.textContent = "🙈 수동번호 입력창 닫기";
+        }
+      } catch (e) {}
+    }
+
+    function playClick(type = "normal") {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!window._clickCtx) window._clickCtx = new AudioCtx();
+        const ctx = window._clickCtx;
+        if (ctx.state === "suspended") ctx.resume();
+
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(type === "soft" ? 520 : 680, now);
+        osc.frequency.exponentialRampToValueAtTime(type === "soft" ? 320 : 420, now + 0.08);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.04, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.12);
+      } catch (e) {}
+    }
+
+    document.querySelectorAll("button.sfx").forEach(btn => {
+      btn.addEventListener("click", () => playClick("normal"));
+    });
+
+    document.querySelectorAll(".recOpt").forEach(el => {
+      el.addEventListener("change", () => {
+        playClick("soft");
+        saveState(false);
+      });
+    });
+
+    document.getElementById("nextPlusBtn").addEventListener("click", () => {
+      plusStep++;
+      renderHistory();
+      saveState(false);
+    });
+
+    document.getElementById("nextRoundBtn").addEventListener("click", () => {
+      if (!NEXT_DRAW_DATE) return;
+      historyBaseDate = NEXT_DRAW_DATE;
+      plusStep = 0;
+      renderHistory();
+      saveState(false);
+    });
+
+    document.getElementById("resetPlusBtn").addEventListener("click", () => {
+      historyBaseDate = CURRENT_DRAW_DATE;
+      plusStep = 0;
+      renderHistory();
+      saveState(false);
+    });
+
+    document.getElementById("toggleManualBtn").addEventListener("click", () => {
+      toggleManualBox();
+      saveState(false);
+    });
+
+    document.getElementById("clearManualBtn").addEventListener("click", clearManual);
+    document.getElementById("saveSelectedBtn").addEventListener("click", saveSelectedNumbers);
+    document.getElementById("generateBtn").addEventListener("click", generateCombos);
+    document.getElementById("checkWinBtn").addEventListener("click", checkWinning);
+    document.getElementById("resetResultBtn").addEventListener("click", resetResult);
+    comboCountEl.addEventListener("change", () => saveState(false));
+
+    async function init() {
+      fillComboCount();
+      loadState();
+      renderPicker();
+      renderManualSelected();
+      makePetals();
+
+      try {
+        loadStatusEl.textContent = "웹에서 최신 로또 데이터를 불러오는 중입니다.";
+        await loadLiveData();
+        initSummaryUI();
+        renderHistory();
+        loadStatusEl.textContent = "최신 데이터를 정상적으로 불러왔습니다.";
+        checkBoxEl.textContent = "데이터 로드 완료. 당첨확인을 눌러 확인할 수 있습니다.";
+      } catch (err) {
+        console.error(err);
+        initSummaryUI();
+        historyListEl.innerHTML = `<div class="empty">데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>`;
+        loadStatusEl.textContent = "데이터 로드 실패. 네트워크 또는 외부 데이터 주소를 확인해주세요.";
+        checkBoxEl.textContent = "데이터 로드 실패 상태입니다. 그래도 화면은 유지됩니다.";
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
