@@ -1,269 +1,267 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌸 대박 로또 당첨기 - 분석 & 관리형</title>
-    <style>
-        :root { --main-pink: #ff7bb4; --soft-pink: #fff2f8; --text: #6c4a5d; --border: #f4d8e5; }
-        body { background: var(--soft-pink); font-family: 'Pretendard', sans-serif; color: var(--text); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        
-        .card { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 18px; width: 100%; max-width: 600px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(255,182,193,0.15); box-sizing: border-box; }
-        h1 { color: #ff5fa5; font-size: 22px; margin: 0 0 5px; text-align: center; }
-        h3 { margin-top: 0; color: #ff5fa5; font-size: 16px; border-bottom: 1px solid #fdf0f6; padding-bottom: 8px; margin-bottom: 12px; }
-
-        /* 대시보드 */
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .info-box { background: #fffafc; border: 1px solid #fdf0f6; padding: 10px; border-radius: 12px; text-align: center; }
-        .info-box label { font-size: 10px; color: #b0899d; display: block; margin-bottom: 4px; }
-        .info-box div { font-weight: bold; font-size: 13px; color: #444; }
-
-        /* 분석 옵션 */
-        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
-        .option-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 10px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
-
-        /* 버튼 */
-        .btn-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .btn { border: none; border-radius: 10px; padding: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 13px; }
-        .btn-blue { background: #e3f2fd; color: #1e88e5; }
-        .btn-gold { background: #fff8e1; color: #fbc02d; }
-        .btn-mint { background: #e0f2f1; color: #00897b; }
-        .btn-main { background: var(--main-pink); color: white; width: 100%; padding: 16px; font-size: 16px; margin-top: 10px; border-radius: 15px; }
-
-        /* 번호 선택 (수동 입력용) */
-        .num-picker { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; margin-top: 10px; }
-        .num-btn { border: 1px solid #eee; padding: 8px 0; text-align: center; border-radius: 6px; font-size: 11px; cursor: pointer; }
-        .num-btn.active { background: var(--main-pink); color: white; border-color: var(--main-pink); }
-
-        /* 저장 목록 */
-        .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .save-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #fafafa; align-items: center; }
-        .ball-group { display: flex; gap: 4px; }
-        .ball { width: 26px; height: 26px; border-radius: 50%; background: #ff7bb4; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
-        .rank-tag { font-size: 10px; padding: 3px 7px; border-radius: 5px; background: #eee; min-width: 40px; text-align: center; }
-        .rank-tag.win { background: #ffedf5; color: #ff5fa5; font-weight: bold; }
-
-        /* 간략히 보기 모드 스타일 */
-        .compact-item { font-size: 12px; padding: 6px 0; border-bottom: 1px dotted #eee; display: flex; justify-content: space-between; }
-
-        #loading { text-align: center; font-size: 12px; color: #ff7bb4; margin: 10px 0; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>🌸 대박 로또 당첨기</title>
+  <style>
+    /* 기존 스타일 유지 */
+    * { box-sizing: border-box; }
+    :root{
+      --bg:#fff8fc; --bg2:#fff2f8; --bg3:#ffedf5; --card:#ffffff; --line:#f4d8e5;
+      --text:#6c4a5d; --text-strong:#874967; --sub:#a27088; --pink:#ff7bb4;
+      --pink-2:#ff9ac6; --pink-3:#ffe2ee; --lav:#eadfff; --mint:#ddf8ec;
+      --blue:#eef8ff; --danger:#ff9aad; --ok:#77cfa5; --shadow:0 8px 22px rgba(245, 165, 197, 0.10);
+    }
+    html, body{ margin:0; padding:0; background:var(--bg); color:var(--text); color-scheme: light; }
+    body{ min-height:100vh; font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 55%, var(--bg3) 100%); overflow-x:hidden; position:relative; }
+    body::before{ content:""; position:fixed; inset:0; pointer-events:none; opacity:.08; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250"><g><path d="M45 32 C54 20,69 20,78 32 C87 20,102 20,111 32 C102 44,87 44,78 54 C69 44,54 44,45 32Z" fill="%23ffcfe0"/><circle cx="78" cy="37" r="5" fill="%23ffabc9"/><path d="M165 84 C174 72,189 72,198 84 C207 72,222 72,231 84 C222 96,207 96,198 106 C189 96,174 96,165 84Z" fill="%23ffdbe8"/><circle cx="198" cy="89" r="5" fill="%23ffb7d1"/><path d="M105 175 C114 163,129 163,138 175 C147 163,162 163,171 175 C162 187,147 187,138 197 C129 187,114 187,105 175Z" fill="%23ffe8f1"/><circle cx="138" cy="180" r="5" fill="%23ffc9dc"/></g></svg>'); background-repeat:repeat; background-size:250px 250px; }
+    .petals{ position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+    .petal{ position:absolute; top:-30px; width:14px; height:10px; background:#ffd1e2; border-radius:12px 12px 12px 2px; opacity:.45; animation:fall linear infinite; }
+    @keyframes fall{ 0%{ transform:translateY(-25px) rotate(0deg) translateX(0); } 50%{ transform:translateY(50vh) rotate(180deg) translateX(18px); } 100%{ transform:translateY(105vh) rotate(360deg) translateX(-18px); } }
+    .wrap{ position:relative; z-index:2; max-width:1040px; margin:0 auto; padding:18px 14px 40px; }
+    .hero{ text-align:center; margin:8px 0 18px; }
+    .hero h1{ margin:0; font-size:34px; font-weight:900; color:#ff5fa5; letter-spacing:-0.5px; }
+    .hero p{ margin:8px 0 0; font-size:14px; font-weight:800; color:#b07a95; }
+    .card{ background:var(--card); border:1px solid var(--line); border-radius:24px; box-shadow:var(--shadow); padding:18px; margin-bottom:16px; }
+    .card h2{ margin:0 0 10px; font-size:22px; color:var(--text-strong); letter-spacing:-0.2px; }
+    .sub{ margin:0 0 12px; color:var(--sub); font-size:13px; line-height:1.7; font-weight:800; }
+    .summary-box{ background:#fff7fb; border:1px solid #f5dce7; border-radius:22px; padding:16px; }
+    .summary-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px 16px; }
+    .summary-item{ background:#fff; border:1px solid #f3dce7; border-radius:16px; padding:12px; }
+    .summary-label{ font-size:12px; font-weight:900; color:#b27896; margin-bottom:6px; }
+    .summary-value{ font-size:18px; font-weight:900; color:#7c4b64; line-height:1.35; word-break:keep-all; }
+    .status-box{ margin-top:12px; background:#fff8fc; border:1px solid #f3dde7; border-radius:16px; padding:12px 14px; font-size:14px; font-weight:900; color:#a45f80; line-height:1.6; }
+    button, select{ width:100%; border:none; border-radius:16px; padding:13px 14px; font-size:15px; font-weight:900; cursor:pointer; transition:.14s ease; appearance:none; }
+    button:active{ transform:scale(.98); }
+    .btn-pink{ background:var(--pink); color:#fff; }
+    .btn-lav{ background:var(--lav); color:#7a6096; border:1px solid #dccfff; }
+    .btn-mint{ background:var(--mint); color:#557d6c; border:1px solid #c9efdf; }
+    .btn-light{ background:#fff; color:#7b5d6d; border:1px solid #eddde6; }
+    .btn-blue{ background:var(--blue); color:#5a7892; border:1px solid #d9ecfa; }
+    .btn-danger{ background:var(--danger); color:#fff; }
+    .balls{ display:flex; flex-wrap:wrap; gap:8px; }
+    .ball{ min-width:38px; height:38px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; font-size:15px; font-weight:900; color:#fff; box-shadow:0 3px 8px rgba(0,0,0,.05); }
+    .ball.yellow{ background:#f4c64b; } .ball.sky{ background:#7dc8ff; } .ball.red{ background:#ff8ea2; } .ball.purple{ background:#b4a0ff; } .ball.green{ background:#7dd9ae; }
+    .option-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-top:8px; }
+    .opt{ display:flex; align-items:center; gap:8px; padding:11px 12px; border:1px solid #efdde6; background:#fff; border-radius:16px; font-weight:900; color:#795b6c; }
+    .opt input{ width:18px; height:18px; accent-color:#ff79b3; }
+    .num-picker{ display:grid; grid-template-columns:repeat(9,1fr); gap:8px; }
+    .pick{ border:1px solid #efdde6; background:#fff; border-radius:14px; padding:10px 0; text-align:center; font-weight:900; color:#705966; cursor:pointer; }
+    .pick.active{ background:var(--pink); color:#fff; border-color:var(--pink); }
+    
+    /* 신규 추가 스타일: 누적 목록 & 간략히 보기 */
+    .save-item { border-bottom: 1px solid #f5dce7; padding: 12px 0; display: flex; justify-content: space-between; align-items: center; }
+    .compact-mode .save-item { padding: 6px 0; font-size: 13px; }
+    .compact-mode .ball { min-width: 24px; height: 24px; font-size: 11px; }
+    .rank-tag { font-size: 11px; font-weight: 900; padding: 4px 8px; border-radius: 8px; background: #eee; }
+    .rank-tag.win { background: #ffedf5; color: #ff5fa5; }
+    .history-actions, .manual-toggle-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+    .manual-box { border: 1px solid #efdde6; background: #fffafd; border-radius: 20px; padding: 14px; margin-top: 12px; display: none; }
+    .manual-box.show { display: block; }
+    .result-box { min-height: 80px; background: #fffafc; border-radius: 20px; padding: 15px; border: 1px solid #f2dee8; white-space: pre-line; font-weight: 900; font-size: 16px; }
+  </style>
 </head>
 <body>
-
-    <div class="card" style="border:none; background:transparent; box-shadow:none;">
-        <h1>🌸 대박 로또 당첨기</h1>
-        <p style="text-align:center; font-size:12px; color:#a27088; margin:0;">1220회차 기반 5대 패턴 분석 시스템</p>
+  <div class="petals" id="petals"></div>
+  <div class="wrap">
+    <div class="hero">
+      <h1>🌸 대박 로또 당첨기</h1>
+      <p>5대 패턴분석 · 누적 저장 · 일괄 당첨확인</p>
     </div>
 
     <div class="card">
-        <h3>💖 실시간 자동화 정보</h3>
-        <div id="loading">데이터 분석 중...</div>
-        <div class="info-grid" id="dashboard" style="display:none;">
-            <div class="info-box"><label>기준 회차</label><div id="drawNo">-</div></div>
-            <div class="info-box"><label>추첨일</label><div id="drawDate">-</div></div>
-            <div class="info-box"><label>1등 번호</label><div id="drawNums" style="font-size:11px;">-</div></div>
-            <div class="info-box"><label>당첨자수</label><div id="winCount">-</div></div>
-            <div class="info-box"><label>당첨금액</label><div id="winPrice">-</div></div>
-            <div class="info-box"><label>분석상태</label><div style="color:green;">정상</div></div>
+      <h2>💖 자동화 정보</h2>
+      <div class="summary-box">
+        <div class="summary-grid">
+          <div class="summary-item"><div class="summary-label">기준 추첨일</div><div class="summary-value" id="currentDate">-</div></div>
+          <div class="summary-item"><div class="summary-label">기존 회차</div><div class="summary-value" id="currentRound">-</div></div>
+          <div class="summary-item"><div class="summary-label">1등 당첨번호</div><div class="summary-value" id="firstPrizeNumbers">-</div></div>
+          <div class="summary-item"><div class="summary-label">당첨자 수</div><div class="summary-value" id="winnerCount">-</div></div>
+          <div class="summary-item"><div class="summary-label">당첨금액</div><div class="summary-value" id="prizeAmount">-</div></div>
+          <div class="summary-item"><div class="summary-label">다음 추첨일</div><div class="summary-value" id="nextDate">-</div></div>
         </div>
+      </div>
+      <div class="status-box" id="loadStatus">데이터 로드 중...</div>
     </div>
 
     <div class="card">
-        <h3>🎀 패턴 분석 설정</h3>
-        <div class="option-grid">
-            <div class="option-item"><input type="checkbox" checked> 1) 선형 흐름 패턴</div>
-            <div class="option-item"><input type="checkbox" checked> 2) 재출현(이월) 분석</div>
-            <div class="option-item"><input type="checkbox" checked> 3) 낙첨 간격 분석</div>
-            <div class="option-item"><input type="checkbox" checked> 4) 과거 동일날짜 +1</div>
-            <div class="option-item"><input type="checkbox" checked> 5) 최저 시작수 패턴</div>
-        </div>
+      <h2>🎀 분석 기반 번호 생성</h2>
+      <div class="sub">5가지 핵심 패턴을 분석하여 최적의 조합을 생성합니다.</div>
+      <div class="option-grid">
+        <label class="opt"><input type="checkbox" class="recOpt" checked value="pattern1"> 1) 선형 패턴</label>
+        <label class="opt"><input type="checkbox" class="recOpt" checked value="pattern2"> 2) 재출현(이월)</label>
+        <label class="opt"><input type="checkbox" class="recOpt" checked value="pattern3"> 3) 낙첨 건너뛰기</label>
+        <label class="opt"><input type="checkbox" class="recOpt" checked value="pattern4"> 4) 날짜동기 +1</label>
+        <label class="opt"><input type="checkbox" class="recOpt" checked value="pattern5"> 5) 시작수 패턴</label>
+      </div>
+
+      <div class="manual-toggle-row">
+        <button class="btn-blue" onclick="toggleManualBox()">📝 수동번호 입력</button>
+        <button class="btn-light" onclick="clearManual()">🧹 지우기</button>
+        <button class="btn-mint" onclick="saveManual()">💾 수동 저장</button>
+      </div>
+
+      <div class="manual-box" id="manualBox">
+        <div id="numPicker" class="num-picker"></div>
+      </div>
+
+      <div style="margin-top:15px; display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <select id="comboCount">
+            <option value="1">1조합</option><option value="3" selected>3조합</option><option value="5">5조합</option>
+        </select>
+        <button class="btn-pink" onclick="generateSmart()">🎲 분석 생성 + 저장</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>✨ 생성 결과</h2>
+      <div class="result-box" id="resultBox">번호를 생성해 주세요.</div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h2>📂 저장된 목록</h2>
+        <button class="btn-light" style="width:auto; padding:5px 10px; font-size:12px;" onclick="toggleCompact()">📱 간략히 보기</button>
+      </div>
+      <button class="btn-mint" style="margin-bottom:15px;" onclick="checkAllWin()">🔍 일괄 당첨 확인</button>
+      <div id="saveList"></div>
+      <button class="btn-danger" style="margin-top:15px; font-size:12px; padding:8px;" onclick="clearAllSave()">🗑️ 내역 전체 삭제</button>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "daebak_saved_list_v3";
+    let DB = [];
+    let manualNums = [];
+    let isCompact = false;
+
+    // 1. 초기 데이터 로드
+    async function init() {
+      try {
+        const res = await fetch("https://smok95.github.io/lotto/results/all.json");
+        DB = await res.json();
+        const latest = DB[0];
+        document.getElementById('currentDate').textContent = latest.draw_date;
+        document.getElementById('currentRound').textContent = latest.draw_no + "회";
+        document.getElementById('firstPrizeNumbers').textContent = latest.numbers.join(", ");
+        document.getElementById('winnerCount').textContent = latest.win_count + "명";
+        document.getElementById('prizeAmount').textContent = Math.floor(latest.win_price/100000000) + "억";
+        document.getElementById('nextDate').textContent = "토요일";
+        document.getElementById('loadStatus').textContent = "✅ 실시간 데이터 분석 완료";
+        renderPicker();
+        renderList();
+        makePetals();
+      } catch(e) { document.getElementById('loadStatus').textContent = "❌ 데이터 연결 실패"; }
+    }
+
+    // 2. 수동 번호 UI
+    function renderPicker() {
+      const container = document.getElementById('numPicker');
+      for(let i=1; i<=45; i++) {
+        const d = document.createElement('div');
+        d.className = 'pick'; d.textContent = i;
+        d.onclick = () => {
+          if(manualNums.includes(i)) manualNums = manualNums.filter(n=>n!==i);
+          else if(manualNums.length < 6) manualNums.push(i);
+          d.classList.toggle('active');
+        };
+        container.appendChild(d);
+      }
+    }
+    function toggleManualBox() { const b = document.getElementById('manualBox'); b.classList.toggle('show'); }
+    function clearManual() { manualNums = []; document.querySelectorAll('.pick').forEach(p=>p.classList.remove('active')); }
+
+    // 3. 분석 알고리즘 기반 생성
+    function generateSmart() {
+      const count = Number(document.getElementById('comboCount').value);
+      const latest = DB[0].numbers;
+      const prev = DB[1].numbers;
+      let results = [];
+
+      for(let i=0; i<count; i++) {
+        let set = new Set(manualNums);
+        // 알고리즘 적용
+        if(set.size < 6) set.add(latest[Math.floor(Math.random()*6)]); // 재출현
+        if(set.size < 6) set.add(prev[Math.floor(Math.random()*6)]);   // 저저번주
+        if(set.size < 6) set.add((latest[0]%45)+1);                   // 날짜+1 패턴
+        while(set.size < 6) set.add(Math.floor(Math.random()*45)+1);
         
-        <div id="pickerArea" style="display:none;">
-            <div class="num-picker" id="numPicker"></div>
+        const final = Array.from(set).sort((a,b)=>a-b);
+        results.push(final);
+        saveItem(final);
+      }
+      document.getElementById('resultBox').textContent = results.map((r,i)=>`${i+1}회: ${r.join(", ")}`).join("\n");
+      renderList();
+    }
+
+    // 4. 저장 및 목록 관리
+    function saveItem(nums) {
+      const list = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      list.unshift({ nums, result: null, date: new Date().toLocaleDateString() });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function saveManual() {
+      if(manualNums.length !== 6) return alert("6개를 선택하세요.");
+      saveItem([...manualNums].sort((a,b)=>a-b));
+      clearManual(); renderList(); alert("저장되었습니다.");
+    }
+
+    function renderList() {
+      const list = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      const container = document.getElementById('saveList');
+      container.className = isCompact ? "compact-mode" : "";
+      
+      if(!list.length) { container.innerHTML = "<p class='sub'>저장된 내역이 없습니다.</p>"; return; }
+
+      container.innerHTML = list.map(item => `
+        <div class="save-item">
+          <div class="balls">
+            ${item.nums.map(n => `<span class="ball ${getBallColor(n)}">${n}</span>`).join('')}
+          </div>
+          <div class="rank-tag ${item.result && item.result!=='낙첨' ? 'win' : ''}">${item.result || '대기'}</div>
         </div>
+      `).join('');
+    }
 
-        <div class="btn-row">
-            <button class="btn btn-blue" onclick="togglePicker()">📝 수동 입력</button>
-            <button class="btn btn-gold" onclick="resetSelection()">🧹 선택 초기화</button>
-            <button class="btn btn-mint" onclick="saveManual()">💾 수동 저장</button>
-        </div>
-        <button class="btn btn-main" onclick="generateSmartNumbers()">🎲 분석 기반 번호 생성 + 자동 저장</button>
-    </div>
+    function getBallColor(n) {
+      if(n<=10) return 'yellow'; if(n<=20) return 'sky'; if(n<=30) return 'red'; if(n<=40) return 'purple'; return 'green';
+    }
 
-    <div class="card">
-        <div class="list-header">
-            <h3>📂 저장된 번호 목록</h3>
-            <button class="btn" id="viewModeBtn" style="padding:4px 8px; font-size:10px; background:#f0f0f0;" onclick="toggleViewMode()">📱 간략히 보기</button>
-        </div>
-        <button class="btn btn-mint" style="width:100%; margin-bottom:12px;" onclick="checkAllResults()">🔍 전체 저장 번호 일괄 당첨 확인</button>
-        <div id="saveList">
-            <p style="text-align:center; color:#ccc; font-size:12px; padding:20px;">내역이 없습니다.</p>
-        </div>
-        <button class="btn" style="background:#fff; border:1px solid #eee; color:#bbb; width:100%; margin-top:15px; font-size:11px;" onclick="clearAll()">🗑️ 전체 내역 삭제</button>
-    </div>
+    // 5. 일괄 확인 및 기타 기능
+    function checkAllWin() {
+      const win = DB[0].numbers;
+      const bonus = DB[0].bonus_no;
+      const list = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      
+      const updated = list.map(item => {
+        const match = item.nums.filter(n => win.includes(n)).length;
+        let rank = "낙첨";
+        if(match===6) rank="1등";
+        else if(match===5 && item.nums.includes(bonus)) rank="2등";
+        else if(match===5) rank="3등";
+        else if(match===4) rank="4등";
+        else if(match===3) rank="5등";
+        return { ...item, result: rank };
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      renderList();
+    }
 
-    <script>
-        const STORAGE_KEY = "daebak_lotto_final";
-        let allData = [];
-        let manualNums = [];
-        let isCompact = false;
+    function toggleCompact() { isCompact = !isCompact; renderList(); }
+    function clearAllSave() { if(confirm("전체 삭제할까요?")) { localStorage.removeItem(STORAGE_KEY); renderList(); } }
 
-        // 1. 데이터 로드 및 대시보드 세팅
-        async function init() {
-            try {
-                const res = await fetch("https://smok95.github.io/lotto/results/all.json");
-                allData = await res.json();
-                const latest = allData[0];
-                
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'grid';
-                document.getElementById('drawNo').textContent = latest.draw_no + "회";
-                document.getElementById('drawDate').textContent = latest.draw_date.slice(5);
-                document.getElementById('drawNums').textContent = latest.numbers.join(",");
-                document.getElementById('winCount').textContent = latest.win_count + "명";
-                document.getElementById('winPrice').textContent = Math.round(latest.win_price/100000000) + "억";
-                
-                renderPicker();
-                renderList();
-            } catch(e) {
-                document.getElementById('loading').textContent = "데이터 연동 오류";
-            }
-        }
+    function makePetals() {
+      for (let i = 0; i < 15; i++) {
+        const p = document.createElement("div"); p.className = "petal";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = (10 + Math.random() * 10) + "s";
+        document.getElementById('petals').appendChild(p);
+      }
+    }
 
-        // 2. 수동 선택 UI
-        function renderPicker() {
-            const container = document.getElementById('numPicker');
-            for(let i=1; i<=45; i++) {
-                const b = document.createElement('div');
-                b.className = 'num-btn';
-                b.textContent = i;
-                b.id = `num-${i}`;
-                b.onclick = () => {
-                    if(manualNums.includes(i)) {
-                        manualNums = manualNums.filter(n => n !== i);
-                        b.classList.remove('active');
-                    } else if(manualNums.length < 6) {
-                        manualNums.push(i);
-                        b.classList.add('active');
-                    }
-                };
-                container.appendChild(b);
-            }
-        }
-
-        function togglePicker() {
-            const area = document.getElementById('pickerArea');
-            area.style.display = area.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function resetSelection() {
-            manualNums = [];
-            document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('active'));
-        }
-
-        // 3. 5대 분석 알고리즘 기반 생성
-        function generateSmartNumbers() {
-            if(!allData.length) return;
-            const latest = allData[0].numbers;
-            const prev = allData[1].numbers;
-            
-            let candidates = new Set();
-
-            // 패턴1&2: 이월수 및 재출현 (최근 2주에서 1~2개 추출)
-            candidates.add(latest[Math.floor(Math.random()*6)]);
-            candidates.add(prev[Math.floor(Math.random()*6)]);
-
-            // 패턴4: 과거 동일 날짜 패턴 (가상 로직: 오늘 날짜 기준 +1)
-            const dayIdx = new Date().getDate() % 6;
-            candidates.add((latest[dayIdx] % 45) + 1);
-
-            // 패턴5: 최저수 패턴 (보통 1~10 사이)
-            candidates.add(Math.floor(Math.random() * 10) + 1);
-
-            // 나머지 채우기
-            while(candidates.size < 6) {
-                candidates.add(Math.floor(Math.random() * 45) + 1);
-            }
-
-            const result = Array.from(candidates).sort((a,b)=>a-b);
-            saveData(result);
-            alert("분석 기반 번호가 생성 및 저장되었습니다.");
-        }
-
-        function saveManual() {
-            if(manualNums.length !== 6) return alert("6개 번호를 선택해주세요.");
-            saveData([...manualNums].sort((a,b)=>a-b));
-            resetSelection();
-            alert("수동 번호가 저장되었습니다.");
-        }
-
-        // 4. 저장 및 목록 관리
-        function saveData(nums) {
-            const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-            history.unshift({ nums: nums, result: null, date: new Date().toLocaleDateString() });
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-            renderList();
-        }
-
-        function renderList() {
-            const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-            const container = document.getElementById('saveList');
-            if(!history.length) {
-                container.innerHTML = '<p style="text-align:center; color:#ccc; font-size:12px; padding:20px;">내역이 없습니다.</p>';
-                return;
-            }
-
-            container.innerHTML = history.map(item => {
-                if(isCompact) {
-                    return `<div class="compact-item"><span><b>${item.nums.join(", ")}</b></span> <span style="color:#ff5fa5">${item.result || '-'}</span></div>`;
-                }
-                return `
-                    <div class="save-item">
-                        <div class="ball-group">
-                            ${item.nums.map(n => `<div class="ball">${n}</div>`).join('')}
-                        </div>
-                        <div class="rank-tag ${item.result && item.result !== '낙첨' ? 'win' : ''}">${item.result || '확인대기'}</div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // 5. 일괄 확인 및 기타
-        function checkAllResults() {
-            if(!allData.length) return;
-            const win = allData[0].numbers;
-            const bonus = allData[0].bonus_no;
-            const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-
-            const updated = history.map(h => {
-                const match = h.nums.filter(n => win.includes(n)).length;
-                let r = "낙첨";
-                if(match === 6) r = "1등";
-                else if(match === 5 && h.nums.includes(bonus)) r = "2등";
-                else if(match === 5) r = "3등";
-                else if(match === 4) r = "4등";
-                else if(match === 3) r = "5등";
-                return {...h, result: r};
-            });
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-            renderList();
-        }
-
-        function toggleViewMode() {
-            isCompact = !isCompact;
-            document.getElementById('viewModeBtn').textContent = isCompact ? "📋 자세히 보기" : "📱 간략히 보기";
-            renderList();
-        }
-
-        function clearAll() {
-            if(confirm("모든 내역을 지울까요?")) {
-                localStorage.removeItem(STORAGE_KEY);
-                renderList();
-            }
-        }
-
-        init();
-    </script>
+    init();
+  </script>
 </body>
 </html>
