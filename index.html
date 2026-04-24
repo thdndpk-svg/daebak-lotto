@@ -131,11 +131,23 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
 .end-num{font-size:12px;font-weight:900;color:#874967;}
 .end-cnt{font-size:10px;color:#a27088;}
 
+/* 다운로드 배너 */
+.dl-banner{background:linear-gradient(135deg,#ff7bb4,#b4a0ff);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 6px 20px rgba(255,123,180,.3);}
+.dl-banner-left{display:flex;flex-direction:column;gap:4px;}
+.dl-banner-title{font-size:16px;font-weight:900;color:#fff;}
+.dl-banner-sub{font-size:12px;font-weight:800;color:rgba(255,255,255,.85);}
+.dl-banner-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.dl-btn{background:#fff;border:none;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:900;cursor:pointer;transition:.14s;white-space:nowrap;}
+.dl-btn:active{transform:scale(.97);}
+.dl-btn-main{color:#ff5fa5;}
+.dl-btn-yt{background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.6);}
+.dl-btn-yt:hover{background:rgba(255,255,255,.35);}
 @media(max-width:860px){
   .sg,.g3,.g2,.gr,.nz{grid-template-columns:1fr;}
   .picker{grid-template-columns:repeat(5,1fr);}
   .hero h1{font-size:26px;}.card{padding:14px;}
   .atabs{gap:4px;}.atab{font-size:12px;padding:7px 10px;}
+  .dl-banner{flex-direction:column;align-items:flex-start;}
 }
 </style>
 </head>
@@ -146,6 +158,18 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
 <div class="hero">
   <h1>🌸 대박 로또 당첨기</h1>
   <p>실시간 데이터 · 패턴 시각화 · 분석 연동 번호생성 · 저장 · 일괄 당첨확인</p>
+</div>
+
+<!-- 다운로드 배너 -->
+<div class="dl-banner">
+  <div class="dl-banner-left">
+    <div class="dl-banner-title">📥 대박 로또 당첨기 — 무료 배포</div>
+    <div class="dl-banner-sub">버튼 하나로 내 기기에 저장 · 인터넷 없이도 사용 가능 · 유튜브 영상 설명란 링크 참고</div>
+  </div>
+  <div class="dl-banner-btns">
+    <button class="dl-btn dl-btn-main" onclick="downloadApp()">📥 내 기기에 저장</button>
+    <button class="dl-btn dl-btn-yt" onclick="window.open('http://www.youtube.com/@SBMUSIC-v4d','_blank')">▶ 유튜브 채널</button>
+  </div>
 </div>
 
 <!-- 기본 정보 -->
