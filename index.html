@@ -850,6 +850,58 @@ document.getElementById("checkAllBtn").addEventListener("click",checkAll);
 document.getElementById("clearAllSavedBtn").addEventListener("click",clearAllSaved);
 document.getElementById("comboCount").addEventListener("change",saveState);
 
+// ── 앱 다운로드 ─────────────────────────────────────────────────────
+function downloadApp(){
+  const fileName = "대박로또당첨기.html";
+  // 방법1: fetch로 원본 파일 직접 다운로드 (가장 안정적)
+  fetch(location.href)
+    .then(r => r.blob())
+    .then(blob => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+      setTimeout(()=>{
+        alert("✅ 다운로드 완료!
+
+저장된 파일을 브라우저로 열면
+바로 사용할 수 있어요! 🌸");
+      }, 800);
+    })
+    .catch(()=>{
+      // 방법2: fetch 실패 시 outerHTML 폴백
+      try {
+        const source = "<!DOCTYPE html>
+" + document.documentElement.outerHTML;
+        const blob = new Blob([source], {type:"text/html;charset=utf-8"});
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+        setTimeout(()=>{
+          alert("✅ 다운로드 완료!
+
+저장된 파일을 브라우저로 열면
+바로 사용할 수 있어요! 🌸");
+        }, 800);
+      } catch(e) {
+        // 방법3: 수동 안내
+        alert("⚠️ 자동 다운로드가 지원되지 않는 환경입니다.
+
+아래 방법으로 저장해주세요:
+
+📱 모바일: 브라우저 메뉴 → '페이지 저장'
+💻 PC: Ctrl+S (Windows) / Cmd+S (Mac)");
+      }
+    });
+}
+
 // ── 초기 실행 ──────────────────────────────────────────────────────
 async function init(){
   fillSel();loadState();renderPicker();renderManSel();renderSaved();makePetals();
