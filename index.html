@@ -3,234 +3,227 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>🌸 대박 로또 당첨기 (완성판)</title>
+  <title>🌸 대박 로또 당첨기 (최종 통합본)</title>
   <style>
-    /* [기존 스타일 및 레이아웃] */
+    /* [기존 디자인 복구] */
     * { box-sizing: border-box; }
     :root{
       --bg:#fff8fc; --bg2:#fff2f8; --bg3:#ffedf5; --card:#ffffff; --line:#f4d8e5;
       --text:#6c4a5d; --text-strong:#874967; --sub:#a27088; --pink:#ff7bb4;
-      --pink-2:#ff9ac6; --pink-3:#ffe2ee; --lav:#eadfff; --mint:#ddf8ec;
-      --blue:#eef8ff; --danger:#ff9aad; --ok:#77cfa5; --shadow:0 8px 22px rgba(245, 165, 197, 0.10);
+      --lav:#eadfff; --mint:#ddf8ec; --blue:#eef8ff; --danger:#ff9aad; --shadow:0 8px 22px rgba(245, 165, 197, 0.10);
     }
-    body{ margin:0; min-height:100vh; font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 55%, var(--bg3) 100%); color:var(--text); overflow-x:hidden; }
-    .wrap{ position:relative; z-index:2; max-width:1040px; margin:0 auto; padding:18px 14px 40px; }
-    .hero{ text-align:center; margin:8px 0 18px; }
-    .hero h1{ margin:0; font-size:34px; font-weight:900; color:#ff5fa5; }
-    .card{ background:var(--card); border:1px solid var(--line); border-radius:24px; box-shadow:var(--shadow); padding:18px; margin-bottom:16px; }
-    .card h2{ margin:0 0 10px; font-size:22px; color:var(--text-strong); }
-    .summary-box{ background:#fff7fb; border:1px solid #f5dce7; border-radius:22px; padding:16px; }
-    .summary-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px 16px; }
+    body{ margin:0; padding:0; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 55%, var(--bg3) 100%); color:var(--text); font-family:"Apple SD Gothic Neo", sans-serif; }
+    .wrap{ max-width:1040px; margin:0 auto; padding:20px 14px; }
+    .hero{ text-align:center; margin-bottom:20px; }
+    .hero h1{ margin:0; font-size:34px; color:#ff5fa5; }
+    .card{ background:var(--card); border:1px solid var(--line); border-radius:24px; box-shadow:var(--shadow); padding:20px; margin-bottom:16px; }
+    .card h2{ margin:0 0 12px; font-size:22px; color:var(--text-strong); }
+    .summary-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
     .summary-item{ background:#fff; border:1px solid #f3dce7; border-radius:16px; padding:12px; }
-    .summary-label{ font-size:11px; font-weight:900; color:#b27896; margin-bottom:4px; }
-    .summary-value{ font-size:16px; font-weight:900; color:#7c4b64; }
-    .status-box{ margin-top:12px; background:#fff8fc; border:1px solid #f3dde7; border-radius:16px; padding:12px; font-size:13px; font-weight:800; color:#a45f80; }
+    .summary-label{ font-size:11px; font-weight:800; color:#b27896; margin-bottom:4px; }
+    .summary-value{ font-size:15px; font-weight:900; color:#7c4b64; }
     
-    /* 버튼 공통 */
-    .grid-btns{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
-    button{ width:100%; border:none; border-radius:16px; padding:13px; font-size:14px; font-weight:900; cursor:pointer; transition:.1s; }
-    button:active{ transform:scale(0.97); }
+    /* 버튼 스타일 */
+    .btn-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
+    button{ width:100%; border:none; border-radius:16px; padding:13px; font-size:14px; font-weight:900; cursor:pointer; }
     .btn-pink{ background:var(--pink); color:#fff; }
     .btn-lav{ background:var(--lav); color:#7a6096; }
     .btn-mint{ background:var(--mint); color:#557d6c; }
     .btn-light{ background:#fff; border:1px solid #eddde6; color:#7b5d6d; }
     .btn-blue{ background:var(--blue); color:#5a7892; }
 
-    /* 로또 공 */
-    .balls{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-    .ball{ width:34px; height:34px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:14px; font-weight:900; color:#fff; }
+    /* 공 스타일 */
+    .balls{ display:flex; flex-wrap:wrap; gap:8px; }
+    .ball{ width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:14px; font-weight:900; color:#fff; }
     .ball.yellow{ background:#f4c64b; } .ball.sky{ background:#7dc8ff; } .ball.red{ background:#ff8ea2; } .ball.purple{ background:#b4a0ff; } .ball.green{ background:#7dd9ae; }
 
+    /* 과거 내역 리스트 스타일 */
+    .history-item{ border:1px solid #f0dde7; background:#fff; border-radius:20px; padding:15px; margin-top:10px; }
+    .history-head{ display:flex; justify-content:space-between; margin-bottom:8px; font-weight:900; }
+
     /* 수동 입력 */
-    .manual-box{ border:1px solid #efdde6; background:#fffafd; border-radius:20px; padding:14px; margin-top:12px; display:none; }
-    .num-picker{ display:grid; grid-template-columns:repeat(9,1fr); gap:6px; }
-    .pick{ border:1px solid #efdde6; background:#fff; border-radius:10px; padding:8px 0; text-align:center; font-size:13px; font-weight:900; cursor:pointer; }
+    .manual-box{ border:1px solid #efdde6; background:#fffafd; border-radius:20px; padding:15px; margin-top:12px; display:none; }
+    .num-picker{ display:grid; grid-template-columns:repeat(9,1fr); gap:8px; }
+    .pick{ border:1px solid #efdde6; background:#fff; border-radius:12px; padding:10px 0; text-align:center; cursor:pointer; font-weight:900; }
     .pick.active{ background:var(--pink); color:#fff; }
 
-    /* 결과 & 저장 목록 */
-    .result-box{ min-height:80px; border-radius:18px; padding:15px; background:#fffafc; border:1px solid #f2dee8; margin-top:12px; font-weight:800; white-space:pre-line; }
-    .save-item{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #fdf0f6; }
-    .rank-tag{ font-size:11px; padding:4px 8px; border-radius:8px; background:#f0f0f0; font-weight:900; }
+    /* 저장 목록 스타일 */
+    .save-item{ display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #fdf0f6; }
+    .rank-tag{ font-size:12px; font-weight:900; padding:5px 10px; border-radius:10px; background:#f0f0f0; }
     .rank-tag.win{ background:#ffedf5; color:#ff5fa5; }
 
-    @media (max-width:600px){ .summary-grid, .grid-btns{ grid-template-columns:1fr 1fr; } .num-picker{ grid-template-columns:repeat(7,1fr); } }
+    @media (max-width:600px){ .summary-grid, .btn-row{ grid-template-columns:1fr; } .num-picker{ grid-template-columns:repeat(5,1fr); } }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="hero">
       <h1>🌸 대박 로또 당첨기</h1>
-      <p>데이터 연동 & 누적 저장 시스템</p>
+      <p>패턴 분석 및 누적 관리 시스템</p>
     </div>
 
     <div class="card">
       <h2>💖 최근 당첨 정보</h2>
-      <div class="summary-box">
+      <div class="summary-box" style="background:#fff7fb; padding:15px; border-radius:22px;">
         <div class="summary-grid" id="summaryGrid">
-          <div class="summary-item"><div class="summary-label">회차</div><div class="summary-value" id="drawNo">-</div></div>
-          <div class="summary-item"><div class="summary-label">추첨일</div><div class="summary-value" id="drawDate">-</div></div>
-          <div class="summary-item"><div class="summary-label">1등 금액</div><div class="summary-value" id="drawMoney">-</div></div>
+          <div class="summary-item"><div class="summary-label">회차</div><div class="summary-value" id="curNo">로딩 중..</div></div>
+          <div class="summary-item"><div class="summary-label">추첨일</div><div class="summary-value" id="curDate">로딩 중..</div></div>
+          <div class="summary-item"><div class="summary-label">1등 당첨금</div><div class="summary-value" id="curPrice">로딩 중..</div></div>
         </div>
-        <div class="balls" id="winBalls" style="margin-top:15px; justify-content:center;"></div>
+        <div class="balls" id="curBalls" style="margin-top:15px; justify-content:center;"></div>
       </div>
-      <div class="status-box" id="loadStatus">데이터를 불러오는 중...</div>
     </div>
 
     <div class="card">
-      <h2>🌼 과거 데이터 & 필터</h2>
-      <div class="grid-btns">
-        <button class="btn-mint" onclick="applyPlusOne()">➕ +1 보기</button>
-        <button class="btn-lav" onclick="toggleNextRound()">📅 다음 회차 모드</button>
+      <h2>🌼 과거 데이터 분석 (+1 보기)</h2>
+      <div class="btn-row">
+        <button class="btn-mint" onclick="changePlus(1)">➕ +1 보기</button>
+        <button class="btn-lav" onclick="toggleNextMode()">📅 다음 회차 모드</button>
         <button class="btn-light" onclick="resetLogic()">🔄 초기화</button>
       </div>
-      <div id="historyDisplay" style="margin-top:15px;"></div>
+      <div id="historyList"></div>
     </div>
 
     <div class="card">
       <h2>🎀 번호 조합 생성</h2>
-      <div class="grid-btns" style="grid-template-columns: 1fr 1fr;">
-        <button class="btn-blue" onclick="document.getElementById('manualBox').style.display='block'">📝 수동 입력</button>
-        <button class="btn-light" onclick="clearManual()">🧹 지우기</button>
-      </div>
-      
+      <button class="btn-blue" onclick="toggleManual()">📝 수동 입력창 열기/닫기</button>
       <div class="manual-box" id="manualBox">
         <div class="num-picker" id="numPicker"></div>
         <div id="selectedChips" style="margin-top:10px; display:flex; gap:5px; flex-wrap:wrap;"></div>
       </div>
-
       <div style="margin-top:15px; display:flex; gap:10px;">
-        <select id="comboCount" style="flex:1; border-radius:16px; border:1px solid #eddde6; padding:10px;">
-          <option value="1">1개 생성</option>
-          <option value="5" selected>5개 생성</option>
+        <select id="genCount" style="padding:10px; border-radius:12px; border:1px solid #ddd;">
+          <option value="1">1개</option><option value="5" selected>5개</option>
         </select>
-        <button class="btn-pink" style="flex:2;" onclick="generateAndSave()">🎲 생성 및 자동 저장</button>
+        <button class="btn-pink" onclick="generateAndSave()">🎲 생성 및 자동 저장</button>
       </div>
-      <div class="result-box" id="resultBox">생성된 번호가 여기에 표시됩니다.</div>
+      <div id="resultBox" style="margin-top:12px; padding:15px; background:#fffafc; border:1px solid #f2dee8; border-radius:18px; white-space:pre-line; font-weight:800;"></div>
     </div>
 
     <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
         <h2>📂 누적 저장 목록</h2>
-        <button class="btn-mint" style="width:auto; padding:8px 15px;" onclick="checkAll()">🔍 일괄 당첨 확인</button>
+        <button class="btn-mint" style="width:auto; padding:8px 15px;" onclick="checkAllResults()">🔍 일괄 당첨 확인</button>
       </div>
-      <div id="saveList" style="margin-top:10px;"></div>
-      <button class="btn-light" style="margin-top:15px; font-size:12px; color:var(--danger);" onclick="clearAll()">🗑️ 전체 내역 삭제</button>
+      <div id="saveList"></div>
+      <button class="btn-light" style="margin-top:20px; font-size:12px; color:var(--danger);" onclick="clearAll()">🗑️ 내역 전체 삭제</button>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "lotto_history_data";
-    let ALL_DATA = [];
-    let CURRENT_WIN = null;
+    const STORAGE_KEY = "lotto_v2_storage";
+    let DB = [];
     let manualNums = [];
-    let plusNum = 0;
+    let offset = 0; // +1 기능용
+    let isNextMode = false;
 
-    // 1. 데이터 로드 (smok95 님의 데이터 활용)
+    // 데이터 로드
     async function init() {
       try {
         const res = await fetch("https://smok95.github.io/lotto/results/all.json");
-        ALL_DATA = await res.json();
-        CURRENT_WIN = ALL_DATA[0]; // 가장 최근 회차
-        updateUI();
+        DB = await res.json();
+        renderAll();
         renderPicker();
         renderSaveList();
-        document.getElementById('loadStatus').innerText = "✅ 최신 데이터 동기화 완료";
-      } catch (e) {
-        document.getElementById('loadStatus').innerText = "❌ 데이터 연동 실패";
-      }
+      } catch (e) { alert("데이터 연동에 실패했습니다."); }
     }
 
-    function updateUI() {
-      document.getElementById('drawNo').innerText = CURRENT_WIN.draw_no + "회";
-      document.getElementById('drawDate').innerText = CURRENT_WIN.draw_date;
-      document.getElementById('drawMoney').innerText = Math.floor(CURRENT_WIN.win_price / 100000000) + "억";
-      
-      const ballContainer = document.getElementById('winBalls');
-      ballContainer.innerHTML = CURRENT_WIN.numbers.map(n => `<span class="ball ${getBallColor(n)}">${n}</span>`).join('') + 
-                                `<span style="margin:0 5px">+</span>` + 
-                                `<span class="ball ${getBallColor(CURRENT_WIN.bonus_no)}">${CURRENT_WIN.bonus_no}</span>`;
+    function renderAll() {
+      const current = DB[0];
+      document.getElementById('curNo').innerText = current.draw_no + "회";
+      document.getElementById('curDate').innerText = current.draw_date;
+      document.getElementById('curPrice').innerText = Math.floor(current.win_price/100000000) + "억";
+      document.getElementById('curBalls').innerHTML = current.numbers.map(n => `<span class="ball ${getBC(n)}">${n}</span>`).join('');
+
+      // 과거 리스트 5개 출력
+      const hList = document.getElementById('historyList');
+      hList.innerHTML = DB.slice(1, 6).map(row => {
+        const processed = row.numbers.map(n => {
+          let num = isNextMode ? n : n; // 실제 로직에 따른 변환 가능
+          return ((num + offset - 1) % 45) + 1;
+        });
+        return `
+          <div class="history-item">
+            <div class="history-head"><span>${row.draw_no}회</span><span>${row.draw_date}</span></div>
+            <div class="balls">${processed.map(n => `<span class="ball ${getBC(n)}">${n}</span>`).join('')}</div>
+          </div>
+        `;
+      }).join('');
     }
 
-    // 2. 번호 생성 및 저장
+    // 번호 생성 및 저장
     function generateAndSave() {
-      const count = document.getElementById('comboCount').value;
-      let newCombos = [];
+      const count = document.getElementById('genCount').value;
       const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      let results = [];
 
       for(let i=0; i<count; i++) {
         let set = new Set(manualNums);
-        while(set.size < 6) set.add(Math.floor(Math.random() * 45) + 1);
-        const combo = Array.from(set).sort((a,b) => a-b);
-        newCombos.push(combo);
-        history.unshift({ nums: combo, result: "-", date: new Date().toLocaleDateString() });
+        while(set.size < 6) set.add(Math.floor(Math.random()*45)+1);
+        const combo = Array.from(set).sort((a,b)=>a-b);
+        results.push(combo);
+        history.unshift({ nums: combo, rank: "대기", date: new Date().toLocaleDateString() });
       }
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-      document.getElementById('resultBox').innerText = newCombos.map((c, i) => `${i+1}회: ${c.join(", ")}`).join("\n");
+      document.getElementById('resultBox').innerText = results.map((c,idx)=>`${idx+1}번: ${c.join(", ")}`).join("\n");
       renderSaveList();
     }
 
-    // 3. 당첨 확인 (일괄)
-    function checkAll() {
+    // 일괄 확인
+    function checkAllResults() {
+      const win = DB[0].numbers;
+      const bonus = DB[0].bonus_no;
       const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      const win = CURRENT_WIN.numbers;
-      const bonus = CURRENT_WIN.bonus_no;
 
       const updated = history.map(item => {
         const match = item.nums.filter(n => win.includes(n)).length;
-        let rank = "낙첨";
-        if(match === 6) rank = "★1등★";
-        else if(match === 5 && item.nums.includes(bonus)) rank = "2등";
-        else if(match === 5) rank = "3등";
-        else if(match === 4) rank = "4등";
-        else if(match === 3) rank = "5등";
-        return { ...item, result: rank };
+        let r = "낙첨";
+        if(match===6) r="1등";
+        else if(match===5 && item.nums.includes(bonus)) r="2등";
+        else if(match===5) r="3등";
+        else if(match===4) r="4등";
+        else if(match===3) r="5등";
+        return { ...item, rank: r };
       });
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       renderSaveList();
     }
 
-    // [유틸리티 함수들]
     function renderSaveList() {
       const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
       const container = document.getElementById('saveList');
-      if(!history.length) { container.innerHTML = "<p style='text-align:center; font-size:13px; opacity:0.5;'>저장된 번호가 없습니다.</p>"; return; }
-      
+      if(!history.length) { container.innerHTML = "<p style='text-align:center; opacity:0.5;'>저장된 번호가 없습니다.</p>"; return; }
+
       container.innerHTML = history.map(item => `
         <div class="save-item">
-          <div class="balls">${item.nums.map(n => `<span class="ball ${getBallColor(n)}" style="width:28px; height:28px; font-size:12px;">${n}</span>`).join('')}</div>
-          <div class="rank-tag ${item.result !== '낙첨' && item.result !== '-' ? 'win' : ''}">${item.result}</div>
+          <div class="balls">${item.nums.map(n => `<span class="ball ${getBC(n)}" style="width:28px; height:28px; font-size:12px;">${n}</span>`).join('')}</div>
+          <div class="rank-tag ${item.rank!=='낙첨'&&item.rank!=='대기'?'win':''}">${item.rank}</div>
         </div>
       `).join('');
     }
 
+    // [유틸리티]
+    function getBC(n) { if(n<=10) return 'yellow'; if(n<=20) return 'sky'; if(n<=30) return 'red'; if(n<=40) return 'purple'; return 'green'; }
+    function changePlus(v) { offset += v; renderAll(); }
+    function toggleNextMode() { isNextMode = !isNextMode; renderAll(); }
+    function resetLogic() { offset = 0; isNextMode = false; renderAll(); }
+    function toggleManual() { const m = document.getElementById('manualBox'); m.style.display = m.style.display==='block'?'none':'block'; }
     function renderPicker() {
-      const container = document.getElementById('numPicker');
+      const c = document.getElementById('numPicker');
       for(let i=1; i<=45; i++) {
-        const d = document.createElement('div');
-        d.className = 'pick'; d.innerText = i;
+        const d = document.createElement('div'); d.className = 'pick'; d.innerText = i;
         d.onclick = () => {
-          if(manualNums.includes(i)) manualNums = manualNums.filter(n => n!==i);
+          if(manualNums.includes(i)) manualNums = manualNums.filter(n=>n!==i);
           else if(manualNums.length < 6) manualNums.push(i);
           d.classList.toggle('active');
-          document.getElementById('selectedChips').innerHTML = manualNums.map(n => `<span class="rank-tag win">${n}</span>`).join('');
+          document.getElementById('selectedChips').innerHTML = manualNums.map(n=>`<span class="rank-tag win">${n}</span>`).join('');
         };
-        container.appendChild(d);
+        c.appendChild(d);
       }
     }
-
-    function applyPlusOne() {
-      plusNum++;
-      document.getElementById('historyDisplay').innerText = `현재 모든 번호에 +${plusNum} 적용 중 (가상 분석)`;
-    }
-
-    function resetLogic() { plusNum = 0; document.getElementById('historyDisplay').innerText = ""; }
-    function clearManual() { manualNums = []; document.querySelectorAll('.pick').forEach(p=>p.classList.remove('active')); document.getElementById('selectedChips').innerHTML=''; }
-    function clearAll() { if(confirm("정말 다 지울까요?")) { localStorage.removeItem(STORAGE_KEY); renderSaveList(); } }
-    function getBallColor(n) {
-      if(n<=10) return 'yellow'; if(n<=20) return 'sky'; if(n<=30) return 'red'; if(n<=40) return 'purple'; return 'green';
-    }
+    function clearAll() { if(confirm("내역을 모두 삭제할까요?")) { localStorage.removeItem(STORAGE_KEY); renderSaveList(); } }
 
     init();
   </script>
