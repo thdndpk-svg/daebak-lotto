@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html><html lang="ko">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="viewport" content="width=dev([docs.github.com](https://docs.github.com/ko/enterprise-cloud%40latest/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages))viewport-fit=cover"/>
 <title>🌸 대박 로또 당첨기</title>
 <style>
 *{box-sizing:border-box;}
@@ -22,7 +21,6 @@ body{min-height:100vh;font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-ser
 .hero{text-align:center;margin:8px 0 14px;}
 .hero h1{margin:0;font-size:32px;font-weight:900;color:#ff5fa5;}
 .hero p{margin:6px 0 0;font-size:13px;font-weight:800;color:#b07a95;}
-/* 다운로드 배너 */
 .dl-banner{background:linear-gradient(135deg,#ff7bb4,#b4a0ff);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 6px 20px rgba(255,123,180,.3);}
 .dl-left{display:flex;flex-direction:column;gap:4px;}
 .dl-title{font-size:16px;font-weight:900;color:#fff;}
@@ -91,12 +89,10 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
 .bwin{background:#d4f7e7;color:#2a7a56;border:1px solid #a8e8cb;}
 .bmiss{background:#fff0f3;color:#b85070;border:1px solid #ffd4de;}
 .bpart{background:#fff8d4;color:#8a6a00;border:1px solid #f0dc90;}
-/* 분석 탭 */
 .atabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
 .atab{padding:9px 14px;border-radius:999px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #f7d2e0;background:#fff0f7;color:#b25582;}
 .atab.active{background:var(--pink);color:#fff;border-color:var(--pink);}
 .apanel{display:none;}.apanel.show{display:block;}
-/* 로또 용지 격자 */
 .lotto-grid-wrap{background:#fffbf0;border:2px solid #f4c64b;border-radius:16px;padding:14px;margin-bottom:10px;}
 .lotto-grid-title{font-size:13px;font-weight:900;color:#8a6a00;margin-bottom:10px;}
 .lotto-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:5px;position:relative;}
@@ -110,14 +106,12 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
 .ph-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;}
 .ph-round{font-size:15px;font-weight:900;color:#7e5168;}
 .ph-date{font-size:12px;color:#a27b8f;font-weight:800;}
-/* 추천번호 */
 .rec-box{background:linear-gradient(135deg,#fff0f7,#f0f0ff);border:2px solid var(--pink);border-radius:18px;padding:14px;margin-top:12px;}
 .rec-title{font-size:13px;font-weight:900;color:#874967;margin-bottom:8px;}
 .rec-balls{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
 .rec-ball{min-width:38px;height:38px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;cursor:pointer;transition:.12s;box-shadow:0 2px 8px rgba(0,0,0,.1);}
 .rec-ball:hover{transform:scale(1.12);}
 .apply-btn{background:var(--pink);color:#fff;border:none;border-radius:12px;padding:9px 16px;font-size:13px;font-weight:900;cursor:pointer;width:auto;}
-/* AC */
 .ac-stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px;margin:10px 0;}
 .ac-item{background:#fff;border:1px solid #efdde6;border-radius:10px;padding:7px;text-align:center;}
 .ac-num{font-size:16px;font-weight:900;color:#874967;}
@@ -138,27 +132,19 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
 </head>
 <body>
 <div class="petals" id="petals"></div>
-<div class="wrap">
-
-<div class="hero">
+<div class="wrap"><div class="hero">
   <h1>🌸 대박 로또 당첨기</h1>
-  <p>실시간 데이터 · 패턴 시각화 · 분석 연동 번호생성 · 저장 · 일괄 당첨확인</p>
-</div>
-
-<!-- 다운로드 배너 -->
-<div class="dl-banner">
+  <p>GitHub 자동 업데이트 · 패턴 시각화 · 분석 연동 번호생성 · 저장 · 일괄 당첨확인</p>
+</div><div class="dl-banner">
   <div class="dl-left">
     <div class="dl-title">📥 대박 로또 당첨기 — 무료 배포</div>
-    <div class="dl-sub">버튼 하나로 내 기기에 저장 · 인터넷 연결 시 최신 데이터 자동 로드</div>
+    <div class="dl-sub">GitHub Actions 자동 데이터 · 버튼 하나로 내 기기에 저장</div>
   </div>
   <div class="dl-btns">
     <button class="dl-btn dl-btn-main" onclick="downloadApp()">📥 내 기기에 저장</button>
     <button class="dl-btn dl-btn-yt" onclick="window.open('https://youtube.com/channel/UCQGmovHYgG-KI93l-4L40GQ?si=PYEfUh3iawIDdHK7','_blank')">▶ 유튜브 채널</button>
   </div>
-</div>
-
-<!-- 기본 정보 -->
-<div class="card">
+</div><div class="card">
   <h2>💖 자동화 정보</h2>
   <div class="sg">
     <div class="si"><div class="sl">기준 추첨일</div><div class="sv" id="currentDate">로딩중...</div></div>
@@ -169,10 +155,7 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
     <div class="si"><div class="sl">다음 추첨일</div><div class="sv" id="nextDate">로딩중...</div></div>
   </div>
   <div class="stb" id="loadStatus">데이터를 불러오는 중입니다...</div>
-</div>
-
-<!-- 같은 날짜 과거 데이터 -->
-<div class="card">
+</div><div class="card">
   <h2>🌼 같은 날짜 과거 데이터</h2>
   <div class="sub">다음 추첨일과 같은 월/일 과거 데이터 조회. +1 적용 시 각 번호에 +1씩 적용합니다.</div>
   <div class="g3">
@@ -182,10 +165,7 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
   </div>
   <div class="stb" id="historyModeInfo">기준: -</div>
   <div class="hl" id="historyList"></div>
-</div>
-
-<!-- 패턴 분석 -->
-<div class="card">
+</div><div class="card">
   <h2>🔬 패턴 분석 + 추천번호</h2>
   <div class="sub">각 탭을 누르면 분석 결과와 유력 추천번호 5개가 나옵니다. 번호를 클릭하면 수동번호에 자동 추가됩니다.</div>
   <div class="atabs">
@@ -228,10 +208,7 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
     <div style="margin-top:10px;"><div style="font-size:13px;font-weight:900;color:#874967;margin-bottom:6px;">끝수(일의자리) 출현 빈도</div><div class="end-grid" id="endGrid"></div></div>
     <div class="rec-box"><div class="rec-title">📌 AC·끝수·연번 필터 기반 추천번호</div><div class="rec-balls" id="recBalls6"></div><button class="apply-btn" onclick="applyRec(6)">✅ 수동번호에 추가</button></div>
   </div>
-</div>
-
-<!-- 번호 생성 -->
-<div class="card">
+</div><div class="card">
   <h2>🎀 번호 생성</h2>
   <div class="sub">패턴 분석 탭에서 번호를 추가하거나, 옵션을 체크하고 생성합니다. 생성된 번호는 자동으로 저장됩니다.</div>
   <div class="og">
@@ -247,513 +224,4 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
   </div>
   <div class="g3" style="margin-top:10px;">
     <button class="bb sfx" id="toggleManualBtn">📝 수동번호 입력</button>
-    <button class="bw sfx" id="clearManualBtn">🧹 수동번호 지우기</button>
-    <button class="bm sfx" id="saveManualBtn">💾 수동번호 저장</button>
-  </div>
-  <div class="mb" id="manualBox">
-    <div class="mbt"><div class="mbtitle">수동번호 입력 (최대 6개)</div><div class="mbc" id="manualCount">선택된 번호: 0개</div></div>
-    <div class="picker" id="numPicker"></div>
-    <div class="smn" id="selectedManual"></div>
-  </div>
-  <div class="gr">
-    <div class="fl"><label for="comboCount">조합 수</label><select id="comboCount"></select></div>
-    <button class="bp sfx" id="generateBtn">🎲 번호 생성 + 저장</button>
-  </div>
-  <div class="tag-row" id="tagRow"></div>
-  <div class="rbox" id="resultBox">여기에 생성된 번호가 표시됩니다.</div>
-</div>
-
-<!-- 저장된 번호 -->
-<div class="card">
-  <h2>💾 저장된 번호 목록</h2>
-  <div class="sub">자동 생성하거나 수동으로 저장한 번호 전체. 전체 당첨확인으로 한번에 확인합니다.</div>
-  <div class="g2">
-    <button class="bm sfx" id="checkAllBtn">🏆 전체 당첨확인</button>
-    <button class="bd sfx" id="clearAllSavedBtn">🗑️ 전체 삭제</button>
-  </div>
-  <div class="sl2" id="savedList"><div class="empty">아직 저장된 번호가 없습니다.</div></div>
-  <div class="rbox" id="checkBox">당첨확인 결과가 여기 표시됩니다.</div>
-</div>
-
-</div>
-<script>
-const SK="dbk_v7", SNK="dbk_saved_v7";
-// ── 동행복권 공식 API (CORS 프록시 경유) ─────────────────────────
-const API="https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=";
-const PROXY="https://corsproxy.io/?";
-
-let plusStep=0,manNums=[],histBase=null,lastGen=[];
-let CRound=null,CDate=null,NDate=null,CPrize=[],CBonus=null,CWinners=null,CAmount=null,DB=[];
-let REC={1:[],2:[],3:[],4:[],5:[],6:[]};
-
-// ── 유틸 ──────────────────────────────────────────────────────────
-const fmtMoney=v=>typeof v==="number"&&!isNaN(v)?v.toLocaleString("ko-KR")+"원":"-";
-function addDays(d,n){const dt=new Date(d+"T00:00:00");dt.setDate(dt.getDate()+n);return`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;}
-const getMD=s=>{const[,m,d]=s.split("-").map(Number);return{m,d};};
-const bCls=n=>n<=10?"yellow":n<=20?"sky":n<=30?"red":n<=40?"purple":"green";
-const sumA=a=>a.reduce((s,v)=>s+v,0);
-const bHTML=ns=>ns.map(n=>`<span class="ball ${bCls(n)}">${n}</span>`).join("");
-const plusN=(ns,st)=>ns.map(n=>((n-1+st)%45)+1);
-
-// ── 앱 다운로드 ───────────────────────────────────────────────────
-function downloadApp(){
-  const fileName="대박로또당첨기.html";
-  const source="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
-  try{
-    const blob=new Blob([source],{type:"text/html;charset=utf-8"});
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download=fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-    setTimeout(()=>alert("✅ 다운로드 완료!\n\n저장된 파일을 브라우저로 열면\n바로 사용할 수 있어요! 🌸"),600);
-  }catch(e){
-    alert("⚠️ 자동 다운로드가 지원되지 않는 환경입니다.\n\n브라우저 메뉴에서\n'다른 이름으로 저장' (Ctrl+S / Cmd+S)\n을 이용해주세요.");
-  }
-}
-
-// ── 저장 관리 ─────────────────────────────────────────────────────
-function loadSaved(){try{return JSON.parse(localStorage.getItem(SNK)||"[]");}catch{return[];}}
-function writeSaved(l){localStorage.setItem(SNK,JSON.stringify(l));}
-function addToSaved(combos,label){
-  const list=loadSaved(),now=new Date().toLocaleString("ko-KR");
-  combos.forEach((c,i)=>list.push({id:Date.now()+"_"+i,combo:[...c].sort((a,b)=>a-b),label:label||(combos.length>1?`자동${i+1}`:"수동"),at:now}));
-  writeSaved(list);renderSaved();
-}
-function deleteSaved(id){writeSaved(loadSaved().filter(x=>x.id!==id));renderSaved();}
-function clearAllSaved(){
-  if(!confirm("저장된 번호를 전부 삭제할까요?"))return;
-  writeSaved([]);renderSaved();
-  document.getElementById("checkBox").textContent="저장된 번호가 모두 삭제되었습니다.";
-}
-function renderSaved(){
-  const list=loadSaved(),el=document.getElementById("savedList");
-  if(!list.length){el.innerHTML=`<div class="empty">아직 저장된 번호가 없습니다.</div>`;return;}
-  el.innerHTML=list.map(it=>`
-    <div class="sit" id="si_${it.id}">
-      <div class="slft">
-        <div class="slbl">${it.label} · ${it.at}</div>
-        <div class="balls">${bHTML(it.combo)}</div>
-        <div id="bd_${it.id}"></div>
-      </div>
-      <button class="sdel" onclick="deleteSaved('${it.id}')">삭제</button>
-    </div>`).join("");
-}
-
-// ── 당첨확인 ──────────────────────────────────────────────────────
-function checkAll(){
-  const list=loadSaved(),prize=[...CPrize].sort((a,b)=>a-b);
-  if(!prize.length){document.getElementById("checkBox").textContent="최신 당첨 데이터가 없습니다.";return;}
-  if(!list.length){document.getElementById("checkBox").textContent="저장된 번호가 없습니다.";return;}
-  let lines=[`📋 ${CRound}회 당첨번호: ${prize.join(", ")}  보너스: ${CBonus}\n`],win1=0;
-  list.forEach((it,i)=>{
-    const c=it.combo,hit=c.filter(n=>prize.includes(n)).length,hasB=c.includes(CBonus);
-    let grade="";
-    if(hit===6){grade="🏆 1등!";win1++;}
-    else if(hit===5&&hasB)grade="🥈 2등";
-    else if(hit===5)grade="🥉 3등";
-    else if(hit===4)grade="4등";
-    else if(hit===3)grade="5등";
-    else grade="😊 낙첨";
-    const bd=document.getElementById("bd_"+it.id);
-    if(bd)bd.innerHTML=`<span class="badge ${hit>=5?"bwin":hit>=3?"bpart":"bmiss"}">${grade} (${hit}개 일치)</span>`;
-    lines.push(`${i+1}. [${it.label}] ${c.join(", ")}  →  ${hit}개 일치  ${grade}`);
-  });
-  lines.push(win1>0?`\n🎉 1등 당첨 ${win1}개!`:`\n총 ${list.length}개 번호 확인 완료.`);
-  document.getElementById("checkBox").textContent=lines.join("\n");
-}
-
-// ── 데이터 로드 (동행복권 공식 API) ──────────────────────────────
-async function fetchRound(no){
-  // 직접 시도 → 실패 시 CORS 프록시
-  let data=null;
-  try{
-    const r=await fetch(API+no,{cache:"no-store"});
-    data=await r.json();
-  }catch{
-    try{
-      const r=await fetch(PROXY+encodeURIComponent(API+no),{cache:"no-store"});
-      data=await r.json();
-    }catch(e){throw new Error("API 접근 실패");}
-  }
-  if(!data||data.returnValue!=="success")throw new Error("유효하지 않은 회차");
-  return{
-    round:data.drwNo,
-    date:data.drwNoDate,
-    numbers:[data.drwtNo1,data.drwtNo2,data.drwtNo3,data.drwtNo4,data.drwtNo5,data.drwtNo6],
-    bonus:data.bnusNo,
-    winners:data.firstPrzwnerCo,
-    amount:data.firstWinamnt
-  };
-}
-
-async function findLatest(){
-  // 1회차 기준일(2002-12-07)로 최신 회차 추정
-  const first=new Date("2002-12-07T00:00:00");
-  const now=new Date();
-  let guess=Math.floor((now-first)/(7*24*60*60*1000))+1;
-  for(let r=guess+3;r>=Math.max(1,guess-5);r--){
-    try{return await fetchRound(r);}catch{}
-  }
-  throw new Error("최신 회차를 찾지 못했습니다.");
-}
-
-async function loadAllRecent(latestRound,count=200){
-  const arr=[];
-  const start=Math.max(1,latestRound-count+1);
-  // 병렬로 최대 20개씩 나눠 요청
-  const batchSize=20;
-  const rounds=[];
-  for(let r=latestRound;r>=start;r--)rounds.push(r);
-  for(let i=0;i<rounds.length;i+=batchSize){
-    const batch=rounds.slice(i,i+batchSize);
-    const results=await Promise.allSettled(batch.map(r=>fetchRound(r)));
-    results.forEach(res=>{if(res.status==="fulfilled")arr.push(res.value);});
-    // 상태 업데이트
-    const pct=Math.min(100,Math.round(((i+batchSize)/rounds.length)*100));
-    document.getElementById("loadStatus").textContent=`📡 데이터 로딩 중... ${pct}% (${arr.length}회차 완료)`;
-  }
-  return arr.sort((a,b)=>b.round-a.round);
-}
-
-async function loadData(){
-  const st=document.getElementById("loadStatus");
-  st.textContent="📡 최신 회차 확인 중...";
-  const latest=await findLatest();
-  CRound=latest.round;CDate=latest.date;NDate=addDays(latest.date,7);
-  CPrize=latest.numbers;CBonus=latest.bonus;CWinners=latest.winners;CAmount=latest.amount;
-  initUI();
-  st.textContent=`📡 최신 회차: ${CRound}회 확인 완료. 과거 데이터 로딩 중...`;
-  DB=await loadAllRecent(CRound,200);
-  if(!histBase)histBase=CDate;
-}
-
-function initUI(){
-  document.getElementById("currentDate").textContent=CDate||"-";
-  document.getElementById("currentRound").textContent=CRound?`${CRound}회`:"-";
-  document.getElementById("firstPrizeNumbers").textContent=CPrize.length?CPrize.join(", "):"-";
-  document.getElementById("winnerCount").textContent=CWinners!=null?`${CWinners}명`:"-";
-  document.getElementById("prizeAmount").textContent=CAmount!=null?fmtMoney(CAmount):"-";
-  document.getElementById("nextDate").textContent=NDate||"-";
-}
-
-// ── 과거 같은 날짜 ────────────────────────────────────────────────
-function sameDateRows(base){
-  if(!base||!DB.length)return[];
-  const{m,d}=getMD(base);
-  return DB.filter(r=>r.round!==CRound&&getMD(r.date).m===m&&getMD(r.date).d===d).sort((a,b)=>b.round-a.round);
-}
-function renderHistory(){
-  const rows=sameDateRows(histBase),mi=document.getElementById("historyModeInfo");
-  if(!histBase){mi.textContent="기준: -";return;}
-  const mode=histBase===CDate?`${histBase} (현재 회차 기준)`:`${histBase} (다음 회차 기준)`;
-  mi.textContent=plusStep===0?`기준: ${mode}`:`${mode} · +${plusStep} 적용중`;
-  const el=document.getElementById("historyList");
-  if(!rows.length){el.innerHTML=`<div class="empty">해당 날짜의 과거 데이터가 없습니다.</div>`;return;}
-  el.innerHTML=rows.map(r=>{
-    const ch=plusN(r.numbers,plusStep);
-    return`<div class="hi">
-      <div class="hh"><div class="hr2">${r.round}회</div><div class="hd">${r.date}</div></div>
-      <div class="nz">
-        <div><div class="mt2">원본 번호</div><div class="balls">${bHTML(r.numbers)}</div></div>
-        ${plusStep>0?`<div><div class="mt2">+${plusStep} 적용</div><div class="balls">${bHTML(ch)}</div></div>`:""}
-      </div></div>`;
-  }).join("");
-}
-
-// ── 로또 용지 격자 ────────────────────────────────────────────────
-function buildPatternArea(){
-  const recent=DB.slice(0,10);
-  const area=document.getElementById("patternGridArea");
-  if(!area||!recent.length)return;
-  const items=recent.map(r=>{
-    const sorted=[...r.numbers].sort((a,b)=>a-b);
-    const hitSet=new Set(sorted);
-    let gridHTML=`<div class="ph-item"><div class="ph-head"><div class="ph-round">${r.round}회</div><div class="ph-date">${r.date} · ${sorted.join(", ")}</div></div>
-      <div class="lotto-grid-wrap"><div class="lotto-grid-title">🎯 로또 용지 패턴</div>
-      <div class="lotto-grid" id="grid_${r.round}" style="position:relative;">`;
-    for(let n=1;n<=45;n++){
-      const cls=hitSet.has(n)?`hit ${bCls(n)}`:"";
-      gridHTML+=`<div class="lotto-cell ${cls}" id="cell_${r.round}_${n}">${n}</div>`;
-    }
-    gridHTML+=`<svg class="lotto-svg" id="svg_${r.round}" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>`;
-    gridHTML+=`</div></div></div>`;
-    return{html:gridHTML,sorted,round:r.round};
-  });
-  area.innerHTML=`<div class="pattern-history">${items.map(it=>it.html).join("")}</div>`;
-  setTimeout(()=>items.forEach(it=>{
-    const svg=document.getElementById(`svg_${it.round}`);
-    const grid=document.getElementById(`grid_${it.round}`);
-    if(!svg||!grid)return;
-    const gr=grid.getBoundingClientRect();
-    const pts=it.sorted.map(n=>{
-      const cell=document.getElementById(`cell_${it.round}_${n}`);
-      if(!cell)return null;
-      const cr=cell.getBoundingClientRect();
-      return{x:((cr.left-gr.left+cr.width/2)/gr.width)*100,y:((cr.top-gr.top+cr.height/2)/gr.height)*100};
-    }).filter(Boolean);
-    if(pts.length<2)return;
-    let d=`M${pts[0].x},${pts[0].y}`;for(let i=1;i<pts.length;i++)d+=` L${pts[i].x},${pts[i].y}`;
-    svg.innerHTML=`<path d="${d}" fill="none" stroke="#ff7bb4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-    ${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="1.8" fill="#ff5fa5"/>`).join("")}`;
-  }),200);
-  // 추천번호
-  const zoneCnt={};
-  DB.slice(0,30).forEach(r=>r.numbers.forEach(n=>{const z=`${Math.floor((n-1)/9)}_${(n-1)%9}`;zoneCnt[z]=(zoneCnt[z]||0)+1;}));
-  const numScore={};for(let n=1;n<=45;n++){const z=`${Math.floor((n-1)/9)}_${(n-1)%9}`;numScore[n]=zoneCnt[z]||0;}
-  REC[1]=Object.entries(numScore).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([n])=>Number(n)).sort((a,b)=>a-b);
-  renderRecBalls(1);
-}
-
-// ── 분석 2~6 ──────────────────────────────────────────────────────
-function buildA2(){
-  if(DB.length<5)return;
-  const rec=DB.slice(0,10),cur=rec[0].numbers;
-  const reappCnt={};
-  for(let i=0;i<rec.length-1;i++){const base=new Set(rec[i].numbers);for(let j=1;j<=4&&i+j<rec.length;j++)rec[i+j].numbers.forEach(n=>{if(base.has(n))reappCnt[n]=(reappCnt[n]||0)+1;});}
-  const gs={1:0,2:0,3:0,4:0};const db50=DB.slice(0,50);
-  for(let i=0;i<db50.length-4;i++){const base=new Set(db50[i].numbers);for(let g=1;g<=4;g++)db50[i+g].numbers.forEach(n=>{if(base.has(n))gs[g]++;});}
-  let t=`▶ 최신 ${CRound}회: ${cur.join(", ")}\n\n▶ n주 전 번호와 현재 일치\n`;
-  for(let g=1;g<=4;g++){const prev=rec[g]?.numbers||[];const hit=cur.filter(n=>prev.includes(n));t+=`  ${g}주 전 (${rec[g]?.round||""}회) [${prev.join(",")}] → 일치 ${hit.length}개: [${hit.join(",")||"없음"}]\n`;}
-  t+=`\n▶ 최근 50회 재출현 빈도\n`;for(let g=1;g<=4;g++)t+=`  ${g}주 전 재출현: ${gs[g]}회\n`;
-  t+=`\n▶ 재출현 빈도 높은 번호 TOP 10\n`;
-  const top=Object.entries(reappCnt).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  top.forEach(([n,c])=>{t+=`  번호 ${String(n).padStart(2)}: ${c}회\n`;});
-  document.getElementById("a2text").textContent=t;
-  REC[2]=top.slice(0,5).map(([n])=>Number(n)).sort((a,b)=>a-b);renderRecBalls(2);
-}
-function buildA3(){
-  if(!DB.length)return;
-  const sm={};for(let i=1;i<=45;i++)sm[i]={gaps:[],last:null};
-  [...DB].sort((a,b)=>a.round-b.round).forEach(r=>r.numbers.forEach(n=>{if(sm[n].last!==null)sm[n].gaps.push(r.round-sm[n].last);sm[n].last=r.round;}));
-  const avg=Object.entries(sm).map(([n,v])=>({n:Number(n),avg:v.gaps.length?sumA(v.gaps)/v.gaps.length:999,last:v.last})).sort((a,b)=>a.avg-b.avg);
-  const od=avg.map(x=>({...x,abs:x.last?CRound-x.last:CRound})).sort((a,b)=>(b.abs/b.avg)-(a.abs/a.avg)).slice(0,15);
-  let t=`▶ 평균 출현 주기 짧은 번호 TOP 10\n`;
-  avg.slice(0,10).forEach(x=>{t+=`  번호 ${String(x.n).padStart(2)}: 평균 ${x.avg.toFixed(1)}회마다 출현\n`;});
-  t+=`\n▶ 주기 대비 오래 미출현 (출현 임박) TOP 10\n`;
-  od.forEach(x=>{t+=`  번호 ${String(x.n).padStart(2)}: ${x.abs}회 미출현 (주기의 ${(x.abs/x.avg).toFixed(1)}배)\n`;});
-  t+=`\n💡 주기의 1.5배 이상 미출현 번호를 주목하세요.`;
-  document.getElementById("a3text").textContent=t;
-  REC[3]=od.slice(0,5).map(x=>x.n).sort((a,b)=>a-b);renderRecBalls(3);
-}
-function buildA4(){
-  if(!DB.length||!NDate)return;
-  const{m,d}=getMD(NDate);
-  const rows=DB.filter(r=>r.round!==CRound&&getMD(r.date).m===m&&getMD(r.date).d===d);
-  if(!rows.length){document.getElementById("a4text").textContent=`${NDate} 와 같은 날짜(월/일) 과거 데이터가 없습니다.`;REC[4]=[];renderRecBalls(4);return;}
-  const cnt={};rows.forEach(r=>{plusN(r.numbers,1).forEach(n=>{cnt[n]=(cnt[n]||0)+1;});});
-  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
-  let t=`▶ 다음 추첨일: ${NDate}\n▶ 해당 과거 회차: ${rows.map(r=>r.round+"회").join(", ")}\n\n`;
-  rows.forEach(r=>{const p=plusN(r.numbers,1);t+=`  ${r.round}회 (${r.date})\n  원본 [${r.numbers.join(",")}] → +1 [${p.join(",")}]\n`;});
-  t+=`\n▶ +1 후 자주 나온 번호 TOP 10\n`;sorted.slice(0,10).forEach(([n,c])=>{t+=`  번호 ${String(n).padStart(2)}: ${c}회\n`;});
-  document.getElementById("a4text").textContent=t;
-  REC[4]=sorted.slice(0,5).map(([n])=>Number(n)).sort((a,b)=>a-b);renderRecBalls(4);
-}
-function buildA5(){
-  if(!DB.length)return;
-  const firsts=DB.map(r=>[...r.numbers].sort((a,b)=>a-b)[0]);
-  const trans={};for(let i=0;i<firsts.length-1;i++){const cur=firsts[i],prev=firsts[i+1];if(!trans[prev])trans[prev]={};trans[prev][cur]=(trans[prev][cur]||0)+1;}
-  const curF=firsts[0];
-  const np=trans[curF]?Object.entries(trans[curF]).sort((a,b)=>b[1]-a[1]).slice(0,5):[];
-  const dist={};firsts.forEach(n=>{dist[n]=(dist[n]||0)+1;});
-  const ds=Object.entries(dist).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  const rng={"1~5":firsts.filter(n=>n<=5).length,"6~10":firsts.filter(n=>n>=6&&n<=10).length,"11~15":firsts.filter(n=>n>=11&&n<=15).length,"16이상":firsts.filter(n=>n>=16).length};
-  let t=`▶ 최신 회차 첫번호: ${curF}\n\n▶ 첫번호 범위별 빈도\n`;
-  Object.entries(rng).forEach(([r,c])=>{t+=`  ${r}: ${c}회 (${((c/firsts.length)*100).toFixed(1)}%)\n`;});
-  t+=`\n▶ 첫번호 TOP 10\n`;ds.forEach(([n,c])=>{t+=`  번호 ${String(n).padStart(2)}: ${c}회\n`;});
-  if(np.length){t+=`\n▶ 첫번호 [${curF}] 다음에 자주 나온 첫번호\n`;np.forEach(([n,c])=>{t+=`  번호 ${String(n).padStart(2)}: ${c}회\n`;});t+=`\n▶ 다음 예상 첫번호: ${np[0]?.[0]||"-"}`;}
-  document.getElementById("a5text").textContent=t;
-  const recSet=new Set();if(np[0])recSet.add(Number(np[0][0]));ds.slice(0,4).forEach(([n])=>recSet.add(Number(n)));
-  REC[5]=[...recSet].slice(0,5).sort((a,b)=>a-b);renderRecBalls(5);
-}
-function calcAC(nums){const s=[...nums].sort((a,b)=>a-b);const diffs=new Set();for(let i=0;i<s.length;i++)for(let j=i+1;j<s.length;j++)diffs.add(s[j]-s[i]);return diffs.size-5;}
-function buildA6(){
-  if(!DB.length)return;
-  const acDist={};for(let i=0;i<=10;i++)acDist[i]=0;
-  DB.forEach(r=>{const ac=calcAC(r.numbers);if(ac>=0&&ac<=10)acDist[ac]++;});
-  const maxAC=Math.max(...Object.values(acDist));
-  document.getElementById("acStat").innerHTML=Object.entries(acDist).map(([ac,cnt])=>`<div class="ac-item"><div class="ac-num">AC${ac}</div><div class="ac-cnt">${cnt}회</div><div class="ac-bar" style="width:${Math.round((cnt/maxAC)*100)}%"></div></div>`).join("");
-  const endDist={};for(let i=0;i<=9;i++)endDist[i]=0;
-  DB.forEach(r=>r.numbers.forEach(n=>endDist[n%10]++));
-  const maxEnd=Math.max(...Object.values(endDist));
-  document.getElementById("endGrid").innerHTML=Object.entries(endDist).map(([e,c])=>`<div class="end-cell"><div class="end-num">${e}</div><div class="end-cnt">${c}회</div><div style="height:3px;border-radius:2px;background:#ff7bb4;width:${Math.round((c/maxEnd)*100)}%;margin-top:3px;"></div></div>`).join("");
-  const ac7=Object.entries(acDist).filter(([k])=>Number(k)>=7).reduce((s,[,v])=>s+v,0);
-  const total=DB.length;
-  const endSumGood=DB.filter(r=>{const es=sumA(r.numbers.map(n=>n%10));return es>=15&&es<=35;}).length;
-  const connStat={0:0,1:0,2:0,3:0};
-  DB.forEach(r=>{const s=[...r.numbers].sort((a,b)=>a-b);let mx=0,cur=1;for(let i=1;i<s.length;i++){if(s[i]===s[i-1]+1)cur++;else{mx=Math.max(mx,cur);cur=1;}}mx=Math.max(mx,cur);connStat[Math.min(mx,3)]=(connStat[Math.min(mx,3)]||0)+1;});
-  let t=`▶ AC값 분포 (역대 ${total}회)\n  AC7이상: ${ac7}회 (${((ac7/total)*100).toFixed(1)}%) ← 약 80%\n\n`;
-  t+=`▶ 끝수합 15~35 구간: ${endSumGood}회 (${((endSumGood/total)*100).toFixed(1)}%) ← 약 90%\n\n`;
-  t+=`▶ 연번 패턴\n  연번없음: ${connStat[0]}회 (${((connStat[0]/total)*100).toFixed(1)}%)\n  2연번: ${connStat[1]}회 (${((connStat[1]/total)*100).toFixed(1)}%)\n  3연번: ${connStat[2]}회 (${((connStat[2]/total)*100).toFixed(1)}%)\n  4연번+: ${connStat[3]}회 (${((connStat[3]/total)*100).toFixed(1)}%)\n`;
-  t+=`\n💡 AC7이상 + 끝수합 15~35 + 2연번 이하 → 최적 조합 조건`;
-  document.getElementById("a6text").textContent=t;
-  const endFreq={};for(let i=0;i<=9;i++)endFreq[i]=endDist[i];
-  const topEnd=Object.entries(endFreq).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([e])=>Number(e));
-  const cands=[];for(let n=1;n<=45;n++){if(topEnd.includes(n%10))cands.push(n);}
-  const fq={};DB.slice(0,50).forEach(r=>r.numbers.forEach(n=>{fq[n]=(fq[n]||0)+1;}));
-  REC[6]=cands.sort((a,b)=>(fq[b]||0)-(fq[a]||0)).slice(0,5).sort((a,b)=>a-b);renderRecBalls(6);
-}
-
-// ── 추천번호 렌더링 ───────────────────────────────────────────────
-function renderRecBalls(t){
-  const el=document.getElementById(`recBalls${t}`);if(!el)return;
-  el.innerHTML=REC[t].map(n=>`<span class="rec-ball ${bCls(n)}" onclick="addRecToManual(${n})" title="클릭하면 수동번호에 추가">${n}</span>`).join("");
-}
-function addRecToManual(n){
-  if(manNums.includes(n)){playClick("soft");return;}
-  if(manNums.length>=6){alert("수동번호는 최대 6개까지 선택할 수 있습니다.");return;}
-  manNums.push(n);renderPicker();renderManSel();saveState();playClick("soft");
-  const mb=document.getElementById("manualBox");
-  if(!mb.classList.contains("show")){mb.classList.add("show");document.getElementById("toggleManualBtn").textContent="🙈 수동번호 입력 닫기";}
-}
-function applyRec(t){
-  const nums=REC[t];if(!nums.length){alert("추천번호가 없습니다.");return;}
-  let added=0;nums.forEach(n=>{if(!manNums.includes(n)&&manNums.length<6){manNums.push(n);added++;}});
-  renderPicker();renderManSel();saveState();
-  const mb=document.getElementById("manualBox");
-  if(!mb.classList.contains("show")){mb.classList.add("show");document.getElementById("toggleManualBtn").textContent="🙈 수동번호 입력 닫기";}
-  alert(`${added}개 번호가 수동번호에 추가됐습니다: ${nums.join(", ")}`);
-}
-
-// ── 탭 전환 ──────────────────────────────────────────────────────
-let builtTabs=new Set(["t1"]);
-document.querySelectorAll(".atab").forEach(tab=>{
-  tab.addEventListener("click",()=>{
-    document.querySelectorAll(".atab").forEach(t=>t.classList.remove("active"));
-    document.querySelectorAll(".apanel").forEach(p=>p.classList.remove("show"));
-    tab.classList.add("active");
-    const tid=tab.dataset.tab;
-    document.getElementById(tid).classList.add("show");
-    if(!builtTabs.has(tid)&&DB.length){
-      builtTabs.add(tid);
-      if(tid==="t2")buildA2();else if(tid==="t3")buildA3();else if(tid==="t4")buildA4();else if(tid==="t5")buildA5();else if(tid==="t6")buildA6();
-    }
-  });
-});
-
-// ── 번호 생성 ─────────────────────────────────────────────────────
-function fillSel(){const s=document.getElementById("comboCount");s.innerHTML="";for(let i=1;i<=10;i++){const o=document.createElement("option");o.value=i;o.textContent=i+"조합";s.appendChild(o);}s.value="3";}
-const getOpts=()=>[...document.querySelectorAll(".recOpt:checked")].map(e=>e.value);
-function freqMap(rows){const f={};for(let i=1;i<=45;i++)f[i]=0;rows.forEach(r=>r.numbers.forEach(n=>f[n]++));return f;}
-function pickW(freq,pool,hi){const it=pool.map(n=>({n,w:hi?(freq[n]+1):(1/(freq[n]+1))}));const tot=it.reduce((s,x)=>s+x.w,0);let r=Math.random()*tot;for(const x of it){r-=x.w;if(r<=0)return x.n;}return it[it.length-1].n;}
-function valid(nums,opts){
-  const s=[...nums].sort((a,b)=>a-b);
-  if(opts.includes("oddEven")){const o=s.filter(n=>n%2).length;if(o<2||o>4)return false;}
-  if(opts.includes("highLow")){const l=s.filter(n=>n<=22).length;if(l<2||l>4)return false;}
-  if(opts.includes("sumRange")){const t=sumA(s);if(t<100||t>175)return false;}
-  if(opts.includes("sectionMix")){const u=[s.filter(n=>n<=10),s.filter(n=>n>=11&&n<=20),s.filter(n=>n>=21&&n<=30),s.filter(n=>n>=31)].filter(x=>x.length).length;if(u<3)return false;}
-  if(opts.includes("acFilter")&&calcAC(s)<7)return false;
-  if(opts.includes("endSum")){const es=sumA(s.map(n=>n%10));if(es<15||es>35)return false;}
-  for(let i=0;i<s.length-2;i++)if(s[i]+1===s[i+1]&&s[i+1]+1===s[i+2])return false;
-  return true;
-}
-function dSet(){if(!NDate)return new Set();const[y,m,d]=NDate.split("-").map(Number);const s=new Set();[y%100,m,d,m+d,(y%10)+d].forEach(v=>{if(v>=1&&v<=45)s.add(v);});return s;}
-function oneCombo(base,opts,manual){
-  const freq=freqMap(base);
-  const avoid=new Set(opts.includes("avoidRepeat")&&DB.find(v=>v.round===CRound)?DB.find(v=>v.round===CRound).numbers:[]);
-  const ds=dSet(),combo=new Set(manual);let tries=0;
-  while(combo.size<6&&tries<800){
-    tries++;let pool=Array.from({length:45},(_,i)=>i+1).filter(n=>!combo.has(n));
-    if(opts.includes("avoidRepeat")){const f=pool.filter(n=>!avoid.has(n));if(f.length>=6-combo.size)pool=f;}
-    let pick=null;
-    if(opts.includes("dateMix")&&Math.random()<0.22){const dp=[...ds].filter(n=>pool.includes(n));if(dp.length)pick=dp[Math.floor(Math.random()*dp.length)];}
-    if(!pick&&opts.includes("hot"))pick=pickW(freq,pool,true);
-    else if(!pick&&opts.includes("cold"))pick=pickW(freq,pool,false);
-    else if(!pick)pick=pool[Math.floor(Math.random()*pool.length)];
-    combo.add(pick);
-    if(tries>150&&combo.size<6){combo.clear();manual.forEach(n=>combo.add(n));}
-  }
-  const arr=[...combo].sort((a,b)=>a-b);return arr.length===6&&valid(arr,opts)?arr:null;
-}
-function genCombos(){
-  if(!DB.length){document.getElementById("resultBox").textContent="데이터가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.";return;}
-  const opts=getOpts(),cnt=Number(document.getElementById("comboCount").value||1);
-  const base=DB.filter(r=>r.round!==CRound),manual=[...manNums].sort((a,b)=>a-b);
-  const map={hot:"자주나온",cold:"덜나온",oddEven:"홀짝균형",highLow:"고저균형",sumRange:"합계범위",avoidRepeat:"최근반복줄이기",sectionMix:"구간분산",acFilter:"AC7이상",endSum:"끝수합15~35"};
-  const tags=[manual.length?`수동:${manual.join(",")}`:"수동없음",...(opts.length?opts.map(o=>map[o]):["기본랜덤"])];
-  document.getElementById("tagRow").innerHTML=tags.map(t=>`<span class="tag">${t}</span>`).join("");
-  const results=[],seen=new Set();let safe=0;
-  while(results.length<cnt&&safe<6000){safe++;const c=oneCombo(base,opts,manual);if(!c)continue;const k=c.join(",");if(!seen.has(k)){seen.add(k);results.push(c);}}
-  lastGen=results;
-  if(!results.length){document.getElementById("resultBox").textContent="번호 생성 실패. 옵션을 줄이거나 수동번호를 줄여보세요.";return;}
-  document.getElementById("resultBox").textContent=results.map((r,i)=>`${i+1}조합  :  ${r.join(" , ")}`).join("\n");
-  addToSaved(results,"자동");saveState();
-}
-
-// ── 수동번호 ──────────────────────────────────────────────────────
-function renderPicker(){
-  const el=document.getElementById("numPicker");el.innerHTML="";
-  for(let i=1;i<=45;i++){const d=document.createElement("div");d.className="pick"+(manNums.includes(i)?" on":"");d.textContent=i;d.addEventListener("click",()=>{playClick("soft");toggleMan(i);});el.appendChild(d);}
-}
-function renderManSel(){
-  document.getElementById("manualCount").textContent=`선택된 번호: ${manNums.length}개`;
-  document.getElementById("selectedManual").innerHTML=manNums.length?[...manNums].sort((a,b)=>a-b).map(n=>`<span class="chip">${n}</span>`).join(""):`<span class="chip">선택 없음</span>`;
-}
-function toggleMan(n){
-  if(manNums.includes(n))manNums=manNums.filter(v=>v!==n);
-  else{if(manNums.length>=6){alert("최대 6개까지 선택할 수 있습니다.");return;}manNums.push(n);}
-  renderPicker();renderManSel();saveState();
-}
-function saveManDirect(){
-  if(manNums.length!==6){alert("수동번호를 정확히 6개 선택해야 저장됩니다.");return;}
-  addToSaved([[...manNums]],"수동");
-  alert(`수동번호 ${[...manNums].sort((a,b)=>a-b).join(", ")} 저장 완료!`);
-}
-function clearMan(){manNums=[];renderPicker();renderManSel();saveState();}
-function toggleManBox(){
-  const mb=document.getElementById("manualBox");mb.classList.toggle("show");
-  document.getElementById("toggleManualBtn").textContent=mb.classList.contains("show")?"🙈 수동번호 입력 닫기":"📝 수동번호 입력";
-}
-
-// ── 상태 저장/로드 ─────────────────────────────────────────────────
-function saveState(){localStorage.setItem(SK,JSON.stringify({plusStep,manNums,cnt:document.getElementById("comboCount").value,opts:getOpts(),result:document.getElementById("resultBox").textContent,tags:document.getElementById("tagRow").innerHTML,histBase,manOpen:document.getElementById("manualBox").classList.contains("show")}));}
-function loadState(){
-  try{
-    const d=JSON.parse(localStorage.getItem(SK)||"{}");
-    plusStep=Number(d.plusStep||0);manNums=Array.isArray(d.manNums)?d.manNums:[];
-    document.getElementById("comboCount").value=d.cnt||"3";histBase=d.histBase||null;
-    document.querySelectorAll(".recOpt").forEach(el=>{el.checked=(d.opts||[]).includes(el.value);});
-    if(d.result)document.getElementById("resultBox").textContent=d.result;
-    if(d.tags)document.getElementById("tagRow").innerHTML=d.tags;
-    if(d.manOpen){document.getElementById("manualBox").classList.add("show");document.getElementById("toggleManualBtn").textContent="🙈 수동번호 입력 닫기";}
-  }catch(e){}
-}
-
-// ── 사운드 & 꽃잎 ─────────────────────────────────────────────────
-function playClick(t="normal"){try{if(!window._ac)window._ac=new(window.AudioContext||window.webkitAudioContext)();const c=window._ac;if(c.state==="suspended")c.resume();const now=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.setValueAtTime(t==="soft"?520:680,now);o.frequency.exponentialRampToValueAtTime(t==="soft"?320:420,now+.08);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.04,now+.01);g.gain.exponentialRampToValueAtTime(.0001,now+.11);o.connect(g);g.connect(c.destination);o.start(now);o.stop(now+.12);}catch(e){}}
-function makePetals(){const el=document.getElementById("petals");for(let i=0;i<14;i++){const p=document.createElement("span");p.className="petal";p.style.left=Math.random()*100+"vw";p.style.animationDuration=(10+Math.random()*10)+"s";p.style.animationDelay=(-Math.random()*18)+"s";el.appendChild(p);}}
-
-// ── 이벤트 ────────────────────────────────────────────────────────
-document.querySelectorAll("button.sfx").forEach(b=>b.addEventListener("click",()=>playClick("normal")));
-document.querySelectorAll(".recOpt").forEach(e=>e.addEventListener("change",()=>{playClick("soft");saveState();}));
-document.getElementById("nextPlusBtn").addEventListener("click",()=>{plusStep++;renderHistory();saveState();});
-document.getElementById("nextRoundBtn").addEventListener("click",()=>{if(NDate){histBase=NDate;plusStep=0;renderHistory();saveState();}});
-document.getElementById("resetPlusBtn").addEventListener("click",()=>{histBase=CDate;plusStep=0;renderHistory();saveState();});
-document.getElementById("toggleManualBtn").addEventListener("click",()=>{toggleManBox();saveState();});
-document.getElementById("clearManualBtn").addEventListener("click",clearMan);
-document.getElementById("saveManualBtn").addEventListener("click",saveManDirect);
-document.getElementById("generateBtn").addEventListener("click",genCombos);
-document.getElementById("checkAllBtn").addEventListener("click",checkAll);
-document.getElementById("clearAllSavedBtn").addEventListener("click",clearAllSaved);
-document.getElementById("comboCount").addEventListener("change",saveState);
-
-// ── 초기 실행 ─────────────────────────────────────────────────────
-async function init(){
-  fillSel();loadState();renderPicker();renderManSel();renderSaved();makePetals();
-  const st=document.getElementById("loadStatus");
-  try{
-    await loadData();
-    renderHistory();
-    buildPatternArea();
-    st.textContent=`✅ ${DB.length}회차 데이터 로드 완료 (최신: ${CRound}회) · 패턴 분석 탭을 눌러보세요!`;
-  }catch(err){
-    console.error(err);
-    st.textContent="❌ 데이터 로드 실패. 인터넷 연결을 확인하고 새로고침 해주세요.";
-  }
-}
-init();
-</script>
-</body>
-</html>
+    <button class="bw sfx" id="clearManualBtn">🧹 수동
