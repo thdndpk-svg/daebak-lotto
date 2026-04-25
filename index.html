@@ -1,227 +1,663 @@
-<!DOCTYPE html><html lang="ko">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=dev([docs.github.com](https://docs.github.com/ko/enterprise-cloud%40latest/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages))viewport-fit=cover"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <title>🌸 대박 로또 당첨기</title>
 <style>
-*{box-sizing:border-box;}
+*{box-sizing:border-box}
 :root{
-  --bg:#fff8fc;--bg2:#fff2f8;--bg3:#ffedf5;
-  --card:#fff;--line:#f4d8e5;--text:#6c4a5d;
-  --strong:#874967;--sub:#a27088;--pink:#ff7bb4;
-  --lav:#eadfff;--mint:#ddf8ec;--blue:#eef8ff;
-  --danger:#ff9aad;--shadow:0 8px 22px rgba(245,165,197,.10);
+  --bg:#fff8fc;--bg2:#fff2f8;--card:#fff;--line:#f4d8e5;--text:#6c4a5d;
+  --strong:#874967;--sub:#a27088;--pink:#ff7bb4;--lav:#eadfff;--mint:#ddf8ec;
+  --blue:#eef8ff;--danger:#ff9aad;--shadow:0 8px 22px rgba(245,165,197,.14)
 }
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%;}
-body{min-height:100vh;font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 55%,var(--bg3) 100%);overflow-x:hidden;}
-.petals{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
-.petal{position:absolute;top:-30px;width:14px;height:10px;background:#ffd1e2;border-radius:12px 12px 12px 2px;opacity:.45;animation:fall linear infinite;}
-@keyframes fall{0%{transform:translateY(-25px) rotate(0deg);}50%{transform:translateY(50vh) rotate(180deg) translateX(18px);}100%{transform:translateY(105vh) rotate(360deg) translateX(-18px);}}
-.wrap{position:relative;z-index:2;max-width:1040px;margin:0 auto;padding:18px 14px 40px;}
-.hero{text-align:center;margin:8px 0 14px;}
-.hero h1{margin:0;font-size:32px;font-weight:900;color:#ff5fa5;}
-.hero p{margin:6px 0 0;font-size:13px;font-weight:800;color:#b07a95;}
-.dl-banner{background:linear-gradient(135deg,#ff7bb4,#b4a0ff);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 6px 20px rgba(255,123,180,.3);}
-.dl-left{display:flex;flex-direction:column;gap:4px;}
-.dl-title{font-size:16px;font-weight:900;color:#fff;}
-.dl-sub{font-size:12px;font-weight:800;color:rgba(255,255,255,.85);}
-.dl-btns{display:flex;gap:10px;flex-wrap:wrap;}
-.dl-btn{border:none;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:900;cursor:pointer;transition:.14s;white-space:nowrap;width:auto;}
-.dl-btn:active{transform:scale(.97);}
-.dl-btn-main{background:#fff;color:#ff5fa5;}
-.dl-btn-yt{background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.6);}
-.card{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-bottom:16px;}
-.card h2{margin:0 0 10px;font-size:20px;color:var(--strong);}
-.sub{margin:0 0 10px;color:var(--sub);font-size:13px;line-height:1.7;font-weight:800;}
-.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.si{background:#fff7fb;border:1px solid #f3dce7;border-radius:16px;padding:11px;}
-.sl{font-size:11px;font-weight:900;color:#b27896;margin-bottom:4px;}
-.sv{font-size:16px;font-weight:900;color:#7c4b64;word-break:keep-all;}
-.stb{margin-top:10px;background:#fff8fc;border:1px solid #f3dde7;border-radius:14px;padding:11px 13px;font-size:13px;font-weight:900;color:#a45f80;line-height:1.6;}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
-.gr{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;align-items:end;margin-top:10px;}
-.fl label{display:block;margin:0 0 5px;font-size:12px;font-weight:900;color:#885973;}
-button,select{width:100%;border:none;border-radius:14px;padding:12px 13px;font-size:14px;font-weight:900;cursor:pointer;transition:.14s;appearance:none;}
-button:active{transform:scale(.97);}
-.bp{background:var(--pink);color:#fff;}
-.bl{background:var(--lav);color:#7a6096;border:1px solid #dccfff;}
-.bm{background:var(--mint);color:#557d6c;border:1px solid #c9efdf;}
-.bw{background:#fff;color:#7b5d6d;border:1px solid #eddde6;}
-.bd{background:var(--danger);color:#fff;}
-.bb{background:var(--blue);color:#5a7892;border:1px solid #d9ecfa;}
-.bo{background:#ffe8d6;color:#a05a2c;border:1px solid #ffd0b0;}
-select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
-.hl{display:grid;gap:8px;margin-top:10px;}
-.hi{border:1px solid #f0dde7;background:#fff;border-radius:18px;padding:12px;}
-.hh{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
-.hr2{font-size:17px;font-weight:900;color:#7e5168;}
-.hd{font-size:12px;font-weight:900;color:#a27b8f;}
-.nz{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mt2{font-size:11px;font-weight:900;color:#a0758b;margin-bottom:6px;}
-.balls{display:flex;flex-wrap:wrap;gap:6px;}
-.ball{min-width:36px;height:36px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;}
-.ball.yellow{background:#f4c64b;}.ball.sky{background:#7dc8ff;}.ball.red{background:#ff8ea2;}.ball.purple{background:#b4a0ff;}.ball.green{background:#7dd9ae;}
-.empty{border:1px dashed #e8d9e0;background:#fff;color:#8f7584;border-radius:14px;padding:12px;font-size:13px;font-weight:700;}
-.og{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;margin-top:8px;}
-.opt{display:flex;align-items:center;gap:7px;padding:10px 11px;border:1px solid #efdde6;background:#fff;border-radius:14px;font-weight:900;color:#795b6c;font-size:13px;}
-.opt input{width:17px;height:17px;margin:0;accent-color:#ff79b3;}
-.mb{border:1px solid #efdde6;background:#fffafd;border-radius:18px;padding:13px;margin-top:10px;display:none;}
-.mb.show{display:block;}
-.mbt{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:8px;}
-.mbtitle{font-size:14px;font-weight:900;color:#7a5469;}
-.mbc{font-size:12px;font-weight:900;color:#9e798f;}
-.picker{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;}
-.pick{border:1px solid #efdde6;background:#fff;border-radius:12px;padding:9px 0;text-align:center;font-weight:900;color:#705966;cursor:pointer;user-select:none;font-size:13px;}
-.pick:hover{transform:translateY(-1px);}
-.pick.on{background:var(--pink);color:#fff;border-color:var(--pink);}
-.smn{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;min-height:18px;}
-.chip{background:#ffeaf3;color:#b55080;border:1px solid #ffd4e2;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;}
-.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
-.tag{padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;background:#fff0f7;color:#b25582;border:1px solid #f7d2e0;}
-.rbox{min-height:70px;border-radius:20px;padding:14px;background:#fffafc;border:1px solid #f2dee8;color:#654b59;font-size:14px;font-weight:900;line-height:1.9;white-space:pre-line;margin-top:8px;}
-.sl2{display:grid;gap:7px;margin-top:10px;}
-.sit{background:#fff;border:1px solid #f0dde7;border-radius:16px;padding:11px 13px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:7px;}
-.slft{display:flex;flex-direction:column;gap:4px;}
-.slbl{font-size:11px;font-weight:900;color:#a0758b;}
-.sdel{background:#fff0f4;color:#d4607a;border:1px solid #ffd4de;border-radius:9px;padding:5px 11px;font-size:12px;font-weight:900;width:auto;cursor:pointer;flex-shrink:0;}
-.badge{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:900;display:inline-block;margin-top:2px;}
-.bwin{background:#d4f7e7;color:#2a7a56;border:1px solid #a8e8cb;}
-.bmiss{background:#fff0f3;color:#b85070;border:1px solid #ffd4de;}
-.bpart{background:#fff8d4;color:#8a6a00;border:1px solid #f0dc90;}
-.atabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-.atab{padding:9px 14px;border-radius:999px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #f7d2e0;background:#fff0f7;color:#b25582;}
-.atab.active{background:var(--pink);color:#fff;border-color:var(--pink);}
-.apanel{display:none;}.apanel.show{display:block;}
-.lotto-grid-wrap{background:#fffbf0;border:2px solid #f4c64b;border-radius:16px;padding:14px;margin-bottom:10px;}
-.lotto-grid-title{font-size:13px;font-weight:900;color:#8a6a00;margin-bottom:10px;}
-.lotto-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:5px;position:relative;}
-.lotto-cell{width:100%;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#bbb;background:#f5f0e8;border:1px solid #e8e0d0;}
-.lotto-cell.hit{color:#fff;}
-.lotto-cell.hit.yellow{background:#f4c64b;}.lotto-cell.hit.sky{background:#7dc8ff;}
-.lotto-cell.hit.red{background:#ff8ea2;}.lotto-cell.hit.purple{background:#b4a0ff;}.lotto-cell.hit.green{background:#7dd9ae;}
-.lotto-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
-.pattern-history{display:grid;gap:10px;margin-top:10px;}
-.ph-item{background:#fff;border:1px solid #f0dde7;border-radius:16px;padding:12px;}
-.ph-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;}
-.ph-round{font-size:15px;font-weight:900;color:#7e5168;}
-.ph-date{font-size:12px;color:#a27b8f;font-weight:800;}
-.rec-box{background:linear-gradient(135deg,#fff0f7,#f0f0ff);border:2px solid var(--pink);border-radius:18px;padding:14px;margin-top:12px;}
-.rec-title{font-size:13px;font-weight:900;color:#874967;margin-bottom:8px;}
-.rec-balls{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
-.rec-ball{min-width:38px;height:38px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;cursor:pointer;transition:.12s;box-shadow:0 2px 8px rgba(0,0,0,.1);}
-.rec-ball:hover{transform:scale(1.12);}
-.apply-btn{background:var(--pink);color:#fff;border:none;border-radius:12px;padding:9px 16px;font-size:13px;font-weight:900;cursor:pointer;width:auto;}
-.ac-stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px;margin:10px 0;}
-.ac-item{background:#fff;border:1px solid #efdde6;border-radius:10px;padding:7px;text-align:center;}
-.ac-num{font-size:16px;font-weight:900;color:#874967;}
-.ac-cnt{font-size:10px;color:#a27088;font-weight:800;}
-.ac-bar{height:4px;border-radius:2px;background:var(--pink);margin-top:4px;}
-.end-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin:8px 0;}
-.end-cell{background:#fff;border:1px solid #efdde6;border-radius:8px;padding:5px 2px;text-align:center;}
-.end-num{font-size:12px;font-weight:900;color:#874967;}
-.end-cnt{font-size:10px;color:#a27088;}
-@media(max-width:860px){
-  .sg,.g3,.g2,.gr,.nz{grid-template-columns:1fr;}
-  .picker{grid-template-columns:repeat(5,1fr);}
-  .hero h1{font-size:26px;}.card{padding:14px;}
-  .atabs{gap:4px;}.atab{font-size:12px;padding:7px 10px;}
-  .dl-banner{flex-direction:column;align-items:flex-start;}
-}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%}
+body{min-height:100vh;font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg2) 55%,#ffedf5);overflow-x:hidden}
+.wrap{max-width:1040px;margin:0 auto;padding:18px 14px 42px}
+.hero{text-align:center;margin:8px 0 14px}
+.hero h1{margin:0;font-size:32px;font-weight:900;color:#ff5fa5}
+.hero p{margin:6px 0 0;font-size:13px;font-weight:800;color:#b07a95}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.card h2{margin:0 0 10px;font-size:20px;color:var(--strong)}
+.sub{margin:0 0 10px;color:var(--sub);font-size:13px;line-height:1.7;font-weight:800}
+.banner{background:linear-gradient(135deg,#ff7bb4,#b4a0ff);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 6px 20px rgba(255,123,180,.28)}
+.banner-title{font-size:16px;font-weight:900;color:#fff}
+.banner-sub{font-size:12px;font-weight:800;color:rgba(255,255,255,.88);margin-top:4px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+button,select{width:100%;border:none;border-radius:14px;padding:12px 13px;font-size:14px;font-weight:900;cursor:pointer;transition:.14s;appearance:none}
+button:active{transform:scale(.97)}
+.btn-auto{width:auto}
+.bp{background:var(--pink);color:#fff}.bl{background:var(--lav);color:#7a6096;border:1px solid #dccfff}
+.bm{background:var(--mint);color:#557d6c;border:1px solid #c9efdf}.bw{background:#fff;color:#7b5d6d;border:1px solid #eddde6}
+.bd{background:var(--danger);color:#fff}.bb{background:var(--blue);color:#5a7892;border:1px solid #d9ecfa}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.si{background:#fff7fb;border:1px solid #f3dce7;border-radius:16px;padding:11px}
+.sl{font-size:11px;font-weight:900;color:#b27896;margin-bottom:4px}.sv{font-size:16px;font-weight:900;color:#7c4b64;word-break:keep-all}
+.stb{margin-top:10px;background:#fff8fc;border:1px solid #f3dde7;border-radius:14px;padding:11px 13px;font-size:13px;font-weight:900;color:#a45f80;line-height:1.6;white-space:pre-line}
+.good{background:#f1fff8;border-color:#c9efdf;color:#348360}.warn{background:#fffaf0;border-color:#ffe0a6;color:#a46b18}.bad{background:#fff3f5;border-color:#ffd4de;color:#c65470}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.gr{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;align-items:end;margin-top:10px}
+.fl label{display:block;margin:0 0 5px;font-size:12px;font-weight:900;color:#885973}
+select{background:#fff;border:1px solid #eddde6;color:#6e5162}
+.balls{display:flex;flex-wrap:wrap;gap:6px}
+.ball{min-width:36px;height:36px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff}
+.yellow{background:#f4c64b}.sky{background:#7dc8ff}.red{background:#ff8ea2}.purple{background:#b4a0ff}.green{background:#7dd9ae}
+.empty{border:1px dashed #e8d9e0;background:#fff;color:#8f7584;border-radius:14px;padding:12px;font-size:13px;font-weight:700}
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;margin-top:8px}
+.opt{display:flex;align-items:center;gap:7px;padding:10px 11px;border:1px solid #efdde6;background:#fff;border-radius:14px;font-weight:900;color:#795b6c;font-size:13px}
+.opt input{width:17px;height:17px;margin:0;accent-color:#ff79b3}
+.manual{border:1px solid #efdde6;background:#fffafd;border-radius:18px;padding:13px;margin-top:10px;display:none}.manual.show{display:block}
+.manual-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.manual-title{font-size:14px;font-weight:900;color:#7a5469}.manual-count{font-size:12px;font-weight:900;color:#9e798f}
+.picker{display:grid;grid-template-columns:repeat(9,1fr);gap:6px}
+.pick{border:1px solid #efdde6;background:#fff;border-radius:12px;padding:9px 0;text-align:center;font-weight:900;color:#705966;cursor:pointer;user-select:none;font-size:13px}
+.pick.on{background:var(--pink);color:#fff;border-color:var(--pink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;min-height:18px}.chip{background:#ffeaf3;color:#b55080;border:1px solid #ffd4e2;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900}
+.rbox{min-height:70px;border-radius:20px;padding:14px;background:#fffafc;border:1px solid #f2dee8;color:#654b59;font-size:14px;font-weight:900;line-height:1.9;white-space:pre-line;margin-top:8px}
+.list{display:grid;gap:7px;margin-top:10px}.item{background:#fff;border:1px solid #f0dde7;border-radius:16px;padding:11px 13px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:7px}
+.item-left{display:flex;flex-direction:column;gap:4px}.small{font-size:11px;font-weight:900;color:#a0758b}.del{background:#fff0f4;color:#d4607a;border:1px solid #ffd4de;border-radius:9px;padding:5px 11px;font-size:12px;font-weight:900;width:auto;cursor:pointer;flex-shrink:0}
+.badge{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:900;display:inline-block;margin-top:2px}.bwin{background:#d4f7e7;color:#2a7a56;border:1px solid #a8e8cb}.bmiss{background:#fff0f3;color:#b85070;border:1px solid #ffd4de}.bpart{background:#fff8d4;color:#8a6a00;border:1px solid #f0dc90}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:9px 14px;border-radius:999px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #f7d2e0;background:#fff0f7;color:#b25582}.tab.active{background:var(--pink);color:#fff;border-color:var(--pink)}
+.panel{display:none}.panel.show{display:block}
+.hist{display:grid;gap:8px;margin-top:10px}.hist-item{border:1px solid #f0dde7;background:#fff;border-radius:18px;padding:12px}.hist-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px}.hist-round{font-size:17px;font-weight:900;color:#7e5168}.hist-date{font-size:12px;font-weight:900;color:#a27b8f}
+.rec{background:linear-gradient(135deg,#fff0f7,#f0f0ff);border:2px solid var(--pink);border-radius:18px;padding:14px;margin-top:12px}.rec-title{font-size:13px;font-weight:900;color:#874967;margin-bottom:8px}.rec-balls{display:flex;flex-wrap:wrap;gap:7px}.rec-ball{min-width:38px;height:38px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+@media(max-width:860px){.sg,.g3,.g2,.gr{grid-template-columns:1fr}.picker{grid-template-columns:repeat(5,1fr)}.hero h1{font-size:26px}.card{padding:14px}.banner{flex-direction:column;align-items:flex-start}.tab{font-size:12px;padding:7px 10px}}
 </style>
 </head>
 <body>
-<div class="petals" id="petals"></div>
-<div class="wrap"><div class="hero">
-  <h1>🌸 대박 로또 당첨기</h1>
-  <p>GitHub 자동 업데이트 · 패턴 시각화 · 분석 연동 번호생성 · 저장 · 일괄 당첨확인</p>
-</div><div class="dl-banner">
-  <div class="dl-left">
-    <div class="dl-title">📥 대박 로또 당첨기 — 무료 배포</div>
-    <div class="dl-sub">GitHub Actions 자동 데이터 · 버튼 하나로 내 기기에 저장</div>
+<div class="wrap">
+  <div class="hero">
+    <h1>🌸 대박 로또 당첨기</h1>
+    <p>GitHub 자동 업데이트 JSON · 저장 · 번호 생성 · 당첨 확인</p>
   </div>
-  <div class="dl-btns">
-    <button class="dl-btn dl-btn-main" onclick="downloadApp()">📥 내 기기에 저장</button>
-    <button class="dl-btn dl-btn-yt" onclick="window.open('https://youtube.com/channel/UCQGmovHYgG-KI93l-4L40GQ?si=PYEfUh3iawIDdHK7','_blank')">▶ 유튜브 채널</button>
+
+  <div class="banner">
+    <div>
+      <div class="banner-title">📥 대박 로또 당첨기 — 안정판</div>
+      <div class="banner-sub">로딩중 멈춤 방지 · data/lotto.json 우선 로드 · 실패 시 실시간 API/캐시 fallback</div>
+    </div>
+    <div class="btns">
+      <button class="btn-auto bw" onclick="downloadApp()">📥 내 기기에 저장</button>
+      <button class="btn-auto bl" onclick="location.reload()">🔄 새로고침</button>
+    </div>
   </div>
-</div><div class="card">
-  <h2>💖 자동화 정보</h2>
-  <div class="sg">
-    <div class="si"><div class="sl">기준 추첨일</div><div class="sv" id="currentDate">로딩중...</div></div>
-    <div class="si"><div class="sl">현재 회차</div><div class="sv" id="currentRound">로딩중...</div></div>
-    <div class="si"><div class="sl">1등 당첨번호</div><div class="sv" id="firstPrizeNumbers">로딩중...</div></div>
-    <div class="si"><div class="sl">당첨자 수</div><div class="sv" id="winnerCount">로딩중...</div></div>
-    <div class="si"><div class="sl">당첨금액</div><div class="sv" id="prizeAmount">로딩중...</div></div>
-    <div class="si"><div class="sl">다음 추첨일</div><div class="sv" id="nextDate">로딩중...</div></div>
+
+  <div class="card">
+    <h2>💖 자동화 정보</h2>
+    <div class="sg">
+      <div class="si"><div class="sl">기준 추첨일</div><div class="sv" id="currentDate">-</div></div>
+      <div class="si"><div class="sl">현재 회차</div><div class="sv" id="currentRound">-</div></div>
+      <div class="si"><div class="sl">1등 당첨번호</div><div class="sv" id="firstPrizeNumbers">-</div></div>
+      <div class="si"><div class="sl">당첨자 수</div><div class="sv" id="winnerCount">-</div></div>
+      <div class="si"><div class="sl">당첨금액</div><div class="sv" id="prizeAmount">-</div></div>
+      <div class="si"><div class="sl">다음 추첨일</div><div class="sv" id="nextDate">-</div></div>
+    </div>
+    <div class="stb" id="loadStatus">앱 시작 중...</div>
   </div>
-  <div class="stb" id="loadStatus">데이터를 불러오는 중입니다...</div>
-</div><div class="card">
-  <h2>🌼 같은 날짜 과거 데이터</h2>
-  <div class="sub">다음 추첨일과 같은 월/일 과거 데이터 조회. +1 적용 시 각 번호에 +1씩 적용합니다.</div>
-  <div class="g3">
-    <button class="bm sfx" id="nextPlusBtn">➕ +1 보기</button>
-    <button class="bl sfx" id="nextRoundBtn">📅 다음 회차 날짜</button>
-    <button class="bw sfx" id="resetPlusBtn">🔄 초기화</button>
+
+  <div class="card">
+    <h2>🌼 같은 날짜 과거 데이터</h2>
+    <div class="sub">다음 추첨일과 같은 월/일 과거 데이터를 보여줍니다.</div>
+    <div class="g3">
+      <button class="bm" id="plusBtn">➕ +1 보기</button>
+      <button class="bl" id="nextDateBtn">📅 다음 회차 날짜 기준</button>
+      <button class="bw" id="resetHistoryBtn">🔄 현재 날짜 기준</button>
+    </div>
+    <div class="stb" id="historyInfo">기준: -</div>
+    <div class="hist" id="historyList"></div>
   </div>
-  <div class="stb" id="historyModeInfo">기준: -</div>
-  <div class="hl" id="historyList"></div>
-</div><div class="card">
-  <h2>🔬 패턴 분석 + 추천번호</h2>
-  <div class="sub">각 탭을 누르면 분석 결과와 유력 추천번호 5개가 나옵니다. 번호를 클릭하면 수동번호에 자동 추가됩니다.</div>
-  <div class="atabs">
-    <div class="atab active" data-tab="t1">📐 선연결 패턴</div>
-    <div class="atab" data-tab="t2">📅 최근 재출현</div>
-    <div class="atab" data-tab="t3">⏭️ 건너뛰기</div>
-    <div class="atab" data-tab="t4">🗓️ 같은날짜+1</div>
-    <div class="atab" data-tab="t5">🔢 첫번호 패턴</div>
-    <div class="atab" data-tab="t6">📊 AC·끝수·연번</div>
+
+  <div class="card">
+    <h2>🔬 분석 + 추천번호</h2>
+    <div class="tabs">
+      <div class="tab active" data-tab="p1">🔥 빈도 분석</div>
+      <div class="tab" data-tab="p2">⏳ 미출현 분석</div>
+      <div class="tab" data-tab="p3">📊 합계·홀짝 분석</div>
+    </div>
+    <div class="panel show" id="p1">
+      <div class="rbox" id="analysisHot">데이터 로드 후 표시됩니다.</div>
+      <div class="rec"><div class="rec-title">추천번호</div><div class="rec-balls" id="recHot"></div></div>
+    </div>
+    <div class="panel" id="p2">
+      <div class="rbox" id="analysisCold">데이터 로드 후 표시됩니다.</div>
+      <div class="rec"><div class="rec-title">추천번호</div><div class="rec-balls" id="recCold"></div></div>
+    </div>
+    <div class="panel" id="p3">
+      <div class="rbox" id="analysisMix">데이터 로드 후 표시됩니다.</div>
+      <div class="rec"><div class="rec-title">추천번호</div><div class="rec-balls" id="recMix"></div></div>
+    </div>
   </div>
-  <div class="apanel show" id="t1">
-    <div class="sub">최근 10회차 1등번호를 로또 용지 격자에 표시하고 선으로 연결한 모양입니다.</div>
-    <div id="patternGridArea"></div>
-    <div class="rec-box"><div class="rec-title">📌 선연결 패턴 기반 추천번호</div><div class="rec-balls" id="recBalls1"></div><button class="apply-btn" onclick="applyRec(1)">✅ 수동번호에 추가</button></div>
+
+  <div class="card">
+    <h2>🎀 번호 생성</h2>
+    <div class="sub">수동번호를 넣거나 옵션을 선택하고 생성하세요. 생성된 번호는 자동 저장됩니다.</div>
+    <div class="opt-grid">
+      <label class="opt"><input type="checkbox" class="optBox" value="hot"> 자주 나온 번호</label>
+      <label class="opt"><input type="checkbox" class="optBox" value="cold"> 덜 나온 번호</label>
+      <label class="opt"><input type="checkbox" class="optBox" value="oddEven"> 홀짝 균형</label>
+      <label class="opt"><input type="checkbox" class="optBox" value="highLow"> 고저 균형</label>
+      <label class="opt"><input type="checkbox" class="optBox" value="sumRange"> 합계 100~175</label>
+      <label class="opt"><input type="checkbox" class="optBox" value="avoidRepeat"> 최신 번호 제외</label>
+    </div>
+    <div class="g3">
+      <button class="bb" id="toggleManualBtn">📝 수동번호 입력</button>
+      <button class="bw" id="clearManualBtn">🧹 수동번호 지우기</button>
+      <button class="bm" id="saveManualBtn">💾 수동번호 저장</button>
+    </div>
+    <div class="manual" id="manualBox">
+      <div class="manual-head"><div class="manual-title">수동번호 입력</div><div class="manual-count" id="manualCount">0개</div></div>
+      <div class="picker" id="picker"></div>
+      <div class="chips" id="manualChips"></div>
+    </div>
+    <div class="gr">
+      <div class="fl"><label for="comboCount">조합 수</label><select id="comboCount"></select></div>
+      <button class="bp" id="generateBtn">🎲 번호 생성 + 저장</button>
+    </div>
+    <div class="rbox" id="resultBox">여기에 생성된 번호가 표시됩니다.</div>
   </div>
-  <div class="apanel" id="t2">
-    <div class="sub">최근 회차에서 재출현한 번호 패턴. 저저번주 2개 + 저번주 1~2개 패턴이 자주 나타납니다.</div>
-    <div class="rbox" id="a2text" style="font-size:13px;"></div>
-    <div class="rec-box"><div class="rec-title">📌 최근 재출현 기반 추천번호</div><div class="rec-balls" id="recBalls2"></div><button class="apply-btn" onclick="applyRec(2)">✅ 수동번호에 추가</button></div>
+
+  <div class="card">
+    <h2>💾 저장된 번호 목록</h2>
+    <div class="g2">
+      <button class="bm" id="checkAllBtn">🏆 전체 당첨확인</button>
+      <button class="bd" id="clearAllBtn">🗑️ 전체 삭제</button>
+    </div>
+    <div class="list" id="savedList"><div class="empty">아직 저장된 번호가 없습니다.</div></div>
+    <div class="rbox" id="checkBox">당첨확인 결과가 여기 표시됩니다.</div>
   </div>
-  <div class="apanel" id="t3">
-    <div class="sub">각 번호가 평균 몇 회만에 다시 출현하는지 분석. 주기 대비 오래 미출현한 번호가 유력합니다.</div>
-    <div class="rbox" id="a3text" style="font-size:13px;"></div>
-    <div class="rec-box"><div class="rec-title">📌 건너뛰기 주기 기반 추천번호</div><div class="rec-balls" id="recBalls3"></div><button class="apply-btn" onclick="applyRec(3)">✅ 수동번호에 추가</button></div>
-  </div>
-  <div class="apanel" id="t4">
-    <div class="sub">다음 추첨일과 같은 날짜(월/일) 과거 1등번호에 +1을 적용한 분석입니다.</div>
-    <div class="rbox" id="a4text" style="font-size:13px;"></div>
-    <div class="rec-box"><div class="rec-title">📌 같은날짜+1 기반 추천번호</div><div class="rec-balls" id="recBalls4"></div><button class="apply-btn" onclick="applyRec(4)">✅ 수동번호에 추가</button></div>
-  </div>
-  <div class="apanel" id="t5">
-    <div class="sub">6개 번호 중 가장 작은 번호(첫번호)의 패턴을 분석합니다.</div>
-    <div class="rbox" id="a5text" style="font-size:13px;"></div>
-    <div class="rec-box"><div class="rec-title">📌 첫번호 패턴 기반 추천번호</div><div class="rec-balls" id="recBalls5"></div><button class="apply-btn" onclick="applyRec(5)">✅ 수동번호에 추가</button></div>
-  </div>
-  <div class="apanel" id="t6">
-    <div class="sub">AC값·끝수합계·연번패턴 등 실전 필터 분석입니다.</div>
-    <div class="rbox" id="a6text" style="font-size:13px;min-height:40px;"></div>
-    <div style="margin-top:10px;"><div style="font-size:13px;font-weight:900;color:#874967;margin-bottom:6px;">AC값 분포</div><div class="ac-stat" id="acStat"></div></div>
-    <div style="margin-top:10px;"><div style="font-size:13px;font-weight:900;color:#874967;margin-bottom:6px;">끝수(일의자리) 출현 빈도</div><div class="end-grid" id="endGrid"></div></div>
-    <div class="rec-box"><div class="rec-title">📌 AC·끝수·연번 필터 기반 추천번호</div><div class="rec-balls" id="recBalls6"></div><button class="apply-btn" onclick="applyRec(6)">✅ 수동번호에 추가</button></div>
-  </div>
-</div><div class="card">
-  <h2>🎀 번호 생성</h2>
-  <div class="sub">패턴 분석 탭에서 번호를 추가하거나, 옵션을 체크하고 생성합니다. 생성된 번호는 자동으로 저장됩니다.</div>
-  <div class="og">
-    <label class="opt"><input type="checkbox" class="recOpt" value="hot"> 자주 나온 번호</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="cold"> 덜 나온 번호</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="oddEven"> 홀짝 균형</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="highLow"> 고저 균형</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="sumRange"> 합계 범위</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="avoidRepeat"> 최근 반복 줄이기</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="sectionMix"> 구간 분산</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="acFilter"> AC값 7이상 필터</label>
-    <label class="opt"><input type="checkbox" class="recOpt" value="endSum"> 끝수합 15~35</label>
-  </div>
-  <div class="g3" style="margin-top:10px;">
-    <button class="bb sfx" id="toggleManualBtn">📝 수동번호 입력</button>
-    <button class="bw sfx" id="clearManualBtn">🧹 수동
+</div>
+
+<script>
+"use strict";
+
+const APP_VERSION="2026-04-25-stable-1";
+const DATA_URLS=["data/lotto.json","./data/lotto.json","/daebak-lotto/data/lotto.json"];
+const API="https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=";
+const PROXIES=[
+  url=>url,
+  url=>"https://api.allorigins.win/raw?url="+encodeURIComponent(url),
+  url=>"https://corsproxy.io/?"+encodeURIComponent(url),
+  url=>"https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(url)
+];
+const CACHE_KEY="dbk_lotto_cache_stable_v1";
+const SAVE_KEY="dbk_saved_numbers_stable_v1";
+const STATE_KEY="dbk_ui_state_stable_v1";
+
+let DB=[];
+let CRound=null,CDate=null,NDate=null,CPrize=[],CBonus=null,CWinners=null,CAmount=null;
+let manual=[],plusStep=0,histBase=null;
+let hotNums=[],coldNums=[],mixNums=[];
+
+const $=id=>document.getElementById(id);
+const setStatus=(msg,type="")=>{
+  const el=$("loadStatus");
+  el.className="stb "+type;
+  el.textContent=msg;
+};
+const fmtMoney=n=>Number.isFinite(Number(n))?Number(n).toLocaleString("ko-KR")+"원":"-";
+const bCls=n=>n<=10?"yellow":n<=20?"sky":n<=30?"red":n<=40?"purple":"green";
+const balls=arr=>arr.map(n=>`<span class="ball ${bCls(n)}">${n}</span>`).join("");
+const recBall=(n)=>`<span class="rec-ball ${bCls(n)}" onclick="addManual(${n})">${n}</span>`;
+const addDays=(dateStr,days)=>{
+  const d=new Date(dateStr+"T00:00:00");
+  d.setDate(d.getDate()+days);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+const md=s=>{const [,m,d]=String(s).split("-").map(Number);return {m,d};};
+const safeJsonParse=(s,def)=>{try{return JSON.parse(s)}catch{return def}};
+const readLS=(k,def)=>{try{return localStorage.getItem(k)??def}catch{return def}};
+const writeLS=(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){console.warn("localStorage 실패",e);return false}};
+
+window.addEventListener("error",e=>{
+  console.error(e.error||e.message);
+  setStatus("❌ 자바스크립트 오류가 발생했습니다.\n오류: "+(e.message||"unknown")+"\nindex.html을 최신 안정판으로 다시 붙여넣어 주세요.","bad");
+});
+window.addEventListener("unhandledrejection",e=>{
+  console.error(e.reason);
+  setStatus("❌ 데이터 처리 중 오류가 발생했습니다.\n오류: "+(e.reason?.message||e.reason||"unknown"),"bad");
+});
+
+async function fetchText(url,timeout=10000){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),timeout);
+  try{
+    const res=await fetch(url,{cache:"no-store",signal:controller.signal,headers:{Accept:"application/json,text/plain,*/*"}});
+    if(!res.ok)throw new Error("HTTP "+res.status+" - "+url);
+    return await res.text();
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+async function fetchJson(url,timeout=10000){
+  const text=(await fetchText(url,timeout)).replace(/^\uFEFF/,"").trim();
+  if(!text)throw new Error("빈 응답: "+url);
+  return JSON.parse(text);
+}
+
+function normalizeRound(r){
+  const nums=(r.numbers||[r.drwtNo1,r.drwtNo2,r.drwtNo3,r.drwtNo4,r.drwtNo5,r.drwtNo6]).map(Number).filter(Boolean).sort((a,b)=>a-b);
+  return {
+    round:Number(r.round||r.drwNo),
+    date:String(r.date||r.drwNoDate||""),
+    numbers:nums,
+    bonus:Number(r.bonus||r.bnusNo||0),
+    winners:Number(r.winners||r.firstPrzwnerCo||0),
+    amount:Number(r.amount||r.firstWinamnt||0)
+  };
+}
+
+function applyData(data,source){
+  const rows=(data.rounds||data.data||[]).map(normalizeRound).filter(r=>r.round&&r.date&&r.numbers.length===6);
+  if(!rows.length)throw new Error("로또 JSON에 rounds 데이터가 없습니다.");
+  rows.sort((a,b)=>b.round-a.round);
+  DB=rows;
+
+  const latest=normalizeRound(data.latest||data.current||rows[0]);
+  CRound=latest.round||rows[0].round;
+  CDate=latest.date||rows[0].date;
+  NDate=data.nextDate||addDays(CDate,7);
+  CPrize=latest.numbers?.length===6?latest.numbers:rows[0].numbers;
+  CBonus=latest.bonus||rows[0].bonus;
+  CWinners=latest.winners||rows[0].winners;
+  CAmount=latest.amount||rows[0].amount;
+  if(!histBase)histBase=CDate;
+
+  updateInfo();
+  writeLS(CACHE_KEY,JSON.stringify({source,updatedAt:new Date().toISOString(),rounds:DB,latest:{round:CRound,date:CDate,numbers:CPrize,bonus:CBonus,winners:CWinners,amount:CAmount},nextDate:NDate}));
+}
+
+async function loadStaticJson(){
+  let lastErr=null;
+  for(const path of DATA_URLS){
+    try{
+      const url=path+(path.includes("?")?"&":"?")+"v="+Date.now();
+      const data=await fetchJson(url,10000);
+      applyData(data,"github-json:"+path);
+      setStatus(`✅ GitHub JSON 데이터 로드 완료\n최신 ${CRound}회 · 총 ${DB.length}회차 · ${path}`,"good");
+      return true;
+    }catch(e){
+      lastErr=e;
+      console.warn("JSON 실패",path,e.message);
+    }
+  }
+  throw lastErr||new Error("data/lotto.json 없음");
+}
+
+async function fetchRound(no){
+  let lastErr=null;
+  const target=API+no;
+  for(const makeUrl of PROXIES){
+    try{
+      const data=await fetchJson(makeUrl(target),9000);
+      if(!data||data.returnValue!=="success")throw new Error("없는 회차 "+no);
+      return normalizeRound(data);
+    }catch(e){
+      lastErr=e;
+      console.warn("회차 API 실패",no,e.message);
+    }
+  }
+  throw lastErr||new Error("API 실패");
+}
+
+async function loadLiveApi(){
+  setStatus("📡 data/lotto.json 없음 → 실시간 API로 시도 중...");
+  const first=new Date("2002-12-07T00:00:00");
+  const now=new Date();
+  const guess=Math.floor((now-first)/(7*24*60*60*1000))+1;
+
+  let latest=null;
+  for(let r=guess+4;r>=Math.max(1,guess-10);r--){
+    try{ latest=await fetchRound(r); break; }catch{}
+  }
+  if(!latest)throw new Error("최신 회차를 찾지 못했습니다.");
+
+  const rounds=[];
+  const count=200;
+  const start=Math.max(1,latest.round-count+1);
+  for(let r=latest.round;r>=start;r--){
+    try{
+      const row=await fetchRound(r);
+      rounds.push(row);
+      if(rounds.length%10===0)setStatus(`📡 실시간 API 로딩 중... ${rounds.length}/${count}회차`);
+    }catch(e){}
+  }
+
+  applyData({latest,rounds,nextDate:addDays(latest.date,7)},"live-api");
+  setStatus(`✅ 실시간 API 데이터 로드 완료\n최신 ${CRound}회 · 총 ${DB.length}회차\n권장: GitHub Actions를 실행해서 data/lotto.json을 생성하세요.`,"warn");
+  return true;
+}
+
+function loadCache(){
+  const cached=safeJsonParse(readLS(CACHE_KEY,"{}"),{});
+  if(!cached.rounds?.length)throw new Error("저장된 캐시가 없습니다.");
+  applyData(cached,"cache");
+  setStatus(`⚠️ 온라인 데이터 실패 → 이전 저장 데이터로 실행 중\n최신 ${CRound}회 · 총 ${DB.length}회차`,"warn");
+  return true;
+}
+
+async function loadData(){
+  setStatus("📦 GitHub data/lotto.json 확인 중...");
+  try{ await loadStaticJson(); return; }
+  catch(e1){ console.warn("정적 JSON 실패",e1.message); }
+
+  try{ await loadLiveApi(); return; }
+  catch(e2){ console.warn("실시간 API 실패",e2.message); }
+
+  try{ loadCache(); return; }
+  catch(e3){ console.warn("캐시 실패",e3.message); }
+
+  setStatus("❌ 데이터 로드 실패\n1) GitHub Actions → Update lotto data → Run workflow 실행\n2) 성공 후 data/lotto.json 생성 확인\n3) Pages 주소를 새로고침하세요","bad");
+}
+
+function updateInfo(){
+  $("currentDate").textContent=CDate||"-";
+  $("currentRound").textContent=CRound?CRound+"회":"-";
+  $("firstPrizeNumbers").textContent=CPrize.length?CPrize.join(", "):"-";
+  $("winnerCount").textContent=CWinners?CWinners+"명":"-";
+  $("prizeAmount").textContent=fmtMoney(CAmount);
+  $("nextDate").textContent=NDate||"-";
+}
+
+function buildHistory(){
+  const base=histBase||CDate;
+  const info=$("historyInfo");
+  const list=$("historyList");
+  if(!base||!DB.length){
+    info.textContent="기준: -";
+    list.innerHTML='<div class="empty">데이터가 아직 없습니다.</div>';
+    return;
+  }
+  const {m,d}=md(base);
+  const rows=DB.filter(r=>r.round!==CRound&&md(r.date).m===m&&md(r.date).d===d).slice(0,20);
+  info.textContent=`기준: ${base} · +${plusStep} 적용`;
+  if(!rows.length){
+    list.innerHTML='<div class="empty">같은 월/일 과거 데이터가 없습니다.</div>';
+    return;
+  }
+  list.innerHTML=rows.map(r=>{
+    const nums=r.numbers.map(n=>((n-1+plusStep)%45)+1).sort((a,b)=>a-b);
+    return `<div class="hist-item"><div class="hist-head"><div class="hist-round">${r.round}회</div><div class="hist-date">${r.date}</div></div><div class="balls">${balls(nums)}</div></div>`;
+  }).join("");
+}
+
+function buildAnalysis(){
+  if(!DB.length)return;
+  const freq={}; for(let i=1;i<=45;i++)freq[i]=0;
+  DB.forEach(r=>r.numbers.forEach(n=>freq[n]++));
+  const sorted=Object.entries(freq).map(([n,c])=>({n:Number(n),c})).sort((a,b)=>b.c-a.c);
+  hotNums=sorted.slice(0,6).map(x=>x.n).sort((a,b)=>a-b);
+  coldNums=sorted.slice(-12).sort((a,b)=>a.c-b.c).slice(0,6).map(x=>x.n).sort((a,b)=>a-b);
+
+  const lastSeen={}; for(let i=1;i<=45;i++)lastSeen[i]=9999;
+  DB.forEach((r,idx)=>r.numbers.forEach(n=>{ if(lastSeen[n]===9999)lastSeen[n]=idx; }));
+  const overdue=Object.entries(lastSeen).map(([n,gap])=>({n:Number(n),gap})).sort((a,b)=>b.gap-a.gap).slice(0,6).map(x=>x.n).sort((a,b)=>a-b);
+  coldNums=[...new Set([...coldNums,...overdue])].slice(0,6).sort((a,b)=>a-b);
+
+  const recent=DB.slice(0,30);
+  const recentFreq={}; for(let i=1;i<=45;i++)recentFreq[i]=0;
+  recent.forEach(r=>r.numbers.forEach(n=>recentFreq[n]++));
+  mixNums=Object.entries(recentFreq).map(([n,c])=>({n:Number(n),c})).sort((a,b)=>b.c-a.c).slice(0,12).map(x=>x.n);
+  while(mixNums.length<6){const n=Math.floor(Math.random()*45)+1;if(!mixNums.includes(n))mixNums.push(n);}
+  mixNums=mixNums.slice(0,6).sort((a,b)=>a-b);
+
+  $("analysisHot").textContent="최근/전체 데이터 기준 자주 나온 번호 TOP 10\n"+sorted.slice(0,10).map(x=>`번호 ${String(x.n).padStart(2,"0")}: ${x.c}회`).join("\n");
+  $("analysisCold").textContent="상대적으로 덜 나온 번호 + 최근 미출현 번호\n"+coldNums.map(n=>`번호 ${String(n).padStart(2,"0")}: 전체 ${freq[n]}회 / 최근 미출현 ${lastSeen[n]}회`).join("\n");
+  const sums=DB.map(r=>r.numbers.reduce((a,b)=>a+b,0));
+  const avg=Math.round(sums.reduce((a,b)=>a+b,0)/sums.length);
+  const oddAvg=(DB.reduce((a,r)=>a+r.numbers.filter(n=>n%2).length,0)/DB.length).toFixed(1);
+  $("analysisMix").textContent=`합계 평균: ${avg}\n홀수 평균 개수: ${oddAvg}개\n추천 조건: 합계 100~175, 홀짝 2:4~4:2, 고저 2:4~4:2`;
+  $("recHot").innerHTML=hotNums.map(recBall).join("");
+  $("recCold").innerHTML=coldNums.map(recBall).join("");
+  $("recMix").innerHTML=mixNums.map(recBall).join("");
+}
+
+function fillComboSelect(){
+  const s=$("comboCount");
+  s.innerHTML="";
+  for(let i=1;i<=10;i++){
+    const o=document.createElement("option");
+    o.value=i; o.textContent=i+"조합";
+    s.appendChild(o);
+  }
+  s.value="3";
+}
+
+function renderPicker(){
+  const p=$("picker");
+  p.innerHTML="";
+  for(let i=1;i<=45;i++){
+    const d=document.createElement("div");
+    d.className="pick"+(manual.includes(i)?" on":"");
+    d.textContent=i;
+    d.onclick=()=>toggleManual(i);
+    p.appendChild(d);
+  }
+  $("manualCount").textContent=`선택된 번호: ${manual.length}개`;
+  $("manualChips").innerHTML=manual.length?manual.slice().sort((a,b)=>a-b).map(n=>`<span class="chip">${n}</span>`).join(""):'<span class="chip">선택 없음</span>';
+}
+
+function toggleManual(n){
+  if(manual.includes(n))manual=manual.filter(x=>x!==n);
+  else{
+    if(manual.length>=6){alert("수동번호는 최대 6개입니다.");return;}
+    manual.push(n);
+  }
+  renderPicker();
+  saveState();
+}
+
+function addManual(n){
+  if(!manual.includes(n)&&manual.length<6)manual.push(n);
+  $("manualBox").classList.add("show");
+  $("toggleManualBtn").textContent="🙈 수동번호 입력 닫기";
+  renderPicker();
+  saveState();
+}
+
+function getOpts(){
+  return [...document.querySelectorAll(".optBox:checked")].map(x=>x.value);
+}
+
+function validCombo(nums,opts){
+  const s=nums.slice().sort((a,b)=>a-b);
+  if(opts.includes("oddEven")){
+    const odd=s.filter(n=>n%2).length;
+    if(odd<2||odd>4)return false;
+  }
+  if(opts.includes("highLow")){
+    const low=s.filter(n=>n<=22).length;
+    if(low<2||low>4)return false;
+  }
+  if(opts.includes("sumRange")){
+    const sum=s.reduce((a,b)=>a+b,0);
+    if(sum<100||sum>175)return false;
+  }
+  return true;
+}
+
+function weightedPick(pool,weightMap){
+  const total=pool.reduce((a,n)=>a+(weightMap[n]||1),0);
+  let r=Math.random()*total;
+  for(const n of pool){r-=weightMap[n]||1;if(r<=0)return n;}
+  return pool[pool.length-1];
+}
+
+function makeOneCombo(opts){
+  const freq={}; for(let i=1;i<=45;i++)freq[i]=1;
+  DB.forEach(r=>r.numbers.forEach(n=>freq[n]++));
+  const latestSet=new Set(CPrize);
+  let tries=0;
+  while(tries++<1000){
+    const set=new Set(manual);
+    while(set.size<6){
+      let pool=Array.from({length:45},(_,i)=>i+1).filter(n=>!set.has(n));
+      if(opts.includes("avoidRepeat")){
+        const filtered=pool.filter(n=>!latestSet.has(n));
+        if(filtered.length>=6-set.size)pool=filtered;
+      }
+      let weights={};
+      pool.forEach(n=>{
+        weights[n]=1;
+        if(opts.includes("hot"))weights[n]*=freq[n];
+        if(opts.includes("cold"))weights[n]*=(1/freq[n])*20;
+      });
+      const n=weightedPick(pool,weights);
+      set.add(n);
+    }
+    const arr=[...set].sort((a,b)=>a-b);
+    if(validCombo(arr,opts))return arr;
+  }
+  return null;
+}
+
+function generate(){
+  const count=Number($("comboCount").value||1);
+  const opts=getOpts();
+  const out=[],seen=new Set();
+  let safe=0;
+  while(out.length<count&&safe++<5000){
+    const c=makeOneCombo(opts);
+    if(!c)continue;
+    const key=c.join(",");
+    if(!seen.has(key)){seen.add(key);out.push(c);}
+  }
+  if(!out.length){
+    $("resultBox").textContent="번호 생성 실패. 옵션을 줄이거나 수동번호를 줄여주세요.";
+    return;
+  }
+  $("resultBox").textContent=out.map((c,i)=>`${i+1}조합 : ${c.join(" , ")}`).join("\n");
+  addSaved(out,"자동");
+}
+
+function getSaved(){
+  return safeJsonParse(readLS(SAVE_KEY,"[]"),[]);
+}
+function setSaved(list){
+  if(!writeLS(SAVE_KEY,JSON.stringify(list)))alert("브라우저 저장소가 막혀 저장에 실패했습니다.");
+}
+function addSaved(combos,label){
+  const list=getSaved();
+  const now=new Date().toLocaleString("ko-KR");
+  combos.forEach((c,i)=>list.push({id:Date.now()+"_"+i,label,combo:c.slice().sort((a,b)=>a-b),at:now}));
+  setSaved(list);
+  renderSaved();
+}
+function renderSaved(){
+  const list=getSaved();
+  if(!list.length){$("savedList").innerHTML='<div class="empty">아직 저장된 번호가 없습니다.</div>';return;}
+  $("savedList").innerHTML=list.map(it=>`<div class="item"><div class="item-left"><div class="small">${it.label} · ${it.at}</div><div class="balls">${balls(it.combo)}</div><div id="badge_${it.id}"></div></div><button class="del" onclick="deleteSaved('${it.id}')">삭제</button></div>`).join("");
+}
+function deleteSaved(id){
+  setSaved(getSaved().filter(x=>x.id!==id));
+  renderSaved();
+}
+function clearSaved(){
+  if(!confirm("저장된 번호를 전부 삭제할까요?"))return;
+  setSaved([]);
+  renderSaved();
+  $("checkBox").textContent="저장된 번호가 모두 삭제되었습니다.";
+}
+function saveManual(){
+  if(manual.length!==6){alert("수동번호 6개를 선택해야 저장됩니다.");return;}
+  addSaved([manual.slice().sort((a,b)=>a-b)],"수동");
+  alert("수동번호 저장 완료!");
+}
+
+function checkAll(){
+  const list=getSaved();
+  if(!CPrize.length){$("checkBox").textContent="당첨 데이터가 아직 없습니다.";return;}
+  if(!list.length){$("checkBox").textContent="저장된 번호가 없습니다.";return;}
+  const prize=CPrize.slice().sort((a,b)=>a-b);
+  const lines=[`📋 ${CRound}회 당첨번호: ${prize.join(", ")} / 보너스 ${CBonus}\n`];
+  list.forEach((it,i)=>{
+    const hit=it.combo.filter(n=>prize.includes(n)).length;
+    const bonus=it.combo.includes(CBonus);
+    let grade="😊 낙첨";
+    if(hit===6)grade="🏆 1등";
+    else if(hit===5&&bonus)grade="🥈 2등";
+    else if(hit===5)grade="🥉 3등";
+    else if(hit===4)grade="4등";
+    else if(hit===3)grade="5등";
+    const badge=$("badge_"+it.id);
+    if(badge)badge.innerHTML=`<span class="badge ${hit>=5?"bwin":hit>=3?"bpart":"bmiss"}">${grade} · ${hit}개 일치</span>`;
+    lines.push(`${i+1}. [${it.label}] ${it.combo.join(", ")} → ${hit}개 일치 ${grade}`);
+  });
+  $("checkBox").textContent=lines.join("\n");
+}
+
+function saveState(){
+  writeLS(STATE_KEY,JSON.stringify({manual,plusStep,histBase,count:$("comboCount").value,opts:getOpts(),manualOpen:$("manualBox").classList.contains("show")}));
+}
+function loadState(){
+  const s=safeJsonParse(readLS(STATE_KEY,"{}"),{});
+  manual=Array.isArray(s.manual)?s.manual:[];
+  plusStep=Number(s.plusStep||0);
+  histBase=s.histBase||null;
+  if(s.count)$("comboCount").value=s.count;
+  document.querySelectorAll(".optBox").forEach(el=>el.checked=(s.opts||[]).includes(el.value));
+  if(s.manualOpen){$("manualBox").classList.add("show");$("toggleManualBtn").textContent="🙈 수동번호 입력 닫기";}
+}
+
+async function downloadApp(){
+  try{
+    const clone=document.documentElement.cloneNode(true);
+    const html="<!DOCTYPE html>\n"+clone.outerHTML;
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const file=new File([blob],"대박로또당첨기.html",{type:"text/html"});
+    if(navigator.canShare&&navigator.canShare({files:[file]})&&/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)){
+      try{await navigator.share({files:[file],title:"대박 로또 당첨기"});return;}catch(e){}
+    }
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    if("download" in a&&!/iPhone|iPad|iPod/i.test(navigator.userAgent)){
+      a.href=url;a.download="대박로또당첨기.html";document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),3000);
+      alert("✅ 저장 완료!");
+    }else{
+      window.open(url,"_blank")|| (location.href=url);
+      alert("새 창에서 공유 버튼 → 파일에 저장을 눌러주세요.");
+    }
+  }catch(e){
+    alert("저장 실패: 브라우저 메뉴에서 다른 이름으로 저장을 이용해주세요.");
+  }
+}
+
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("show"));
+    tab.classList.add("active");
+    $(tab.dataset.tab).classList.add("show");
+  };
+});
+
+$("plusBtn").onclick=()=>{plusStep++;buildHistory();saveState();};
+$("nextDateBtn").onclick=()=>{histBase=NDate;plusStep=0;buildHistory();saveState();};
+$("resetHistoryBtn").onclick=()=>{histBase=CDate;plusStep=0;buildHistory();saveState();};
+$("toggleManualBtn").onclick=()=>{$("manualBox").classList.toggle("show");$("toggleManualBtn").textContent=$("manualBox").classList.contains("show")?"🙈 수동번호 입력 닫기":"📝 수동번호 입력";saveState();};
+$("clearManualBtn").onclick=()=>{manual=[];renderPicker();saveState();};
+$("saveManualBtn").onclick=saveManual;
+$("generateBtn").onclick=generate;
+$("checkAllBtn").onclick=checkAll;
+$("clearAllBtn").onclick=clearSaved;
+$("comboCount").onchange=saveState;
+document.querySelectorAll(".optBox").forEach(el=>el.onchange=saveState);
+
+async function init(){
+  fillComboSelect();
+  loadState();
+  renderPicker();
+  renderSaved();
+  await loadData();
+  buildHistory();
+  buildAnalysis();
+  if(DB.length && !$("loadStatus").className.includes("bad")){
+    const old=$("loadStatus").textContent;
+    setStatus(old+"\n앱 버전: "+APP_VERSION,"good");
+  }
+}
+init();
+</script>
+</body>
+</html>
