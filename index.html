@@ -116,6 +116,141 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
   .atabs{gap:4px;}.atab{font-size:12px;padding:7px 10px;}
   .dl-banner{flex-direction:column;align-items:flex-start;}
 }
+
+/* ===== 은은한 행운 골드 테마 오버라이드 =====
+   기능/데이터/저장 로직은 건드리지 않고 색상만 덮어씁니다. */
+:root{
+  --bg:#fffaf0;
+  --bg2:#fff6df;
+  --bg3:#f6ead0;
+  --card:#fffdf7;
+  --line:#ead9a6;
+  --text:#6b5630;
+  --strong:#8a6714;
+  --sub:#9b7a34;
+  --pink:#d4a72c;
+  --lav:#fff1c7;
+  --mint:#f3ead2;
+  --blue:#fff8e6;
+  --danger:#c9874a;
+  --shadow:0 8px 24px rgba(157,117,28,.13);
+}
+html,body{background:var(--bg);color:var(--text);}
+body{background:linear-gradient(180deg,#fffaf0 0%,#fff6df 52%,#f6ead0 100%);}
+.petal{background:#ffd1e2;opacity:.45;border-radius:12px 12px 12px 2px;}
+.hero h1{color:#b8860b;text-shadow:0 2px 12px rgba(212,167,44,.18);}
+.hero p{color:#9b7a34;}
+.dl-banner{
+  background:linear-gradient(135deg,#b8860b 0%,#d6aa3a 48%,#f4dc8a 100%);
+  box-shadow:0 8px 24px rgba(184,134,11,.24);
+}
+.dl-btn-main{background:#fffdf7;color:#9a6d00;}
+.dl-btn-yt{background:rgba(255,255,255,.22);color:#fff;border-color:rgba(255,255,255,.68);}
+.card{background:rgba(255,253,247,.96);border-color:var(--line);box-shadow:var(--shadow);}
+.card h2{color:var(--strong);}
+.sub{color:var(--sub);}
+.si,.hi,.sit,.ac-item,.end-cell,.ph-item{
+  background:#fffdf7;
+  border-color:#ead9a6;
+}
+.sl,.hd,.mt2,.slbl,.ac-cnt,.end-cnt{color:#9b7a34;}
+.sv,.hr2,.ph-round,.ac-num,.end-num,.mbtitle,.rec-title{color:#7d5b10;}
+.stb,.rbox{
+  background:#fffaf0;
+  border-color:#ead9a6;
+  color:#6b5630;
+}
+.fl label{color:#7d5b10;}
+.bl{background:#fff1c7;color:#80601a;border-color:#ead08a;}
+.bm{background:#f3ead2;color:#6f5a2d;border-color:#e2cca0;}
+.bw{background:#fffdf7;color:#6b5630;border-color:#ead9a6;}
+.bb{background:#fff8e6;color:#7a601e;border-color:#ead9a6;}
+.bd{background:#c9874a;color:#fff;}
+.bo{background:#fff0cf;color:#8a5d16;border-color:#edc978;}
+select,.opt,.pick,.mb{
+  background:#fffdf7;
+  border-color:#ead9a6;
+  color:#6b5630;
+}
+.opt input{accent-color:#d4a72c;}
+.pick.on,.atab.active{
+  background:linear-gradient(135deg,#b8860b,#d6aa3a);
+  color:#fff;
+  border-color:#d6aa3a;
+}
+.chip,.tag,.atab{
+  background:#fff5d8;
+  color:#8a6714;
+  border-color:#ead08a;
+}
+.empty{border-color:#dbc58a;background:#fffdf7;color:#8b7547;}
+.sdel,.close-panel{
+  background:#fff1df;
+  color:#b06d2d;
+  border-color:#e8c49e;
+}
+.bmiss{background:#fff1df;color:#a5622b;border-color:#e8c49e;}
+.bpart{background:#fff8d4;color:#8a6a00;border-color:#f0dc90;}
+.bwin{background:#ecf8dd;color:#52752a;border-color:#cbe6a6;}
+.lotto-grid-wrap{
+  background:#fff8df;
+  border-color:#d6aa3a;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.65);
+}
+.lotto-grid-title{color:#8a6714;}
+.lotto-cell{background:#f6f0df;border-color:#e4d7ad;color:#b8a679;}
+.rec-box{
+  background:linear-gradient(135deg,#fff8df,#fffdf7);
+  border-color:#d6aa3a;
+  box-shadow:0 6px 18px rgba(184,134,11,.10);
+}
+.apply-btn,.bp{
+  background:linear-gradient(135deg,#b8860b,#d6aa3a);
+  color:#fff;
+}
+.rec-ball{box-shadow:0 3px 10px rgba(120,85,10,.16);}
+.ac-bar{background:linear-gradient(90deg,#b8860b,#d6aa3a);}
+
+/* ── 최근 5회 흐름 기반 TOP 4 예측 패턴 버튼형 UI */
+.pattern-control{
+  background:linear-gradient(135deg,#fff8df,#fffdf7);
+  border:1px solid #ead9a6;
+  border-radius:18px;
+  padding:14px;
+  margin:10px 0;
+}
+.pattern-control-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.pattern-analyze-btn{
+  width:auto;
+  background:linear-gradient(135deg,#b8860b,#d6aa3a);
+  color:#fff;
+  box-shadow:0 5px 16px rgba(184,134,11,.18);
+}
+.pattern-guide{font-size:12px;font-weight:900;color:#9b7a34;line-height:1.7;margin-top:8px;}
+.pattern-result{display:none;margin-top:10px;}
+.pattern-result.show{display:block;}
+.pattern-summary{
+  background:#fffaf0;
+  border:1px solid #ead9a6;
+  color:#6b5630;
+  border-radius:16px;
+  padding:12px;
+  font-size:13px;
+  font-weight:900;
+  line-height:1.8;
+  white-space:pre-line;
+  margin-bottom:10px;
+}
+.pred-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+.pred-card{background:#fffdf7;border:1px solid #ead9a6;border-radius:18px;padding:12px;box-shadow:0 6px 16px rgba(184,134,11,.08);}
+.pred-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.pred-rank{font-size:14px;font-weight:900;color:#7d5b10;}
+.pred-score{font-size:12px;font-weight:900;color:#fff;background:linear-gradient(135deg,#b8860b,#d6aa3a);border-radius:999px;padding:5px 9px;}
+.pred-meta{font-size:11px;font-weight:900;color:#9b7a34;line-height:1.6;margin:6px 0 8px;}
+.pred-balls{margin:6px 0 8px;}
+.pattern-empty{border:1px dashed #dbc58a;background:#fffdf7;color:#8b7547;border-radius:14px;padding:12px;font-size:13px;font-weight:800;line-height:1.7;}
+@media(max-width:860px){.pred-list{grid-template-columns:1fr;}.pattern-analyze-btn{width:100%;}}
+
 </style>
 </head>
 <body>
@@ -171,12 +306,12 @@ select{background:#fff;border:1px solid #eddde6;color:#6e5162;}
   </div>
   <div class="apanel show" id="t1">
     <div class="panel-header">
-      <div class="sub" style="margin:0;">최근 회차와 유사한 과거 패턴을 찾아 다음 회차를 예측합니다.</div>
+      <div class="sub" style="margin:0;">최근 5회 흐름을 기준으로 과거의 비슷한 흐름을 찾아 이번 회차 유력 패턴 4개를 예측합니다.</div>
       <button class="close-panel" onclick="closePanel('t1')">✕ 닫기</button>
     </div>
     <div id="patternGridArea"></div>
     <div class="rec-box">
-      <div class="rec-title">📌 패턴 연속성 기반 추천번호 (TOP 4 패턴 평균)</div>
+      <div class="rec-title">📌 최근 5회 흐름 기반 추천번호 (TOP 4 예측 패턴)</div>
       <div class="rec-balls" id="recBalls1"></div>
       <button class="apply-btn" onclick="applyRec(1)">✅ 수동번호에 추가</button>
     </div>
@@ -447,86 +582,180 @@ function renderHistory(){
     </div></div>`;}).join("");
 }
 
-// ── 로또 용지 격자와 패턴 연속성 (수정)
+// ── 최근 5회 흐름 기반 TOP 4 예측 패턴 (버튼형)
 function buildPatternArea(){
-  const recent=DB.slice(0,10),area=document.getElementById("patternGridArea");
-  if(!area||!recent.length)return;
-  // 최근 패턴을 10 x 6 배열 형태로 변환 (번호들이 있는 위치)
-  // 그리고 각 패턴 간 유사도 분석 후 다음 회차에 나올 가능성 높은 번호 6개 추천(상위 4개 패턴 평균)
-  
-  // 각 회차별 패턴 : 번호 위치 배열(0~44)
-  function numbersToBitmask(nums){
-    let bits=0n;
-    for(const n of nums){
-      bits |= 1n << BigInt(n-1);
+  const area=document.getElementById("patternGridArea");
+  if(!area)return;
+  REC[1]=[];
+  area.innerHTML=`
+    <div class="pattern-control">
+      <div class="pattern-control-row">
+        <button class="pattern-analyze-btn" onclick="runPatternPrediction()">🔮 최근 5회 흐름 분석해서 TOP 4 예측 보기</button>
+      </div>
+      <div class="pattern-guide">
+        버튼을 누르면 최신 5회 번호 흐름을 기준으로 과거 전체 데이터에서 비슷한 5회 흐름을 찾고,<br>
+        그 흐름 다음에 실제로 나왔던 패턴을 모아 이번 회차에 가까운 유력 패턴 4개만 보여줍니다.
+      </div>
+    </div>
+    <div class="pattern-result" id="patternResult">
+      <div class="pattern-summary" id="patternSummary"></div>
+      <div class="pred-list" id="patternPredList"></div>
+    </div>`;
+  renderRecBalls(1);
+}
+
+function runPatternPrediction(){
+  if(!DB.length){
+    const area=document.getElementById("patternGridArea");
+    if(area)area.innerHTML=`<div class="pattern-empty">데이터가 아직 로드되지 않았습니다. 잠시 후 다시 눌러주세요.</div>`;
+    return;
+  }
+  const recent=DB.slice(0,5);
+  const result=document.getElementById("patternResult");
+  const summary=document.getElementById("patternSummary");
+  const list=document.getElementById("patternPredList");
+  if(!result||!summary||!list)return;
+
+  if(recent.length<5||DB.length<12){
+    result.classList.add("show");
+    summary.textContent="최근 5회 흐름을 비교하기에 데이터가 부족합니다.";
+    list.innerHTML="";
+    REC[1]=[];
+    renderRecBalls(1);
+    return;
+  }
+
+  const sortedNums=nums=>[...nums].sort((a,b)=>a-b);
+  const overlap=(a,b)=>{
+    const s=new Set(a);let c=0;
+    b.forEach(n=>{if(s.has(n))c++;});
+    return c;
+  };
+  const oddCnt=nums=>nums.filter(n=>n%2).length;
+  const lowCnt=nums=>nums.filter(n=>n<=22).length;
+  const sectionKey=nums=>{
+    const sec=[0,0,0,0,0];
+    nums.forEach(n=>{sec[Math.min(4,Math.floor((n-1)/10))]++;});
+    return sec;
+  };
+  const drawDistance=(a,b)=>{
+    const as=sortedNums(a),bs=sortedNums(b);
+    const same=overlap(as,bs);
+    let pos=0;
+    for(let i=0;i<6;i++)pos+=Math.abs(as[i]-bs[i]);
+    const secA=sectionKey(as),secB=sectionKey(bs);
+    let secDiff=0;for(let i=0;i<secA.length;i++)secDiff+=Math.abs(secA[i]-secB[i]);
+    return (6-same)*4 + pos*0.08 + Math.abs(sumA(as)-sumA(bs))*0.03 + Math.abs(oddCnt(as)-oddCnt(bs))*1.2 + Math.abs(lowCnt(as)-lowCnt(bs))*1.1 + secDiff*0.9;
+  };
+  const windowDistance=(base,cand)=>{
+    let d=0;
+    for(let i=0;i<5;i++)d+=drawDistance(base[i].numbers,cand[i].numbers);
+    // 회차 간 이어지는 흐름이 얼마나 비슷한지도 반영
+    for(let i=0;i<4;i++){
+      const bo=overlap(base[i].numbers,base[i+1].numbers);
+      const co=overlap(cand[i].numbers,cand[i+1].numbers);
+      d+=Math.abs(bo-co)*1.6;
+      d+=Math.abs(sumA(base[i].numbers)-sumA(base[i+1].numbers) - (sumA(cand[i].numbers)-sumA(cand[i+1].numbers)))*0.015;
     }
-    return bits;
+    return d;
+  };
+
+  const candidates=[];
+  // DB는 최신 회차가 앞에 있으므로, i>=6부터 잡아 최근 5회와 직접 겹치지 않게 함
+  for(let i=6;i<=DB.length-5;i++){
+    const win=DB.slice(i,i+5);
+    const nextEntry=DB[i-1]; // 과거 5회 흐름 직후 실제로 나온 다음 회차
+    if(!nextEntry||win.length<5)continue;
+    const dist=windowDistance(recent,win);
+    candidates.push({dist,win,next:nextEntry});
   }
-  // 하밍거리 계산
-  function hammingDist(a,b){
-    let x = a ^ b;
-    let cnt=0;
-    while(x){
-      cnt+=Number(x & 1n);
-      x >>=1n;
-    }
-    return cnt;
+
+  candidates.sort((a,b)=>a.dist-b.dist);
+  const top=[];
+  const seen=new Set();
+  for(const c of candidates){
+    const key=sortedNums(c.next.numbers).join(",");
+    if(seen.has(key))continue;
+    seen.add(key);
+    top.push(c);
+    if(top.length>=4)break;
   }
-  
-  // 최근 10회 패턴 비트마스크 배열
-  const recentMasks = recent.map(r=>({round:r.round, date:r.date, mask:numbersToBitmask(r.numbers), numbers:r.numbers}));
-  
-  // 과거 전체에서 최근 첫번째 패턴과 비슷한 패턴 순위 탑10 선별 (하밍거리 적은 순)
-  // 그리고 해당 패턴 다음 회차 데이터가 있으면 그 번호를 수집
-  const latestMask = recentMasks[0].mask;
-  let pastPatterns = [];
-  for(let i=0;i<DB.length-1;i++){
-    let currMask = numbersToBitmask(DB[i].numbers);
-    let dist = hammingDist(latestMask, currMask);
-    pastPatterns.push({round:DB[i].round, mask:currMask, dist});
+
+  if(!top.length){
+    result.classList.add("show");
+    summary.textContent="비교할 과거 흐름을 찾지 못했습니다.";
+    list.innerHTML="";
+    REC[1]=[];
+    renderRecBalls(1);
+    return;
   }
-  let sortedPast = pastPatterns.sort((a,b)=>a.dist - b.dist).slice(0, 10);
-  
-  // 다음 회차 번호 수집
-  const nextNumsCollect = [];
-  for(const p of sortedPast){
-    let nextEntry = DB.find(d => d.round === p.round - 1);
-    if(nextEntry){
-      nextNumsCollect.push(nextEntry.numbers);
-    }
-  }
-  
-  // 다음에 나온 번호 중 많이 나온 번호별 카운트 집계해서 상위 6개 추천
-  const freqMap = {};
-  for(const arr of nextNumsCollect){
-    for(const n of arr){
-      freqMap[n] = (freqMap[n]||0)+1;
-    }
-  }
-  const sortedFreqNums = Object.entries(freqMap).sort((a,b)=>b[1]-a[1]).map(e=>Number(e[0])).slice(0,6).sort((a,b)=>a-b);
-  REC[1] = sortedFreqNums;
-  
-  // 용지 격자 표시 (최근 10회)
-  const items=recent.map(r=>{
-    const sorted=[...r.numbers].sort((a,b)=>a-b),hitSet=new Set(sorted);
-    let g=`<div class="ph-item"><div class="ph-head"><div class="ph-round">${r.round}회</div><div class="ph-date">${r.date} · ${sorted.join(", ")}</div></div>
-      <div class="lotto-grid-wrap"><div class="lotto-grid-title">🎯 로또 용지 패턴</div>
-      <div class="lotto-grid" id="grid_${r.round}" style="position:relative;">`;
-    for(let n=1;n<=45;n++)g+=`<div class="lotto-cell ${hitSet.has(n)?`hit ${bCls(n)}`:""}" id="cell_${r.round}_${n}">${n}</div>`;
-    g+=`<svg class="lotto-svg" id="svg_${r.round}" viewBox="0 0 100 100" preserveAspectRatio="none"></svg></div></div></div>`;
-    return{html:g,sorted,round:r.round};
+
+  const maxDist=Math.max(...top.map(x=>x.dist),1);
+  const scored=top.map((x,idx)=>({
+    ...x,
+    rank:idx+1,
+    score:Math.max(1,Math.round(100-(x.dist/(maxDist+8))*35))
+  }));
+
+  const recScore={};
+  scored.forEach(item=>{
+    const weight=(5-item.rank)*item.score;
+    item.next.numbers.forEach(n=>{recScore[n]=(recScore[n]||0)+weight;});
   });
-  area.innerHTML=`<div class="pattern-history">${items.map(it=>it.html).join("")}</div>`;
-  setTimeout(()=>items.forEach(it=>{
-    const svg=document.getElementById(`svg_${it.round}`),grid=document.getElementById(`grid_${it.round}`);
+  REC[1]=Object.entries(recScore)
+    .sort((a,b)=>b[1]-a[1]||Number(a[0])-Number(b[0]))
+    .slice(0,6)
+    .map(([n])=>Number(n))
+    .sort((a,b)=>a-b);
+
+  const recentText=recent.map(r=>`${r.round}회(${sortedNums(r.numbers).join(",")})`).join(" → ");
+  summary.textContent=`기준 흐름: 최근 5회\n${recentText}\n\n분석 결과: 과거의 비슷한 5회 흐름 ${candidates.length}개 중 유사도가 높은 TOP 4 패턴을 선별했습니다.`;
+  list.innerHTML=scored.map(item=>renderPredictedPatternCard(item)).join("");
+  result.classList.add("show");
+  setTimeout(()=>drawPredictedPatternLines(scored),120);
+  renderRecBalls(1);
+}
+
+function renderPredictedPatternCard(item){
+  const nums=[...item.next.numbers].sort((a,b)=>a-b),hitSet=new Set(nums);
+  const gridId=`pred_grid_${item.rank}`;
+  const svgId=`pred_svg_${item.rank}`;
+  const cellPrefix=`pred_cell_${item.rank}`;
+  let cells="";
+  for(let n=1;n<=45;n++)cells+=`<div class="lotto-cell ${hitSet.has(n)?`hit ${bCls(n)}`:""}" id="${cellPrefix}_${n}">${n}</div>`;
+  const fromRound=item.win[item.win.length-1]?.round||"";
+  const toRound=item.win[0]?.round||"";
+  return `<div class="pred-card">
+    <div class="pred-head">
+      <div class="pred-rank">🏆 유력 패턴 ${item.rank}</div>
+      <div class="pred-score">유사도 ${item.score}%</div>
+    </div>
+    <div class="pred-meta">근거 흐름: ${fromRound}회~${toRound}회 흐름 이후<br>실제 다음 회차 ${item.next.round}회 패턴을 이번 회차 후보로 반영</div>
+    <div class="pred-balls balls">${bHTML(nums)}</div>
+    <div class="lotto-grid-wrap">
+      <div class="lotto-grid-title">🔮 예측 패턴 모양</div>
+      <div class="lotto-grid" id="${gridId}" style="position:relative;">${cells}<svg class="lotto-svg" id="${svgId}" viewBox="0 0 100 100" preserveAspectRatio="none"></svg></div>
+    </div>
+  </div>`;
+}
+
+function drawPredictedPatternLines(items){
+  items.forEach(item=>{
+    const nums=[...item.next.numbers].sort((a,b)=>a-b);
+    const svg=document.getElementById(`pred_svg_${item.rank}`),grid=document.getElementById(`pred_grid_${item.rank}`);
     if(!svg||!grid)return;
     const gr=grid.getBoundingClientRect();
-    const pts=it.sorted.map(n=>{const c=document.getElementById(`cell_${it.round}_${n}`);if(!c)return null;const cr=c.getBoundingClientRect();return{x:((cr.left-gr.left+cr.width/2)/gr.width)*100,y:((cr.top-gr.top+cr.height/2)/gr.height)*100};}).filter(Boolean);
+    const pts=nums.map(n=>{
+      const c=document.getElementById(`pred_cell_${item.rank}_${n}`);
+      if(!c)return null;
+      const cr=c.getBoundingClientRect();
+      return{x:((cr.left-gr.left+cr.width/2)/gr.width)*100,y:((cr.top-gr.top+cr.height/2)/gr.height)*100};
+    }).filter(Boolean);
     if(pts.length<2)return;
-    let d=`M${pts[0].x},${pts[0].y}`;for(let i=1;i<pts.length;i++)d+=` L${pts[i].x},${pts[i].y}`;
-    svg.innerHTML=`<path d="${d}" fill="none" stroke="#ff7bb4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="1.8" fill="#ff5fa5"/>`).join("")}`;
-  }),200);
-  renderRecBalls(1);
+    let d=`M${pts[0].x},${pts[0].y}`;
+    for(let i=1;i<pts.length;i++)d+=` L${pts[i].x},${pts[i].y}`;
+    svg.innerHTML=`<path d="${d}" fill="none" stroke="#d6aa3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="1.8" fill="#b8860b"/>`).join("")}`;
+  });
 }
 
 // ── 기존 다른 추천번호(최근 재출현, 건너뛰기, 같은날짜+1, 첫번호, AC값 등) 함수 유지, 단 추천번호 6개로 변경
@@ -680,6 +909,27 @@ function renderRecBalls(t){
   el.innerHTML=REC[t].map(n=>`<span class="rec-ball ${bCls(n)}" onclick="addRecToManual(${n})" title="클릭하면 수동번호에 추가">${n}</span>`).join("");
 }
 
+function applyRec(t){
+  const nums=REC[t]||[];
+  if(!nums.length){alert("먼저 분석 버튼을 눌러 추천번호를 만든 뒤 추가해주세요.");return;}
+  let added=0;
+  nums.forEach(n=>{
+    if(manNums.includes(n))return;
+    if(manNums.length>=6)return;
+    manNums.push(n);added++;
+  });
+  renderPicker();
+  renderManSel();
+  saveState();
+  const mb=document.getElementById("manualBox");
+  if(mb&&!mb.classList.contains("show")){
+    mb.classList.add("show");
+    document.getElementById("toggleManualBtn").textContent="🙈 수동번호 입력 닫기";
+  }
+  playClick("soft");
+  if(added===0&&manNums.length>=6)alert("수동번호가 이미 6개입니다. 지우고 다시 추가해주세요.");
+}
+
 // 수동번호 관련 UI & 기능
 function addRecToManual(n){
   if(manNums.includes(n)){playClick("soft");return;}
@@ -827,11 +1077,9 @@ function genCombos(){
 
 // ── 패널 닫기 함수
 function closePanel(id){
-  document.getElementById(id).classList.remove("show");
+  const panel=document.getElementById(id);
+  if(panel)panel.classList.remove("show");
   document.querySelector(`.atab[data-tab=${id}]`)?.classList.remove("active");
-  // 첫 탭 자동 활성화
-  const firstTab = document.querySelector(".atab");
-  if(firstTab) firstTab.click();
 }
 
 let builtTabs=new Set(["t1"]);
@@ -953,7 +1201,7 @@ async function init(){
     st.textContent="❌ 데이터 로드 실패. 잠시 후 재시도해주세요.";
     const btn=document.createElement("button");
     btn.textContent="🔄 다시 시도";
-    btn.style.cssText="margin-top:10px;background:#ff7bb4;color:#fff;border:none;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:900;cursor:pointer;display:block;width:auto;";
+    btn.style.cssText="margin-top:10px;background:#d6aa3a;color:#fff;border:none;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:900;cursor:pointer;display:block;width:auto;";
     btn.onclick=()=>{btn.remove();init();};
     st.after(btn);
   }
